@@ -1,0 +1,40 @@
+﻿@model Historias_Clinicas_D.Models.Telefono
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h4>Teléfono</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Caracteristica)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Caracteristica)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tipo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Tipo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Persona)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Persona.NombreCompleto)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
+    <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
+</div>

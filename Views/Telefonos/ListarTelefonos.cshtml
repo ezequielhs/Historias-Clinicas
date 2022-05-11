@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Historias_Clinicas_D.Models.Telefono>
+
+@{
+    ViewData["Title"] = "ListarTelefonos";
+}
+
+<p>
+    <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Create">Agregar Teléfono</a>
+</p>
+@foreach (var item in Model) {
+    <ul>
+        <li>
+            @Html.DisplayFor(modelItem => item.Tipo) - @Html.DisplayFor(modelItem => item.TelefonoCompleto) &ensp; <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Edit" asp-route-id="@item.Id">Editar</a> | <a class="btn btn-danger" role="button" asp-controller="Telefonos" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+        </li>
+    </ul>
+}

@@ -1,0 +1,88 @@
+﻿@using Historias_Clinicas_D.Models.Enums
+@model IEnumerable<Historias_Clinicas_D.Models.Medico>
+
+@{
+    ViewData["Title"] = "Index";
+    bool hayMedicos = Model.Any();
+}
+
+<div class="text-center">
+    <div id="bg">
+        <img src="~/img/cartilla.jpg" style="border-radius: 30px;" alt="turnos" width="1170" height="363">
+    </div>
+</div>
+<br />
+<form asp-action="Index" class="form-group" method="post">
+    <div class="form-group">
+        <label class="control-label">Especialidad</label>
+        <select name="Especialidad" class="form-control" asp-items="Html.GetEnumSelectList<Especialidad>()">
+            <option value="">Seleccione una Especialidad</option>
+        </select>
+    </div>
+    <br />
+    <div class="form-group">
+        <input id="btnBuscar" type="submit" value="Buscar Profesionales" class="btn btn-primary" />
+    </div>
+</form>
+<br />
+
+<div id="divResultados">
+    @if (Model.Any())
+    {
+        <h4>Resultados de la Busqueda</h4>
+        <table class="table">
+        <thead>
+            <tr class="table-primary">
+                <th>
+                    @Html.DisplayNameFor(model => model.Especialidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Direccion.Provincia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Direccion.DireccionCompleta)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr class="table-secondary">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especialidad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion.Provincia)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.Direccion.DireccionCompleta)
+                </th>
+            </tr>
+        }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <span>Actualmente no disponemos de Médicos para esa Especialidad.</span>
+    }
+</div>
+
+

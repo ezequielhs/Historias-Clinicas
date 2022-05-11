@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Centro Médico San Nicolás</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-darkly.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Historias_Clinicas_D.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <img src="~/img/logo-home.png" alt="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="btn btn-light" role="button" asp-controller="Home" asp-action="Nosotros">Nosotros</a>&ensp;
+            <a class="btn btn-light" role="button" asp-controller="Cartilla" asp-action="Index">Cartilla Médica</a>
+            <div class="collapse navbar-collapse d-sm-inline-flex flex-sm-row-reverse" id="navbarColor01">
+              <ul class="navbar-nav d-flex justify-content-end">
+                <li class="nav-item">
+                  <a class="nav-link active" asp-controller="Home" asp-action="Index">Inicio
+                    <span class="visually-hidden">(current)</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" asp-controller="Empleados" asp-action="Index">Empleados</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" asp-controller="Medicos" asp-action="Index">Medicos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" asp-controller="Episodios" asp-action="Index">Episodios</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" asp-controller="Evoluciones" asp-action="Index">Evoluciones</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" asp-controller="Notas" asp-action="Index">Notas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" asp-controller="Epicrisis" asp-action="Index">Epicrisis</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" asp-controller="Telefonos" asp-action="Index">Telefonos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" asp-controller="Direcciones" asp-action="Index">Direcciones</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+    </header>
+    <br />
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="navbar fixed-bottom footer text-muted">
+        <div class="container">
+            &copy; 2022 - Centro Médico San Nicolás
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

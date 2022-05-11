@@ -1,0 +1,82 @@
+﻿@model Historias_Clinicas_D.Models.Episodio
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h4>Episodio</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Paciente)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Paciente.NombreCompleto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Motivo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Motivo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaYHoraInicio)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FechaYHoraInicio)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaYHoraAlta)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FechaYHoraAlta)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaYHoraCierre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FechaYHoraCierre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EstadoAbierto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EstadoAbierto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmpleadoRegistra)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmpleadoRegistra.NombreCompleto)
+        </dd>
+    </dl>
+</div>
+<div>
+     <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+</div>
+<br />
+<div>
+    <h4>@Html.DisplayNameFor(model => model.Epicrisis) </h4>
+    <hr />
+    @if (Model.Epicrisis != null)
+    {
+        @Html.Partial("~/Views/Epicrisis/Details.cshtml", Model.Epicrisis);
+    }
+    else
+    {
+        <p>No tiene asignado una Epicrisis.</p>
+        <a class="btn btn-primary" role="button" asp-controller="Epicrisis" asp-action="Create">Agregar Epicrisis</a>
+    }
+</div>
+<br />
+
+<div>
+    <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
+</div>

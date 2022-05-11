@@ -1,0 +1,33 @@
+﻿@model Historias_Clinicas_D.Models.Evolucion
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Evolución</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MedicoId" class="control-label"></label>
+                <select asp-for="MedicoId" class ="form-control" asp-items="ViewBag.MedicoId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescripcionAtencion" class="control-label"></label>
+                <textarea asp-for="DescripcionAtencion" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="DescripcionAtencion" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" /> |
+                <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

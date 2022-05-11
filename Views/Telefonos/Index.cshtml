@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Historias_Clinicas_D.Models.Telefono>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Teléfonos</h1>
+
+<p>
+    <a class="btn btn-primary" role="button" asp-action="Create">Agregar Teléfono</a>
+</p>
+<table class="table">
+    <thead>
+        <tr class="table-dark">
+            <th>
+                @Html.DisplayNameFor(model => model.Caracteristica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Numero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Persona)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr class="table-secondary">
+            <td>
+                @Html.DisplayFor(modelItem => item.Caracteristica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Numero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Persona.NombreCompleto)
+            </td>
+            <td>
+                <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                <a class="btn btn-danger" role="button" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,5 @@
+﻿@model Historias_Clinicas_D.Models.Direccion
+
+<div>
+    @Html.DisplayFor(model => model.Calle), @Html.DisplayFor(model => model.Numero). @Html.DisplayFor(model => model.CodigoPostal), @Html.DisplayFor(model => model.Localidad), @Html.DisplayFor(model => model.Provincia) &ensp; <a class="btn btn-primary" role="button" asp-controller="Direcciones" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> | <a class="btn btn-danger" role="button" asp-controller="Direcciones" asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
+</div>
