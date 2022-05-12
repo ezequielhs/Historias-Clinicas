@@ -13,16 +13,16 @@
     <thead>
         <tr class="table-dark">
             <th>
-                @Html.DisplayNameFor(model => model.TipoMatricula)
+                @Html.DisplayNameFor(model => model.Legajo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Matricula)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Especialidad)
+                @Html.DisplayNameFor(model => model.TipoMatricula)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Legajo)
+                @Html.DisplayNameFor(model => model.Especialidad)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -43,16 +43,16 @@
 @foreach (var item in Model) {
         <tr class=table-secondary>
             <td>
-                @Html.DisplayFor(modelItem => item.TipoMatricula)
+                @Html.DisplayFor(modelItem => item.Legajo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Matricula)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Especialidad)
+                @Html.DisplayFor(modelItem => item.TipoMatricula)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Legajo)
+                @Html.DisplayFor(modelItem => item.Especialidad)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)

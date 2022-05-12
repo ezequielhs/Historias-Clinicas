@@ -22,30 +22,6 @@ namespace Historias_Clinicas_D.Controllers
         // GET: Direcciones
         public async Task<IActionResult> Index()
         {
-            Direccion direccionUno = new Direccion()
-            {
-                Calle = "Junin",
-                Numero = 1560,
-                CodigoPostal = "1023",
-                Localidad = "Capital Federal",
-                Provincia = Provincia.CAPITAL_FEDERAL,
-                PersonaId = 1
-            };
-
-            Direccion direccionDos = new Direccion()
-            {
-                Calle = "Av. Hipolito Yrigoyen",
-                Numero = 1560,
-                CodigoPostal = "1824",
-                Localidad = "Lanus",
-                Provincia = Provincia.BUENOS_AIRES,
-                PersonaId = 2
-            };
-
-            _context.Add(direccionUno);
-            _context.Add(direccionDos);
-            _context.SaveChanges();
-
             var historiasClinicasContext = _context.Direcciones.Include(d => d.Persona);
             return View(await historiasClinicasContext.ToListAsync());
         }

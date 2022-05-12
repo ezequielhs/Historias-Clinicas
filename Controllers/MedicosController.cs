@@ -23,36 +23,6 @@ namespace Historias_Clinicas_D.Controllers
         // GET: Medicos
         public async Task<IActionResult> Index()
         {
-            //Proposito test
-            Medico medicoUno = new Medico() {
-                TipoMatricula = TipoMatricula.NACIONAL,
-                Matricula = "389657",
-                Especialidad = Especialidad.CARDIOLOGIA,
-                Nombre = "Fernando",
-                Apellido = "Lopez",
-                DNI = "14258963",
-                Email = "fernando_lopez@gmail.com",  
-                UserName = "fernado_lopez",
-                Password = "12345678"
-            };
-
-            Medico medicoDos = new Medico()
-            {
-                TipoMatricula = TipoMatricula.NACIONAL,
-                Matricula = "368412",
-                Especialidad = Especialidad.ODONTOLOGIA,
-                Nombre = "Nicolas",
-                Apellido = "Rivera",
-                DNI = "15869312",
-                Email = "nicolas.rivera@hotmail.com",
-                UserName = "nicolas-rivera",
-                Password = "12345678"
-            };
-
-            _context.Add(medicoUno);
-            _context.Add(medicoDos);
-            _context.SaveChanges();
-
             return View(await _context.Medicos.ToListAsync());
         }
 
