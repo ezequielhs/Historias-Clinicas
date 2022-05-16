@@ -266,6 +266,8 @@ namespace Historias_Clinicas_D.Controllers
                 PersonaId = 2
             };
 
+            _context.Add(direccionDos);
+
             Direccion direccionTres = new Direccion()
             {
                 Calle = "Av Meeks",
