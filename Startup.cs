@@ -49,6 +49,7 @@ namespace Historias_Clinicas_D
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",

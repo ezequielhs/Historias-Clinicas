@@ -12,5 +12,7 @@
         public const string ErrRangoMinMax = "El campo {0} debe estar comprendido entre {1} y {2}";
         public const string ErrCampoEnUso = "El {0} ya se encuentra registrado";
         public const string ErrMatriculaEnUso = "La Matrícula ya se encuentra registrada";
+        public const string ErrPasswordCompare = "La Contraseña no coincide";
+        public const string ErrLogin = "Inicio de sesión Invalido";
     }
 }

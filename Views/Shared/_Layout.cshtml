@@ -23,11 +23,8 @@
             <a class="btn btn-light" role="button" asp-controller="Home" asp-action="CargarBD">Cargar BD</a>
             <div class="collapse navbar-collapse d-sm-inline-flex flex-sm-row-reverse" id="navbarColor01">
               <ul class="navbar-nav d-flex justify-content-end">
-                <li class="nav-item">
-                  <a class="nav-link active" asp-controller="Home" asp-action="Index">Inicio
-                    <span class="visually-hidden">(current)</span>
-                  </a>
-                </li>
+              @if (_singInManager.IsSignedIn(User))
+              {
                 <li class="nav-item">
                   <a class="nav-link" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
                 </li>
@@ -44,18 +41,15 @@
                   <a class="nav-link" asp-controller="Evoluciones" asp-action="Index">Evoluciones</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" asp-controller="Notas" asp-action="Index">Notas</a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link" asp-controller="Epicrisis" asp-action="Index">Epicrisis</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" asp-controller="Telefonos" asp-action="Index">Telefonos</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" asp-controller="Direcciones" asp-action="Index">Direcciones</a>
-                </li>
-              </ul>
+              }
+              else
+              {
+                 <a class="btn btn-light" role="button" asp-controller="Account" asp-action="Registrarse">Registrarse</a>
+                 <a class="btn btn-light" role="button" asp-controller="Account" asp-action="IniciarSesion">Iniciar Sesión</a>          
+              }
+            </ul>
             </div>
           </div>
         </nav>
