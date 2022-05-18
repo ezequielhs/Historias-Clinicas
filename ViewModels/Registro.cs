@@ -30,10 +30,6 @@ namespace Historias_Clinicas_D.ViewModels
         public string Email { get; set; }
 
         [Required(ErrorMessage = MensajesError.ErrRequired)]
-        [Remote("IsUserNameEnUso", "Personas", HttpMethod = "POST", ErrorMessage = MensajesError.ErrCampoEnUso)]
-        public string UserName { get; set; }
-
-        [Required(ErrorMessage = MensajesError.ErrRequired)]
         [DataType(DataType.Password)]
         [Display(Name = Alias.Password)]
         public string Password { get; set; }

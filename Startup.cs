@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Historias_Clinicas_D.Data; 
 using Historias_Clinicas_D.Models;
+using Historias_Clinicas_D.Models.Secundarios;
 
 namespace Historias_Clinicas_D
 {
@@ -31,6 +32,38 @@ namespace Historias_Clinicas_D
             builder.Services.AddDbContext<HistoriasClinicasContext>(options =>
                                 options.UseInMemoryDatabase("HistoriasClinicasDB")
                             );
+
+            #region Identity
+
+            builder.Services.AddIdentity<Persona, Rol>().AddEntityFrameworkStores<HistoriasClinicasContext>();
+
+            builder.Services.Configure<IdentityOptions>(opciones =>
+            {
+                opciones.Password.RequireLowercase = false;
+                opciones.Password.RequireNonAlphanumeric = false;
+                opciones.Password.RequireUppercase = false;
+                opciones.Password.RequireDigit = false;
+                opciones.Password.RequiredLength = 5; //Antes era 6, también se puede hacer en AddIdentity.                  
+            });
+
+            // Configuraciones por defecto para Password en Identity:
+            //options.Password.RequireDigit = true;
+            //options.Password.RequireLowercase = true;
+            //options.Password.RequireNonAlphanumeric = true;
+            //options.Password.RequireUppercase = true;
+            //options.Password.RequiredLength = 6;
+            //options.Password.RequiredUniqueChars = 1;
+            //
+            //Una Password válida sería Password1! que cumple todos los requerimientos
+            #endregion
+
+            builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
+            opciones =>
+            {
+                opciones.LoginPath = "/Account/IniciarSesion";
+                opciones.AccessDeniedPath = "/Account/AccesoDenegado";
+                opciones.Cookie.Name = "HistoriasClinicasCookie";
+            });
         }
 
         private static void Configure(WebApplication app)
@@ -49,7 +82,7 @@ namespace Historias_Clinicas_D
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.MapControllerRoute(
                 name: "default",

@@ -54,7 +54,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email,UserName,Password")] Empleado empleado)
+        public async Task<IActionResult> Create([Bind("Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Empleado empleado)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email,UserName,Password")] Empleado empleado)
+        public async Task<IActionResult> Edit(int id, [Bind("Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Empleado empleado)
         {
             if (id != empleado.Id)
             {

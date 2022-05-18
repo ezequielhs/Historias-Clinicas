@@ -23,33 +23,48 @@
             <a class="btn btn-light" role="button" asp-controller="Home" asp-action="CargarBD">Cargar BD</a>
             <div class="collapse navbar-collapse d-sm-inline-flex flex-sm-row-reverse" id="navbarColor01">
               <ul class="navbar-nav d-flex justify-content-end">
-              @if (_singInManager.IsSignedIn(User))
-              {
-                <li class="nav-item">
-                  <a class="nav-link" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" asp-controller="Empleados" asp-action="Index">Empleados</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" asp-controller="Medicos" asp-action="Index">Medicos</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" asp-controller="Episodios" asp-action="Index">Episodios</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" asp-controller="Evoluciones" asp-action="Index">Evoluciones</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" asp-controller="Epicrisis" asp-action="Index">Epicrisis</a>
-                </li>
-              }
-              else
-              {
-                 <a class="btn btn-light" role="button" asp-controller="Account" asp-action="Registrarse">Registrarse</a>
-                 <a class="btn btn-light" role="button" asp-controller="Account" asp-action="IniciarSesion">Iniciar Sesión</a>          
-              }
-            </ul>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                      <a class="nav-link" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" asp-controller="Empleados" asp-action="Index">Empleados</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" asp-controller="Medicos" asp-action="Index">Medicos</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" asp-controller="Episodios" asp-action="Index">Episodios</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" asp-controller="Evoluciones" asp-action="Index">Evoluciones</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" asp-controller="Epicrisis" asp-action="Index">Epicrisis</a>
+                    </li>
+                    <li>
+                        <div class="btn-group" role="group">
+                          <button type="button" class="btn btn-secondary">Cuenta</button>
+                          <div class="btn-group" role="group">
+                            <button id="btnGroupDrop3" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="btnGroupDrop3" style="">
+                              <a class="dropdown-item bg-danger" asp-controller="Account" asp-action="CerrarSesion">Cerrar Sesión</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="#">@this.User.Identity.Name</a>
+                            </div>
+                          </div>
+                        </div>
+                    </li>  
+                }
+                else
+                {
+                    <li>
+                        <a class="btn btn-secondary" role="button" asp-controller="Account" asp-action="Registrarse">Registrarse</a> |
+                        <a class="btn btn-secondary" role="button" asp-controller="Account" asp-action="IniciarSesion">Iniciar Sesion</a>
+                    </li>
+                }
+              </ul>
             </div>
           </div>
         </nav>
@@ -61,7 +76,7 @@
         </main>
     </div>
 
-    <footer class="navbar fixed-bottom footer text-muted">
+    <footer class="footer text-muted">
         <div class="container">
             &copy; 2022 - Centro Médico San Nicolás
         </div>

@@ -57,7 +57,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TipoMatricula,Matricula,Especialidad,Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email,UserName,Password")] Medico medico)
+        public async Task<IActionResult> Create([Bind("TipoMatricula,Matricula,Especialidad,Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Medico medico)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TipoMatricula,Matricula,Especialidad,Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email,UserName,Password")] Medico medico)
+        public async Task<IActionResult> Edit(int id, [Bind("TipoMatricula,Matricula,Especialidad,Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Medico medico)
         {
             if (id != medico.Id)
             {

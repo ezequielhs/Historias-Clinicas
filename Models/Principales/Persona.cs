@@ -31,18 +31,17 @@ namespace Historias_Clinicas_D.Models
         [EmailAddress(ErrorMessage = MensajesError.ErrNoValido)]
         [Display(Name = Alias.Email)]
         [Remote("IsEmailEnUso", "Personas", AdditionalFields = "Id", HttpMethod = "POST", ErrorMessage = MensajesError.ErrCampoEnUso)]
-        public override string Email { get; set; }
-
-        [Required(ErrorMessage = MensajesError.ErrRequired)]
-        [Display(Name = Alias.UserName)]
-        [Remote("IsUserNameEnUso", "Personas", AdditionalFields = "Id", HttpMethod = "POST", ErrorMessage = MensajesError.ErrCampoEnUso)]
-        public override string UserName { get; set; }
+        public override string Email
+        {
+            get { return base.Email; }
+            set { base.Email = value; }
+        }
 
         #endregion
 
         #region Propiedades Navegacionales
 
-        [Display(Name = Alias.Telefonos)]
+[Display(Name = Alias.Telefonos)]
         public List<Telefono> Telefonos { get; set; }
 
         [Display(Name = Alias.Direccion)]

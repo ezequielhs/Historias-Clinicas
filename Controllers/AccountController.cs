@@ -31,25 +31,24 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registrarse(Registro viewModel)
+        public async Task<IActionResult> Registrarse(Registro registroViewModel)
         {
             if (ModelState.IsValid)
             {
                 Paciente paciente = new Paciente()
                 {
-                    Nombre = viewModel.Nombre,
-                    Apellido = viewModel.Apellido,
-                    DNI = viewModel.DNI,
-                    ObraSocial = viewModel.ObraSocial,
-                    Email = viewModel.Email,
-                    UserName = viewModel.UserName
+                    Nombre = registroViewModel.Nombre,
+                    Apellido = registroViewModel.Apellido,
+                    DNI = registroViewModel.DNI,
+                    ObraSocial = registroViewModel.ObraSocial,
+                    Email = registroViewModel.Email,
+                    UserName = registroViewModel.Email
                 };
 
-                var resultado = await _userManager.CreateAsync(paciente, viewModel.Password);
+                var resultado = await _userManager.CreateAsync(paciente, registroViewModel.Password);
 
                 if (resultado.Succeeded)
                 {
-                    //continuo
                     await _signInManager.SignInAsync(paciente, isPersistent: false);
 
                     return RedirectToAction("Index", "Pacientes");
@@ -69,15 +68,15 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> IniciarSesion(Login viewModel)
+        public async Task<IActionResult> IniciarSesion(Login loginViewModel)
         {
             if (ModelState.IsValid)
             {
                 //agregamos lo que sea necesario para iniciar sesión.
                 var resultado = await _signInManager.PasswordSignInAsync(
-                    viewModel.Email,
-                    viewModel.Password,
-                    isPersistent: viewModel.RememberMe,
+                    loginViewModel.Email,
+                    loginViewModel.Password,
+                    isPersistent: loginViewModel.RememberMe,
                     lockoutOnFailure: false
                 );
 

@@ -57,7 +57,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email,UserName,Password")] Paciente paciente)
+        public async Task<IActionResult> Create([Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Paciente paciente)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email,UserName,Password")] Paciente paciente)
+        public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Paciente paciente)
         {
             if (id != paciente.Id)
             {

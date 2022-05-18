@@ -54,7 +54,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,FechaAlta,Email,UserName,Password")] Persona persona)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,DNI,FechaAlta,Email")] Persona persona)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,FechaAlta,Email,UserName,Password")] Persona persona)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,DNI,FechaAlta,Email")] Persona persona)
         {
             if (id != persona.Id)
             {
@@ -151,27 +151,9 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> IsUserNameEnUso(string UserName, int? Id)
-        {
-            return Json(IsUserNameUnico(UserName, Id));
-        }
-
-        [HttpPost]
         public async Task<IActionResult> IsEmailEnUso(string Email, int? Id)
         {
             return Json(IsEmailUnico(Email, Id));
-        }
-
-        private bool IsUserNameUnico(string UserName, int? Id)
-        {
-            if (!Id.HasValue)
-            {
-                return !_context.Personas.Any(p => p.UserName == UserName);
-            }
-            else
-            {
-                return !_context.Personas.Any(p => p.UserName == UserName && p.Id != Id);
-            }
         }
 
         private bool IsEmailUnico(string Email, int? Id)

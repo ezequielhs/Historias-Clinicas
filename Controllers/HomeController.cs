@@ -1,6 +1,7 @@
 ﻿using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
 using Historias_Clinicas_D.Models.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -28,7 +29,7 @@ namespace Historias_Clinicas_D.Controllers
             return View();
         }
 
-        public IActionResult CargarBD()
+ /*       public IActionResult CargarBD()
         {
             #region Pacientes
 
@@ -39,8 +40,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Lopez",
                 DNI = "37043674",
                 Email = "fernando_lopez@gmail.com",
-                UserName = "flopez",
-                Password = "12345678"
+                UserName = "flopez"
             };
 
             _context.Add(pacienteUno);
@@ -52,8 +52,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Tello",
                 DNI = "32919178",
                 Email = "antonio.tello@yahoo.com",
-                UserName = "atello",
-                Password = "12345678"
+                UserName = "atello"
             };
 
             _context.Add(pacienteDos);
@@ -65,8 +64,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Mena",
                 DNI = "3757545",
                 Email = "luismena@outlook.com",
-                UserName = "lmena",
-                Password = "12345678"
+                UserName = "lmena"
             };
 
             _context.Add(pacienteTres);
@@ -78,8 +76,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Mariscal",
                 DNI = "6593902",
                 Email = "mariscal._leopoldo@gmail.com",
-                UserName = "lmariscal",
-                Password = "12345678"
+                UserName = "lmariscal"
             };
 
             _context.Add(pacienteCuatro);
@@ -91,8 +88,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Alcala",
                 DNI = "17473304",
                 Email = "guillermo_alcala@hotmail.com",
-                UserName = "galcala",
-                Password = "12345678"
+                UserName = "galcala"
             };
 
             _context.Add(pacienteCinco);
@@ -107,8 +103,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Ponce",
                 DNI = "39647489",
                 Email = "aleponce@outlook.com",
-                UserName = "aponce",
-                Password = "12345678"
+                UserName = "aponce"
             };
 
             _context.Add(empleadoUno);
@@ -119,8 +114,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Escobar",
                 DNI = "18600338",
                 Email = "m.escobar@gmail.com",
-                UserName = "mescobar",
-                Password = "12345678"
+                UserName = "mescobar"
             };
 
             _context.Add(empleadoDos);
@@ -131,8 +125,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Barrios",
                 DNI = "17261727",
                 Email = "carmen-barrios@yahoo.com",
-                UserName = "cbarrios",
-                Password = "12345678"
+                UserName = "cbarrios"
             };
 
             _context.Add(empleadoTres);
@@ -143,8 +136,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Martínez",
                 DNI = "23917753",
                 Email = "fernando__martinez@live.com",
-                UserName = "fmartinez",
-                Password = "12345678"
+                UserName = "fmartinez"
             };
 
             _context.Add(empleadoCuatro);
@@ -155,8 +147,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Guzmán",
                 DNI = "5960550",
                 Email = "gerardoguzman@outlook.com",
-                UserName = "gguzman",
-                Password = "12345678"
+                UserName = "gguzman"
             };
 
             _context.Add(empleadoCinco);
@@ -174,8 +165,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Rivera",
                 DNI = "41777762",
                 Email = "nicolas.rivera@gmail.com",
-                UserName = "nrivera",
-                Password = "12345678"
+                UserName = "nrivera"
             };
 
             _context.Add(medicoUno);
@@ -189,8 +179,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Herrero",
                 DNI = "28321201",
                 Email = "herrero_oscar@hotmail.com",
-                UserName = "oherrero",
-                Password = "12345678"
+                UserName = "oherrero"
             };
 
             _context.Add(medicoDos);
@@ -204,8 +193,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Perez",
                 DNI = "9154238",
                 Email = "bianca._perez@outlook.com",
-                UserName = "bperez",
-                Password = "12345678"
+                UserName = "bperez"
             };
 
             _context.Add(medicoTres);
@@ -219,8 +207,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Cerdan",
                 DNI = "6731568",
                 Email = "marinacerdan@yahoo.com",
-                UserName = "mcerdan",
-                Password = "12345678"
+                UserName = "mcerdan"
             };
 
             _context.Add(medicoCuatro);
@@ -234,8 +221,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Romero",
                 DNI = "5975505",
                 Email = "judit-romero@gmail.com",
-                UserName = "jromero",
-                Password = "12345678"
+                UserName = "jromero"
             };
 
             _context.Add(medicoCinco);
@@ -583,7 +569,7 @@ namespace Historias_Clinicas_D.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index");
-        }
+        }*/
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
