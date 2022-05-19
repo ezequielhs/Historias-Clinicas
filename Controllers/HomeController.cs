@@ -1,4 +1,5 @@
 ﻿using Historias_Clinicas_D.Data;
+using Historias_Clinicas_D.Helpers;
 using Historias_Clinicas_D.Models;
 using Historias_Clinicas_D.Models.Enums;
 using Microsoft.AspNetCore.Identity;
@@ -11,16 +12,27 @@ namespace Historias_Clinicas_D.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<Persona> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _rolManager;
         private readonly HistoriasClinicasContext _context;
+        
 
-        public HomeController(ILogger<HomeController> logger, HistoriasClinicasContext context)
+        public HomeController(ILogger<HomeController> logger, UserManager<Persona> userManager, RoleManager<IdentityRole<int>> rolManager, HistoriasClinicasContext context)
         {
             _logger = logger;
+            _userManager = userManager;
+            _rolManager = rolManager;
             _context = context;
         }
 
         public IActionResult Index()
         {
+            if (this.User.IsInRole(Defaults.RolPaciente))
+            {
+                int idPaciente = int.Parse(_userManager.GetUserId(this.User));
+                return RedirectToAction("Details", "Pacientes", new { id = idPaciente });
+            }
+
             return View();
         }
 
@@ -29,134 +41,178 @@ namespace Historias_Clinicas_D.Controllers
             return View();
         }
 
- /*       public IActionResult CargarBD()
+        public async Task<IActionResult> CargarBD()
         {
+            #region Roles
+
+            List<string> roles = new List<string>() 
+            { 
+                Defaults.RolAdmin,
+                Defaults.RolPaciente,
+                Defaults.RolMedico,
+                Defaults.RolEmpleado
+            };
+
+            foreach (string rol in roles)
+            {
+                await _rolManager.CreateAsync(new IdentityRole<int>(rol));
+            }
+
+            #endregion
+
+            #region Administrador
+
+            Persona admin = new Persona()
+            {
+                Nombre = "Ezequiel",
+                Apellido = "Hoyos",
+                DNI = "39267310",
+                Email = Defaults.AdminUserName,
+                UserName = Defaults.AdminUserName
+            };
+            if (_context.Personas.FirstOrDefault(persona => persona.UserName == admin.UserName) == null)
+            {
+                var resultCreateUser = await _userManager.CreateAsync(admin, Defaults.AdminPassword);
+
+                if (resultCreateUser.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(admin, Defaults.RolAdmin);
+                }
+            }
+
+            #endregion
+
             #region Pacientes
 
-            Paciente pacienteUno = new Paciente()
+            List<Paciente> pacientes = new List<Paciente>();
+
+            pacientes.Add(new Paciente()
             {
                 ObraSocial = ObraSocial.GALENO,
                 Nombre = "Fernando",
                 Apellido = "Lopez",
                 DNI = "37043674",
                 Email = "fernando_lopez@gmail.com",
-                UserName = "flopez"
-            };
+                UserName = "fernando_lopez@gmail.com"
+            });
 
-            _context.Add(pacienteUno);
-
-            Paciente pacienteDos = new Paciente()
+            pacientes.Add(new Paciente()
             {
                 ObraSocial = ObraSocial.SWISS_MEDICAL,
                 Nombre = "Antonio Luis",
                 Apellido = "Tello",
                 DNI = "32919178",
                 Email = "antonio.tello@yahoo.com",
-                UserName = "atello"
-            };
+                UserName = "antonio.tello@yahoo.com"
+            });
 
-            _context.Add(pacienteDos);
-
-            Paciente pacienteTres = new Paciente()
+            pacientes.Add(new Paciente()
             {
                 ObraSocial = ObraSocial.MEDICUS,
                 Nombre = "Luis Enrique",
                 Apellido = "Mena",
                 DNI = "3757545",
                 Email = "luismena@outlook.com",
-                UserName = "lmena"
-            };
+                UserName = "luismena@outlook.com"
+            });
 
-            _context.Add(pacienteTres);
-
-            Paciente pacienteCuatro = new Paciente()
+            pacientes.Add(new Paciente()
             {
                 ObraSocial = ObraSocial.OSDE,
                 Nombre = "Leopoldo",
                 Apellido = "Mariscal",
                 DNI = "6593902",
                 Email = "mariscal._leopoldo@gmail.com",
-                UserName = "lmariscal"
-            };
+                UserName = "mariscal._leopoldo@gmail.com"
+            });
 
-            _context.Add(pacienteCuatro);
-
-            Paciente pacienteCinco = new Paciente()
+            pacientes.Add(new Paciente()
             {
                 ObraSocial = ObraSocial.OSDE,
                 Nombre = "Guillermo",
                 Apellido = "Alcala",
                 DNI = "17473304",
                 Email = "guillermo_alcala@hotmail.com",
-                UserName = "galcala"
-            };
+                UserName = "guillermo_alcala@hotmail.com"
+            });
 
-            _context.Add(pacienteCinco);
+            foreach (Paciente paciente in pacientes)
+            {
+                var resultCreateUser = await _userManager.CreateAsync(paciente, Defaults.PacientePassword);
+
+                if (resultCreateUser.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(paciente, Defaults.RolPaciente);
+                }
+            }
 
             #endregion
 
             #region Empleados
 
-            Empleado empleadoUno = new Empleado()
+            List<Empleado> empleados = new List<Empleado>();
+
+            empleados.Add(new Empleado()
             {
                 Nombre = "Alejandro",
                 Apellido = "Ponce",
                 DNI = "39647489",
                 Email = "aleponce@outlook.com",
-                UserName = "aponce"
-            };
+                UserName = "aleponce@outlook.com"
+            });
 
-            _context.Add(empleadoUno);
-
-            Empleado empleadoDos = new Empleado()
+            empleados.Add(new Empleado()
             {
                 Nombre = "Miriam",
                 Apellido = "Escobar",
                 DNI = "18600338",
                 Email = "m.escobar@gmail.com",
-                UserName = "mescobar"
-            };
+                UserName = "m.escobar@gmail.com"
+            });
 
-            _context.Add(empleadoDos);
-
-            Empleado empleadoTres = new Empleado()
+            empleados.Add(new Empleado()
             {
                 Nombre = "Carmen",
                 Apellido = "Barrios",
                 DNI = "17261727",
                 Email = "carmen-barrios@yahoo.com",
-                UserName = "cbarrios"
-            };
+                UserName = "carmen-barrios@yahoo.com"
+            });
 
-            _context.Add(empleadoTres);
-
-            Empleado empleadoCuatro = new Empleado()
+            empleados.Add(new Empleado()
             {
                 Nombre = "Federico",
                 Apellido = "Martínez",
                 DNI = "23917753",
                 Email = "fernando__martinez@live.com",
-                UserName = "fmartinez"
-            };
+                UserName = "fernando__martinez@live.com"
+            });
 
-            _context.Add(empleadoCuatro);
-
-            Empleado empleadoCinco = new Empleado()
+            empleados.Add(new Empleado()
             {
                 Nombre = "Gerardo",
                 Apellido = "Guzmán",
                 DNI = "5960550",
                 Email = "gerardoguzman@outlook.com",
-                UserName = "gguzman"
-            };
+                UserName = "gerardoguzman@outlook.com"
+            });
 
-            _context.Add(empleadoCinco);
+            foreach (Empleado empleado in empleados)
+            {
+                var resultCreateUser = await _userManager.CreateAsync(empleado, Defaults.EmpleadoPassword);
+                if (resultCreateUser.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(empleado, Defaults.RolEmpleado);
+                }
+            }
 
             #endregion
 
             #region Medicos
 
-            Medico medicoUno = new Medico()
+            List<Medico> medicos = new List<Medico>();
+
+            medicos.Add(new Medico()
             {
                 TipoMatricula = TipoMatricula.NACIONAL,
                 Matricula = "368412",
@@ -165,12 +221,10 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Rivera",
                 DNI = "41777762",
                 Email = "nicolas.rivera@gmail.com",
-                UserName = "nrivera"
-            };
+                UserName = "nicolas.rivera@gmail.com"
+            });
 
-            _context.Add(medicoUno);
-
-            Medico medicoDos = new Medico()
+            medicos.Add(new Medico()
             {
                 TipoMatricula = TipoMatricula.NACIONAL,
                 Matricula = "368412",
@@ -179,12 +233,10 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Herrero",
                 DNI = "28321201",
                 Email = "herrero_oscar@hotmail.com",
-                UserName = "oherrero"
-            };
+                UserName = "nicolas.rivera@gmail.com"
+            });
 
-            _context.Add(medicoDos);
-
-            Medico medicoTres = new Medico()
+            medicos.Add(new Medico()
             {
                 TipoMatricula = TipoMatricula.PROVINCIAL,
                 Matricula = "368412",
@@ -193,12 +245,10 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Perez",
                 DNI = "9154238",
                 Email = "bianca._perez@outlook.com",
-                UserName = "bperez"
-            };
+                UserName = "bianca._perez@outlook.com"
+            });
 
-            _context.Add(medicoTres);
-
-            Medico medicoCuatro = new Medico()
+            medicos.Add(new Medico()
             {
                 TipoMatricula = TipoMatricula.PROVINCIAL,
                 Matricula = "368412",
@@ -207,12 +257,10 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Cerdan",
                 DNI = "6731568",
                 Email = "marinacerdan@yahoo.com",
-                UserName = "mcerdan"
-            };
+                UserName = "marinacerdan@yahoo.com"
+            });
 
-            _context.Add(medicoCuatro);
-
-            Medico medicoCinco = new Medico()
+            medicos.Add(new Medico()
             {
                 TipoMatricula = TipoMatricula.NACIONAL,
                 Matricula = "368412",
@@ -221,16 +269,25 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Romero",
                 DNI = "5975505",
                 Email = "judit-romero@gmail.com",
-                UserName = "jromero"
-            };
+                UserName = "judit-romero@gmail.com"
+            });
 
-            _context.Add(medicoCinco);
+            foreach (Medico medico in medicos)
+            {
+                var resultCreateUser = await _userManager.CreateAsync(medico, Defaults.MedicoPassword);
+                if (resultCreateUser.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(medico, Defaults.RolMedico);
+                }
+            }
 
             #endregion
 
             #region Direcciones
 
-            Direccion direccionUno = new Direccion()
+            List<Direccion> direcciones = new List<Direccion>();
+
+            direcciones.Add(new Direccion()
             {
                 Calle = "Montevideo",
                 Numero = 248,
@@ -238,11 +295,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Capital Federal",
                 Provincia = Provincia.CAPITAL_FEDERAL,
                 PersonaId = 1
-            };
+            });
 
-            _context.Add(direccionUno);
-
-            Direccion direccionDos = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Bartolomé Mitre",
                 Numero = 2553,
@@ -250,11 +305,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Capital Federal",
                 Provincia = Provincia.CAPITAL_FEDERAL,
                 PersonaId = 2
-            };
+            });
 
-            _context.Add(direccionDos);
-
-            Direccion direccionTres = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Av Meeks",
                 Numero = 155,
@@ -262,11 +315,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Lomas de Zamora",
                 Provincia = Provincia.BUENOS_AIRES,
                 PersonaId = 3
-            };
+            });
 
-            _context.Add(direccionTres);
-
-            Direccion direccionCuatro = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Av. Roca",
                 Numero = 1080,
@@ -274,11 +325,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Avellaneda",
                 Provincia = Provincia.BUENOS_AIRES,
                 PersonaId = 4
-            };
+            });
 
-            _context.Add(direccionCuatro);
-
-            Direccion direccionCinco = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Paysandú",
                 Numero = 5724,
@@ -286,11 +335,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Moreno",
                 Provincia = Provincia.BUENOS_AIRES,
                 PersonaId = 5
-            };
+            });
 
-            _context.Add(direccionCinco);
-
-            Direccion direccionSeis = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Ipiranga",
                 Numero = 779,
@@ -298,11 +345,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "San Isidro",
                 Provincia = Provincia.BUENOS_AIRES,
                 PersonaId = 6
-            };
+            });
 
-            _context.Add(direccionSeis);
-
-            Direccion direccionSiete = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Nicolás Avellaneda",
                 Numero = 3335,
@@ -310,11 +355,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Vicente Lopez",
                 Provincia = Provincia.BUENOS_AIRES,
                 PersonaId = 7
-            };
+            });
 
-            _context.Add(direccionSiete);
-
-            Direccion direccionOcho = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Dr. Emilio Ravignani",
                 Numero = 2049,
@@ -322,11 +365,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Capital Federal",
                 Provincia = Provincia.CAPITAL_FEDERAL,
                 PersonaId = 8
-            };
+            });
 
-            _context.Add(direccionOcho);
-
-            Direccion direccionNueve = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Raúl Scalabrini Ortiz",
                 Numero = 410,
@@ -334,11 +375,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Capital Federal",
                 Provincia = Provincia.CAPITAL_FEDERAL,
                 PersonaId = 9
-            };
+            });
 
-            _context.Add(direccionNueve);
-
-            Direccion direccionDiez = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Av. Díaz Vélez",
                 Numero = 3830,
@@ -346,11 +385,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Capital Federal",
                 Provincia = Provincia.CAPITAL_FEDERAL,
                 PersonaId = 10
-            };
+            });
 
-            _context.Add(direccionDiez);
-
-            Direccion direccionOnce = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Venezuela",
                 Numero = 1260,
@@ -358,11 +395,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Capital Federal",
                 Provincia = Provincia.CAPITAL_FEDERAL,
                 PersonaId = 11
-            };
+            });
 
-            _context.Add(direccionOnce);
-
-            Direccion direccionDoce = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Enrique Fernández",
                 Numero = 2119,
@@ -370,11 +405,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Lanús",
                 Provincia = Provincia.BUENOS_AIRES,
                 PersonaId = 12
-            };
+            });
 
-            _context.Add(direccionDoce);
-
-            Direccion direccionTrece = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Marcos Grigera",
                 Numero = 532,
@@ -382,11 +415,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Lomas de Zamora",
                 Provincia = Provincia.BUENOS_AIRES,
                 PersonaId = 13
-            };
+            });
 
-            _context.Add(direccionTrece);
-
-            Direccion direccionCatorce = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Cnel. Brandsen",
                 Numero = 3263,
@@ -394,11 +425,9 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Avellaneda",
                 Provincia = Provincia.BUENOS_AIRES,
                 PersonaId = 14
-            };
+            });
 
-            _context.Add(direccionCatorce);
-
-            Direccion direccionQuince = new Direccion()
+            direcciones.Add(new Direccion()
             {
                 Calle = "Unamuno",
                 Numero = 1516,
@@ -406,170 +435,144 @@ namespace Historias_Clinicas_D.Controllers
                 Localidad = "Quilmes",
                 Provincia = Provincia.BUENOS_AIRES,
                 PersonaId = 15
-            };
+            });
 
-            _context.Add(direccionQuince);
+            _context.Direcciones.AddRange(direcciones);
 
             #endregion
 
             #region Telefonos
 
-            Telefono telefonoUno = new Telefono()
+            List<Telefono> telefonos = new List<Telefono>();
+
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 43824118,
                 Tipo = TipoTelefono.PARTICULAR,
                 PersonaId = 1
-            };
+            });
 
-            _context.Add(telefonoUno);
-
-            Telefono telefonoDos = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 49547070,
                 Tipo = TipoTelefono.PARTICULAR,
                 PersonaId = 2
-            };
+            });
 
-            _context.Add(telefonoDos);
-
-            Telefono telefonoTres = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 42928310,
                 Tipo = TipoTelefono.PARTICULAR,
                 PersonaId = 3
-            };
+            });
 
-            _context.Add(telefonoTres);
-
-            Telefono telefonoCuatro = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 49432225,
                 Tipo = TipoTelefono.LABORAL,
                 PersonaId = 4
-            };
+            });
 
-            _context.Add(telefonoCuatro);
-
-            Telefono telefonoCinco = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 47580113,
                 Tipo = TipoTelefono.CELULAR,
                 PersonaId = 5
-            };
+            });
 
-            _context.Add(telefonoCinco);
-
-            Telefono telefonoSeis = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 48568526,
                 Tipo = TipoTelefono.CELULAR,
                 PersonaId = 6
-            };
+            });
 
-            _context.Add(telefonoSeis);
-
-            Telefono telefonoSiete = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 45491325,
                 Tipo = TipoTelefono.CELULAR,
                 PersonaId = 7
-            };
+            });
 
-            _context.Add(telefonoSiete);
-
-            Telefono telefonoOcho = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 43321083,
                 Tipo = TipoTelefono.LABORAL,
                 PersonaId = 8
-            };
+            });
 
-            _context.Add(telefonoOcho);
-
-            Telefono telefonoNueve = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 46729947,
                 Tipo = TipoTelefono.PARTICULAR,
                 PersonaId = 9
-            };
+            });
 
-            _context.Add(telefonoNueve);
-
-            Telefono telefonoDiez = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 41481125,
                 Tipo = TipoTelefono.PARTICULAR,
                 PersonaId = 10
-            };
+            });
 
-            _context.Add(telefonoDiez);
-
-            Telefono telefonoOnce = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 43735991,
                 Tipo = TipoTelefono.CELULAR,
                 PersonaId = 11
-            };
+            });
 
-            _context.Add(telefonoOnce);
-
-            Telefono telefonoDoce = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 44466121,
                 Tipo = TipoTelefono.PARTICULAR,
                 PersonaId = 12
-            };
+            });
 
-            _context.Add(telefonoDoce);
-
-            Telefono telefonoTrece = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 43657600,
                 Tipo = TipoTelefono.LABORAL,
                 PersonaId = 13
-            };
+            });
 
-            _context.Add(telefonoTrece);
-
-            Telefono telefonoCatorce = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 48728281,
                 Tipo = TipoTelefono.CELULAR,
                 PersonaId = 14
-            };
+            });
 
-            _context.Add(telefonoCatorce);
-
-            Telefono telefonoQuince = new Telefono()
+            telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
                 Numero = 45832427,
                 Tipo = TipoTelefono.PARTICULAR,
                 PersonaId = 15
-            };
+            });
 
-            _context.Add(telefonoQuince);
+            _context.Telefonos.AddRange(telefonos);
 
             #endregion
 
             _context.SaveChanges();
 
             return RedirectToAction("Index");
-        }*/
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

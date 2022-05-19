@@ -89,7 +89,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Paciente paciente)
+        public IActionResult Edit(int id, Paciente paciente)
         {
             if (id != paciente.Id)
             {
@@ -100,8 +100,12 @@ namespace Historias_Clinicas_D.Controllers
             {
                 try
                 {
-                    _context.Update(paciente);
-                    await _context.SaveChangesAsync();
+                    Paciente pct = _context.Pacientes.Find(paciente.Id);
+                    pct.Email = paciente.Email;
+                    pct.ObraSocial = paciente.ObraSocial;
+
+                    _context.Update(pct);
+                    _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -11,16 +11,18 @@ namespace Historias_Clinicas_D.Controllers
     {
         private readonly UserManager<Persona> _userManager;
         private readonly SignInManager<Persona> _signInManager;
+        private readonly RoleManager<IdentityRole<int>> _rolManager;
         private readonly HistoriasClinicasContext _context;
-
 
         public AccountController(
             UserManager<Persona> userManager,
             SignInManager<Persona> signInManager,
+            RoleManager<IdentityRole<int>> rolManager,
             HistoriasClinicasContext context)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
+            this._rolManager = rolManager;
             this._context = context;
         }
 
@@ -49,6 +51,7 @@ namespace Historias_Clinicas_D.Controllers
 
                 if (resultado.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(paciente, Defaults.RolPaciente);
                     await _signInManager.SignInAsync(paciente, isPersistent: false);
 
                     return RedirectToAction("Index", "Pacientes");
@@ -57,7 +60,6 @@ namespace Historias_Clinicas_D.Controllers
 
             return View();
         }
-
 
         [HttpGet]
         public IActionResult IniciarSesion(string returnUrl)
@@ -98,7 +100,6 @@ namespace Historias_Clinicas_D.Controllers
             return View();
         }
 
-
         [HttpGet]
         public async Task<IActionResult> CerrarSesion()
         {
@@ -106,7 +107,6 @@ namespace Historias_Clinicas_D.Controllers
 
             return RedirectToAction("IniciarSesion", "Account");
         }
-
 
         [HttpGet]
         public IActionResult AccesoDenegado()

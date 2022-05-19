@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Historias_Clinicas_D.Data; 
 using Historias_Clinicas_D.Models;
-using Historias_Clinicas_D.Models.Secundarios;
 
 namespace Historias_Clinicas_D
 {
@@ -35,7 +34,7 @@ namespace Historias_Clinicas_D
 
             #region Identity
 
-            builder.Services.AddIdentity<Persona, Rol>().AddEntityFrameworkStores<HistoriasClinicasContext>();
+            builder.Services.AddIdentity<Persona, IdentityRole<int>>().AddEntityFrameworkStores<HistoriasClinicasContext>();
 
             builder.Services.Configure<IdentityOptions>(opciones =>
             {

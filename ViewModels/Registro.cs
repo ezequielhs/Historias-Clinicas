@@ -26,7 +26,7 @@ namespace Historias_Clinicas_D.ViewModels
 
         [Required(ErrorMessage = MensajesError.ErrRequired)]
         [EmailAddress(ErrorMessage = MensajesError.ErrNoValido)]
-        [Remote("IsEmailEnUso", "Personas", HttpMethod = "POST", ErrorMessage = MensajesError.ErrCampoEnUso)]
+        [Remote("IsEmailEnUso", "Personas", AdditionalFields = "Id", HttpMethod = "POST", ErrorMessage = MensajesError.ErrCampoEnUso)]
         public string Email { get; set; }
 
         [Required(ErrorMessage = MensajesError.ErrRequired)]

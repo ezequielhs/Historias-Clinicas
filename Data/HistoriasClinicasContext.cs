@@ -3,7 +3,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Historias_Clinicas_D.Models.Secundarios;
 
 namespace Historias_Clinicas_D.Data
 {
@@ -23,7 +22,6 @@ namespace Historias_Clinicas_D.Data
             builder.Entity<IdentityUserRole<int>>().ToTable("PersonasRoles");
         }
 
-        public DbSet<Rol> Roles { get; set; }
         public DbSet<Persona> Personas { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
         public DbSet<Medico> Medicos { get; set; }
