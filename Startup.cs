@@ -42,7 +42,7 @@ namespace Historias_Clinicas_D
                 opciones.Password.RequireNonAlphanumeric = false;
                 opciones.Password.RequireUppercase = false;
                 opciones.Password.RequireDigit = false;
-                opciones.Password.RequiredLength = 5; //Antes era 6, también se puede hacer en AddIdentity.                  
+                opciones.Password.RequiredLength = 6;           
             });
 
             // Configuraciones por defecto para Password en Identity:

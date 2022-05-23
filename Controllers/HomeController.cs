@@ -60,28 +60,6 @@ namespace Historias_Clinicas_D.Controllers
 
             #endregion
 
-            #region Administrador
-
-            Persona admin = new Persona()
-            {
-                Nombre = "Ezequiel",
-                Apellido = "Hoyos",
-                DNI = "39267310",
-                Email = Defaults.AdminUserName,
-                UserName = Defaults.AdminUserName
-            };
-            if (_context.Personas.FirstOrDefault(persona => persona.UserName == admin.UserName) == null)
-            {
-                var resultCreateUser = await _userManager.CreateAsync(admin, Defaults.AdminPassword);
-
-                if (resultCreateUser.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(admin, Defaults.RolAdmin);
-                }
-            }
-
-            #endregion
-
             #region Pacientes
 
             List<Paciente> pacientes = new List<Paciente>();
@@ -278,6 +256,28 @@ namespace Historias_Clinicas_D.Controllers
                 if (resultCreateUser.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(empleado, Defaults.RolEmpleado);
+                }
+            }
+
+            #endregion
+
+            #region Administrador
+
+            Empleado admin = new Empleado()
+            {
+                Nombre = "Ezequiel",
+                Apellido = "Hoyos",
+                DNI = "39267310",
+                Email = Defaults.AdminUserName,
+                UserName = Defaults.AdminUserName
+            };
+            if (_context.Personas.FirstOrDefault(persona => persona.UserName == admin.UserName) == null)
+            {
+                var resultCreateUser = await _userManager.CreateAsync(admin, Defaults.AdminPassword);
+
+                if (resultCreateUser.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(admin, Defaults.RolAdmin);
                 }
             }
 
@@ -619,6 +619,16 @@ namespace Historias_Clinicas_D.Controllers
                 PersonaId = 15
             });
 
+            direcciones.Add(new Direccion()
+            {
+                Calle = "Santiago del Estero",
+                Numero = 782,
+                CodigoPostal = "B1823CLJ",
+                Localidad = "Lanus",
+                Provincia = Provincia.BUENOS_AIRES,
+                PersonaId = 16
+            });
+
             _context.Direcciones.AddRange(direcciones);
 
             #endregion
@@ -745,6 +755,14 @@ namespace Historias_Clinicas_D.Controllers
                 Numero = 45832427,
                 Tipo = TipoTelefono.PARTICULAR,
                 PersonaId = 15
+            });
+
+            telefonos.Add(new Telefono()
+            {
+                Caracteristica = 11,
+                Numero = 50256001,
+                Tipo = TipoTelefono.CELULAR,
+                PersonaId = 16
             });
 
             _context.Telefonos.AddRange(telefonos);
