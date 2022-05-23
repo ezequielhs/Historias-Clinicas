@@ -24,10 +24,10 @@ namespace Historias_Clinicas_D.Controllers
         {
             var historiasClinicasContext = _context.Evoluciones
                 .Include(e => e.Medico)
-                .Include(e => e.Notas)
-                .ToList();
+                .Include(e => e.Episodio)
+                .Include(e => e.Notas);
 
-            return View(historiasClinicasContext);
+            return View(await historiasClinicasContext.ToListAsync());
         }
 
         // GET: Evoluciones/Details/5
@@ -41,6 +41,7 @@ namespace Historias_Clinicas_D.Controllers
             var evolucion = await _context.Evoluciones
                 .Include(e => e.Medico)
                 .Include(e => e.Notas)
+                .Include(e => e.Episodio)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (evolucion == null)
             {
@@ -54,6 +55,7 @@ namespace Historias_Clinicas_D.Controllers
         public IActionResult Create()
         {
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto");
+            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo");
             return View();
         }
 
@@ -62,7 +64,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MedicoId,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion,EstadoAbierto")] Evolucion evolucion)
+        public async Task<IActionResult> Create([Bind("Id,MedicoId,EpisodioId,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion,EstadoAbierto")] Evolucion evolucion)
         {
             if (ModelState.IsValid)
             {
@@ -71,6 +73,7 @@ namespace Historias_Clinicas_D.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto", evolucion.MedicoId);
+            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo", evolucion.EpisodioId);
             return View(evolucion);
         }
 
@@ -88,6 +91,7 @@ namespace Historias_Clinicas_D.Controllers
                 return NotFound();
             }
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto", evolucion.MedicoId);
+            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo", evolucion.EpisodioId);
             return View(evolucion);
         }
 
@@ -96,7 +100,7 @@ namespace Historias_Clinicas_D.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MedicoId,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion,EstadoAbierto")] Evolucion evolucion)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,MedicoId,EpisodioId,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion,EstadoAbierto")] Evolucion evolucion)
         {
             if (id != evolucion.Id)
             {
@@ -124,6 +128,7 @@ namespace Historias_Clinicas_D.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto", evolucion.MedicoId);
+            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo", evolucion.EpisodioId);
             return View(evolucion);
         }
 
@@ -137,6 +142,7 @@ namespace Historias_Clinicas_D.Controllers
 
             var evolucion = await _context.Evoluciones
                 .Include(e => e.Medico)
+                .Include(e => e.Episodio)
                 .Include(e => e.Notas)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (evolucion == null)

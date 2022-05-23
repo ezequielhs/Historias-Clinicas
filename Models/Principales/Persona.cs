@@ -41,7 +41,7 @@ namespace Historias_Clinicas_D.Models
 
         #region Propiedades Navegacionales
 
-[Display(Name = Alias.Telefonos)]
+        [Display(Name = Alias.Telefonos)]
         public List<Telefono> Telefonos { get; set; }
 
         [Display(Name = Alias.Direccion)]

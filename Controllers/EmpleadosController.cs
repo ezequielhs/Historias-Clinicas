@@ -34,6 +34,8 @@ namespace Historias_Clinicas_D.Controllers
             }
 
             var empleado = await _context.Empleados
+                .Include(p => p.Telefonos)
+                .Include(p => p.Direccion)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (empleado == null)
             {
@@ -125,6 +127,8 @@ namespace Historias_Clinicas_D.Controllers
             }
 
             var empleado = await _context.Empleados
+                .Include(p => p.Telefonos)
+                .Include(p => p.Direccion)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (empleado == null)
             {

@@ -22,7 +22,9 @@ namespace Historias_Clinicas_D.Controllers
         // GET: Notas
         public async Task<IActionResult> Index()
         {
-            var historiasClinicasContext = _context.Notas.Include(n => n.Empleado).Include(n => n.Evolucion);
+            var historiasClinicasContext = _context.Notas
+                .Include(n => n.Empleado)
+                .Include(n => n.Evolucion);
             return View(await historiasClinicasContext.ToListAsync());
         }
 

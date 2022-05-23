@@ -16,6 +16,9 @@
                 @Html.DisplayNameFor(model => model.MedicoId)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.EpisodioId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FechaYHoraInicio)
             </th>
             <th>
@@ -38,6 +41,9 @@
         <tr class=table-secondary>
             <td>
                 @Html.DisplayFor(modelItem => evolucion.Medico.NombreCompleto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => evolucion.Episodio.Motivo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => evolucion.FechaYHoraInicio)

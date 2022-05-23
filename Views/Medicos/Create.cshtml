@@ -59,7 +59,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#TipoMatriculaSelect").on("change", function () {
-                if ($("#TipoMatriculaSelect option:selected" ).text() == "Extranjera"|| $("#TipoMatriculaSelect option:selected" ).text() == "En Tramite") {
+                if ($("#TipoMatriculaSelect option:selected").text() == "Extranjera" || $("#TipoMatriculaSelect option:selected").text() == "En Tramite") {
                     $("#MatriculaInput").prop('readonly', true);
                     $('#MatriculaInput').val('No Posee');
                 }

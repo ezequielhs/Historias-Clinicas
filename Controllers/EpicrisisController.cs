@@ -24,9 +24,9 @@ namespace Historias_Clinicas_D.Controllers
         {
             var historiasClinicasContext = _context.Epicrisis
                 .Include(e => e.Episodio)
-                .Include(e => e.Medico)
-                .ToList();
-            return View(historiasClinicasContext);
+                .Include(e => e.Medico);
+
+            return View(await historiasClinicasContext.ToArrayAsync());
         }
 
         // GET: Epicrisis/Details/5

@@ -74,7 +74,6 @@ namespace Historias_Clinicas_D.Controllers
         {
             if (ModelState.IsValid)
             {
-                //agregamos lo que sea necesario para iniciar sesión.
                 var resultado = await _signInManager.PasswordSignInAsync(
                     loginViewModel.Email,
                     loginViewModel.Password,

@@ -46,8 +46,9 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         // GET: Telefonos/Create
-        public IActionResult Create()
+        public IActionResult Create(string returnUrl)
         {
+            TempData["returnUrl"] = returnUrl;
             ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "NombreCompleto");
             return View();
         }
@@ -63,6 +64,14 @@ namespace Historias_Clinicas_D.Controllers
             {
                 _context.Add(telefono);
                 await _context.SaveChangesAsync();
+
+                string returnUrl = TempData["returnUrl"] as string;
+
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "NombreCompleto", telefono.PersonaId);
@@ -70,7 +79,7 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         // GET: Telefonos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
             {
@@ -82,6 +91,8 @@ namespace Historias_Clinicas_D.Controllers
             {
                 return NotFound();
             }
+
+            TempData["returnUrl"] = returnUrl;
             ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "NombreCompleto", telefono.PersonaId);
             return View(telefono);
         }
@@ -104,6 +115,13 @@ namespace Historias_Clinicas_D.Controllers
                 {
                     _context.Update(telefono);
                     await _context.SaveChangesAsync();
+
+                    string returnUrl = TempData["returnUrl"] as string;
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -118,12 +136,13 @@ namespace Historias_Clinicas_D.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "NombreCompleto", telefono.PersonaId);
             return View(telefono);
         }
 
         // GET: Telefonos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, string returnUrl)
         {
             if (id == null)
             {
@@ -149,6 +168,14 @@ namespace Historias_Clinicas_D.Controllers
             var telefono = await _context.Telefonos.FindAsync(id);
             _context.Telefonos.Remove(telefono);
             await _context.SaveChangesAsync();
+
+            string returnUrl = TempData["returnUrl"] as string;
+
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

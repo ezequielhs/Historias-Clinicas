@@ -45,8 +45,49 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
     </dl>
+    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
 </div>
+<br />
 <div>
-    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
+    <h4>@Html.DisplayNameFor(model => model.Direccion) </h4>
+    <hr />
+    @if (Model.Direccion != null)
+    {
+        <div>
+            @Html.DisplayFor(model => model.Direccion.Calle), @Html.DisplayFor(model => model.Direccion.Numero). @Html.DisplayFor(model => model.Direccion.CodigoPostal), @Html.DisplayFor(model => model.Direccion.Localidad), @Html.DisplayFor(model => model.Direccion.Provincia) &ensp; <a class="btn btn-primary" role="button" asp-controller="Direcciones" asp-action="Edit" asp-route-returnUrl="/Empleados/Details/@Model?.Id" asp-route-id="@Model.Direccion.Id">Editar</a> | <a class="btn btn-danger" role="button" asp-controller="Direcciones" asp-action="Delete" asp-route-returnUrl="/Empleados/Details/@Model?.Id" asp-route-id="@Model.Direccion.Id">Eliminar</a>
+        </div>
+    }
+    else
+    {
+        <p>No tiene asignado una Dirección.</p>
+        <a class="btn btn-primary" role="button" asp-controller="Direcciones" asp-action="Create" asp-route-returnUrl="/Empleados/Details/@Model?.Id">Agregar Dirección</a>
+    }
+</div>
+<br />
+<div>
+    <h4>@Html.DisplayNameFor(model => model.Telefonos)</h4>
+    <hr />
+    @if (Model.Telefonos.Count == 0)
+    {
+        <p>No tiene asignado ningun Teléfono.</p>
+        <p>
+            <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Create" asp-route-returnUrl="/Empleados/Details/@Model?.Id">Agregar Teléfono</a>
+        </p>
+    }
+    else
+    {
+        <p>
+            <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Create" asp-route-returnUrl="/Empleados/Details/@Model?.Id">Agregar Teléfono</a>
+        </p>
+        @foreach (var item in Model.Telefonos) {
+            <ul>
+                <li>
+                    @Html.DisplayFor(modelItem => item.Tipo) - @Html.DisplayFor(modelItem => item.TelefonoCompleto) &ensp; <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Edit" asp-route-returnUrl="/Empleados/Details/@Model?.Id" asp-route-id="@item.Id">Editar</a> | <a class="btn btn-danger" role="button" asp-controller="Telefonos" asp-action="Delete" asp-route-returnUrl="/Empleados/Details/@Model?.Id" asp-route-id="@item.Id">Eliminar</a>
+                </li>
+            </ul>
+        }
+    }
+</div>
+<div>  
     <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
 </div>

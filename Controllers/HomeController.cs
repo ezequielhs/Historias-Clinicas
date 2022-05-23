@@ -148,6 +148,81 @@ namespace Historias_Clinicas_D.Controllers
 
             #endregion
 
+            #region Medicos
+
+            List<Medico> medicos = new List<Medico>();
+
+            medicos.Add(new Medico()
+            {
+                TipoMatricula = TipoMatricula.NACIONAL,
+                Matricula = "368412",
+                Especialidad = Especialidad.PEDIATRIA,
+                Nombre = "Nicolas",
+                Apellido = "Rivera",
+                DNI = "41777762",
+                Email = "nicolas.rivera@gmail.com",
+                UserName = "nicolas.rivera@gmail.com"
+            });
+
+            medicos.Add(new Medico()
+            {
+                TipoMatricula = TipoMatricula.NACIONAL,
+                Matricula = "856923",
+                Especialidad = Especialidad.NEUMOLOGIA,
+                Nombre = "Oscar",
+                Apellido = "Herrero",
+                DNI = "28321201",
+                Email = "herrero_oscar@hotmail.com",
+                UserName = "herrero_oscar@hotmail.com"
+            });
+
+            medicos.Add(new Medico()
+            {
+                TipoMatricula = TipoMatricula.PROVINCIAL,
+                Matricula = "741296",
+                Especialidad = Especialidad.INFECTOLOGIA,
+                Nombre = "Bianca",
+                Apellido = "Perez",
+                DNI = "9154238",
+                Email = "bianca._perez@outlook.com",
+                UserName = "bianca._perez@outlook.com"
+            });
+
+            medicos.Add(new Medico()
+            {
+                TipoMatricula = TipoMatricula.PROVINCIAL,
+                Matricula = "258463",
+                Especialidad = Especialidad.ENDOCRINOLOGIA,
+                Nombre = "Marina",
+                Apellido = "Cerdan",
+                DNI = "6731568",
+                Email = "marinacerdan@yahoo.com",
+                UserName = "marinacerdan@yahoo.com"
+            });
+
+            medicos.Add(new Medico()
+            {
+                TipoMatricula = TipoMatricula.NACIONAL,
+                Matricula = "200385",
+                Especialidad = Especialidad.NEUROLOGIA,
+                Nombre = "Judit",
+                Apellido = "Romero",
+                DNI = "5975505",
+                Email = "judit-romero@gmail.com",
+                UserName = "judit-romero@gmail.com"
+            });
+
+            foreach (Medico medico in medicos)
+            {
+                var resultCreateUser = await _userManager.CreateAsync(medico, Defaults.MedicoPassword);
+                if (resultCreateUser.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(medico, Defaults.RolMedico);
+                }
+            }
+
+            #endregion
+
             #region Empleados
 
             List<Empleado> empleados = new List<Empleado>();
@@ -208,78 +283,185 @@ namespace Historias_Clinicas_D.Controllers
 
             #endregion
 
-            #region Medicos
+            #region Episodios
 
-            List<Medico> medicos = new List<Medico>();
+            List<Episodio> episodios = new List<Episodio>();
 
-            medicos.Add(new Medico()
+            episodios.Add(new Episodio
             {
-                TipoMatricula = TipoMatricula.NACIONAL,
-                Matricula = "368412",
-                Especialidad = Especialidad.PEDIATRIA,
-                Nombre = "Nicolas",
-                Apellido = "Rivera",
-                DNI = "41777762",
-                Email = "nicolas.rivera@gmail.com",
-                UserName = "nicolas.rivera@gmail.com"
+                Motivo = "Traumatismo en Pierna izquierda.",
+                Descripcion = "El paciente se encontraba andando en Skate y sufrió un accidente.",
+                PacienteId = 1,
+                EmpleadoRegistraId = 1
             });
 
-            medicos.Add(new Medico()
+            episodios.Add(new Episodio
             {
-                TipoMatricula = TipoMatricula.NACIONAL,
-                Matricula = "368412",
-                Especialidad = Especialidad.NEUMOLOGIA,
-                Nombre = "Oscar",
-                Apellido = "Herrero",
-                DNI = "28321201",
-                Email = "herrero_oscar@hotmail.com",
-                UserName = "nicolas.rivera@gmail.com"
+                Motivo = "Dolor agudo en la parte inferior derecha de la Espalda.",
+                Descripcion = "El paciente se encontraba en su casa cuando comenzo a experimentar un fuerte dolor su Espalda.",
+                PacienteId = 2,
+                EmpleadoRegistraId = 2
             });
 
-            medicos.Add(new Medico()
+            episodios.Add(new Episodio
             {
-                TipoMatricula = TipoMatricula.PROVINCIAL,
-                Matricula = "368412",
-                Especialidad = Especialidad.INFECTOLOGIA,
-                Nombre = "Bianca",
-                Apellido = "Perez",
-                DNI = "9154238",
-                Email = "bianca._perez@outlook.com",
-                UserName = "bianca._perez@outlook.com"
+                Motivo = "Herida de bala en el Hombro derecho.",
+                Descripcion = "El Oficial realizaba un operativo cuando fue atacado y recibio un disparo en el Hombro. No sufrio una gran perdida de sangre.",
+                PacienteId = 3,
+                EmpleadoRegistraId = 3
             });
 
-            medicos.Add(new Medico()
+            episodios.Add(new Episodio
             {
-                TipoMatricula = TipoMatricula.PROVINCIAL,
-                Matricula = "368412",
-                Especialidad = Especialidad.ENDOCRINOLOGIA,
-                Nombre = "Marina",
-                Apellido = "Cerdan",
-                DNI = "6731568",
-                Email = "marinacerdan@yahoo.com",
-                UserName = "marinacerdan@yahoo.com"
+                Motivo = "Mareos y fuertes migrañias.",
+                Descripcion = "El paciente informa que experimenta migrañias constantes hace cuatro días, ademas de leves mareos.",
+                PacienteId = 4,
+                EmpleadoRegistraId = 4
             });
 
-            medicos.Add(new Medico()
+            episodios.Add(new Episodio
             {
-                TipoMatricula = TipoMatricula.NACIONAL,
-                Matricula = "368412",
-                Especialidad = Especialidad.NEUROLOGIA,
-                Nombre = "Judit",
-                Apellido = "Romero",
-                DNI = "5975505",
-                Email = "judit-romero@gmail.com",
-                UserName = "judit-romero@gmail.com"
+                Motivo = "Cuadro febril y dolores muscular en el Cuello",
+                Descripcion = "El paciente declara que desde la madrugada del dia de la fecha posee fiebre y un dolor muscular sobre Cuello.",
+                PacienteId = 5,
+                EmpleadoRegistraId = 5
             });
 
-            foreach (Medico medico in medicos)
+            _context.Episodios.AddRange(episodios);
+
+            #endregion
+
+            #region Evoluciones
+
+            List<Evolucion> evoluciones = new List<Evolucion>();
+
+            evoluciones.Add(new Evolucion
             {
-                var resultCreateUser = await _userManager.CreateAsync(medico, Defaults.MedicoPassword);
-                if (resultCreateUser.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(medico, Defaults.RolMedico);
-                }
-            }
+                MedicoId = 1,
+                EpisodioId = 1,
+                DescripcionAtencion = "Blablablablablabla"
+            });
+
+            evoluciones.Add(new Evolucion
+            {
+                MedicoId = 2,
+                EpisodioId = 2,
+                DescripcionAtencion = "Blablablablablabla"
+            });
+
+            evoluciones.Add(new Evolucion
+            {
+                MedicoId = 3,
+                EpisodioId = 3,
+                DescripcionAtencion = "Blablablablablabla"
+            });
+
+            evoluciones.Add(new Evolucion
+            {
+                MedicoId = 4,
+                EpisodioId = 4,
+                DescripcionAtencion = "Blablablablablabla"
+            });
+
+            evoluciones.Add(new Evolucion
+            {
+                MedicoId = 5,
+                EpisodioId = 5,
+                DescripcionAtencion = "Blablablablablabla"
+            });
+
+            _context.Evoluciones.AddRange(evoluciones);
+
+            #endregion
+
+            #region Notas
+
+            List<Nota> notas = new List<Nota>();
+
+            notas.Add(new Nota
+            {
+                EvolucionId = 1,
+                EmpleadoId = 1,
+                Mensaje = "Blablablablablabla"
+            });
+
+            notas.Add(new Nota
+            {
+                EvolucionId = 2,
+                EmpleadoId = 2,
+                Mensaje = "Blablablablablabla"
+            });
+
+            notas.Add(new Nota
+            {
+                EvolucionId = 3,
+                EmpleadoId = 3,
+                Mensaje = "Blablablablablabla"
+            });
+
+            notas.Add(new Nota
+            {
+                EvolucionId = 4,
+                EmpleadoId = 4,
+                Mensaje = "Blablablablablabla"
+            });
+
+            notas.Add(new Nota
+            {
+                EvolucionId = 5,
+                EmpleadoId = 5,
+                Mensaje = "Blablablablablabla"
+            });
+
+            _context.Notas.AddRange(notas);
+
+            #endregion
+
+            #region Epicrisis
+
+            List<Epicrisis> epicrisis = new List<Epicrisis>();
+
+            epicrisis.Add(new Epicrisis
+            {
+                Diagnostico = "Blablablablablabla",
+                Recomendacion = "Blablablablablabla",
+                MedicoId = 1,
+                EpisodioId = 1
+            });
+
+            epicrisis.Add(new Epicrisis
+            {
+                Diagnostico = "Blablablablablabla",
+                Recomendacion = "Blablablablablabla",
+                MedicoId = 2,
+                EpisodioId = 2
+            });
+
+            epicrisis.Add(new Epicrisis
+            {
+                Diagnostico = "Blablablablablabla",
+                Recomendacion = "Blablablablablabla",
+                MedicoId = 3,
+                EpisodioId = 3
+            });
+
+            epicrisis.Add(new Epicrisis
+            {
+                Diagnostico = "Blablablablablabla",
+                Recomendacion = "Blablablablablabla",
+                MedicoId = 4,
+                EpisodioId = 4
+            });
+
+            epicrisis.Add(new Epicrisis
+            {
+                Diagnostico = "Blablablablablabla",
+                Recomendacion = "Blablablablablabla",
+                MedicoId = 5,
+                EpisodioId = 5
+            });
+
+            _context.Epicrisis.AddRange(epicrisis);
 
             #endregion
 

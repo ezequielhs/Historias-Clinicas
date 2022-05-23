@@ -63,6 +63,7 @@ namespace Historias_Clinicas_D.Controllers
             {
                 _context.Add(paciente);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(paciente);

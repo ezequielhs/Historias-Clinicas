@@ -6,14 +6,19 @@ namespace Historias_Clinicas_D.Models
 {
 	public class Evolucion
 	{
-		
 		public int Id { get; set; }
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]
 		[Display(Name = Alias.MedicoId)]
 		public int MedicoId { get; set; }
 
+		[Required(ErrorMessage = MensajesError.ErrRequired)]
+		[Display(Name = Alias.EpisodioId)]
+		public int EpisodioId { get; set; }
+
 		public Medico Medico { get; set; }
+
+		public Episodio Episodio { get; set; }
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]
 		[Display(Name = Alias.FechaYHoraInicio)]
