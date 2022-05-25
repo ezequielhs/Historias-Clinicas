@@ -37,7 +37,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (Evolucion evolucion in Model) {
+    @foreach (Evolucion evolucion in Model) {
         <tr class=table-secondary>
             <td>
                 @Html.DisplayFor(modelItem => evolucion.Medico.NombreCompleto)
@@ -66,6 +66,6 @@
                 <a class="btn btn-danger" role="button" asp-action="Delete" asp-route-id="@evolucion.Id">Eliminar</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

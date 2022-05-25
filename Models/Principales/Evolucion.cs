@@ -22,7 +22,7 @@ namespace Historias_Clinicas_D.Models
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]
 		[Display(Name = Alias.FechaYHoraInicio)]
-		public DateTime FechaYHoraInicio { get; set; } = Defaults.FechaActual;
+		public DateTime FechaYHoraInicio { get; set; } = Constantes.FechaActual;
 
 		[Display(Name = Alias.FechaYHoraAlta)]
 		public DateTime? FechaYHoraAlta { get; set; } = null;
@@ -35,7 +35,7 @@ namespace Historias_Clinicas_D.Models
 		public string DescripcionAtencion { get; set; }
 
 		[Display(Name = Alias.EstadoAbierto)]
-		public bool EstadoAbierto { get; set; } = Defaults.EstadoAbierto;
+		public bool EstadoAbierto { get; set; } = Constantes.EstadoAbierto;
 
 		public List<Nota> Notas { get; set; }
 	}

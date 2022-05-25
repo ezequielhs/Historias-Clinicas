@@ -25,7 +25,7 @@ namespace Historias_Clinicas_D.Models
 
 		[Required]
 		[Display(Name = Alias.FechaYHora)]
-		public DateTime FechaYHora { get; set; } = Defaults.FechaActual;
+		public DateTime FechaYHora { get; set; } = Constantes.FechaActual;
 	}
 
 }

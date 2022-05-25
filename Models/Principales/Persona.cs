@@ -25,7 +25,7 @@ namespace Historias_Clinicas_D.Models
         [Required(ErrorMessage = MensajesError.ErrRequired)]
         [Display(Name = Alias.FechaAlta)]
         [DataType(DataType.Date)] // Seteamos el DataType como Date para que no pida la hora y minutos, sino solo la fecha, que es lo que se pedía.
-        public DateTime FechaAlta { get; set; } = Defaults.FechaActual;
+        public DateTime FechaAlta { get; set; } = Constantes.FechaActual;
 
         [Required(ErrorMessage = MensajesError.ErrRequired)]
         [EmailAddress(ErrorMessage = MensajesError.ErrNoValido)]

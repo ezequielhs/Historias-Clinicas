@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Historias_Clinicas_D.Controllers
 {
+    [Authorize]
     public class EpicrisisController : Controller
     {
         private readonly HistoriasClinicasContext _context;
@@ -22,11 +24,7 @@ namespace Historias_Clinicas_D.Controllers
         // GET: Epicrisis
         public async Task<IActionResult> Index()
         {
-            var historiasClinicasContext = _context.Epicrisis
-                .Include(e => e.Episodio)
-                .Include(e => e.Medico);
-
-            return View(await historiasClinicasContext.ToArrayAsync());
+            return View(await _context.Epicrisis.Include(e => e.Episodio).Include(e => e.Medico).ToListAsync());
         }
 
         // GET: Epicrisis/Details/5
@@ -50,10 +48,12 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         // GET: Epicrisis/Create
-        public IActionResult Create()
+        public IActionResult Create(string returnUrl)
         {
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
+            TempData["returnUrl"] = returnUrl;
+            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo");
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto");
+
             return View();
         }
 
@@ -68,15 +68,23 @@ namespace Historias_Clinicas_D.Controllers
             {
                 _context.Add(epicrisis);
                 await _context.SaveChangesAsync();
+
+                string returnUrl = TempData["returnUrl"] as string;
+
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion", epicrisis.EpisodioId);
+            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo", epicrisis.EpisodioId);
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto", epicrisis.MedicoId);
             return View(epicrisis);
         }
 
         // GET: Epicrisis/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
             {
@@ -88,7 +96,9 @@ namespace Historias_Clinicas_D.Controllers
             {
                 return NotFound();
             }
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion", epicrisis.EpisodioId);
+
+            TempData["returnUrl"] = returnUrl;
+            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo", epicrisis.EpisodioId);
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto", epicrisis.MedicoId);
             return View(epicrisis);
         }
@@ -111,6 +121,13 @@ namespace Historias_Clinicas_D.Controllers
                 {
                     _context.Update(epicrisis);
                     await _context.SaveChangesAsync();
+
+                    string returnUrl = TempData["returnUrl"] as string;
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,7 +142,7 @@ namespace Historias_Clinicas_D.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion", epicrisis.EpisodioId);
+            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo", epicrisis.EpisodioId);
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto", epicrisis.MedicoId);
             return View(epicrisis);
         }

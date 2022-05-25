@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Historias_Clinicas_D.Controllers
 {
+    [Authorize]
     public class EvolucionesController : Controller
     {
         private readonly HistoriasClinicasContext _context;
@@ -22,12 +24,7 @@ namespace Historias_Clinicas_D.Controllers
         // GET: Evoluciones
         public async Task<IActionResult> Index()
         {
-            var historiasClinicasContext = _context.Evoluciones
-                .Include(e => e.Medico)
-                .Include(e => e.Episodio)
-                .Include(e => e.Notas);
-
-            return View(await historiasClinicasContext.ToListAsync());
+            return View(await _context.Evoluciones.Include(e => e.Medico).Include(e => e.Episodio).ToListAsync());
         }
 
         // GET: Evoluciones/Details/5

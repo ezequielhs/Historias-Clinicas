@@ -51,7 +51,7 @@ namespace Historias_Clinicas_D.Controllers
 
                 if (resultado.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(paciente, Defaults.RolPaciente);
+                    await _userManager.AddToRoleAsync(paciente, Constantes.RolPaciente);
                     await _signInManager.SignInAsync(paciente, isPersistent: false);
 
                     return RedirectToAction("Index", "Pacientes");

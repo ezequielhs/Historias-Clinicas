@@ -27,12 +27,6 @@ namespace Historias_Clinicas_D.Controllers
 
         public IActionResult Index()
         {
-            if (this.User.IsInRole(Defaults.RolPaciente))
-            {
-                int idPaciente = int.Parse(_userManager.GetUserId(this.User));
-                return RedirectToAction("Details", "Pacientes", new { id = idPaciente });
-            }
-
             return View();
         }
 
@@ -47,10 +41,10 @@ namespace Historias_Clinicas_D.Controllers
 
             List<string> roles = new List<string>() 
             { 
-                Defaults.RolAdmin,
-                Defaults.RolPaciente,
-                Defaults.RolMedico,
-                Defaults.RolEmpleado
+                Constantes.RolAdmin,
+                Constantes.RolPaciente,
+                Constantes.RolMedico,
+                Constantes.RolEmpleado
             };
 
             foreach (string rol in roles)
@@ -71,7 +65,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Lopez",
                 DNI = "37043674",
                 Email = "fernando_lopez@gmail.com",
-                UserName = "fernando_lopez@gmail.com"
+                UserName = "paciente@paciente.com"
             });
 
             pacientes.Add(new Paciente()
@@ -116,11 +110,11 @@ namespace Historias_Clinicas_D.Controllers
 
             foreach (Paciente paciente in pacientes)
             {
-                var resultCreateUser = await _userManager.CreateAsync(paciente, Defaults.PacientePassword);
+                var resultCreateUser = await _userManager.CreateAsync(paciente, Constantes.DefaultPassword);
 
                 if (resultCreateUser.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(paciente, Defaults.RolPaciente);
+                    await _userManager.AddToRoleAsync(paciente, Constantes.RolPaciente);
                 }
             }
 
@@ -138,8 +132,8 @@ namespace Historias_Clinicas_D.Controllers
                 Nombre = "Nicolas",
                 Apellido = "Rivera",
                 DNI = "41777762",
-                Email = "nicolas.rivera@gmail.com",
-                UserName = "nicolas.rivera@gmail.com"
+                Email = "nrivera@sannicolas.com.ar",
+                UserName = "medico@medico.com"
             });
 
             medicos.Add(new Medico()
@@ -150,8 +144,8 @@ namespace Historias_Clinicas_D.Controllers
                 Nombre = "Oscar",
                 Apellido = "Herrero",
                 DNI = "28321201",
-                Email = "herrero_oscar@hotmail.com",
-                UserName = "herrero_oscar@hotmail.com"
+                Email = "oherreo@sannicolas.com.ar",
+                UserName = "oherreo@sannicolas.com.ar"
             });
 
             medicos.Add(new Medico()
@@ -162,8 +156,8 @@ namespace Historias_Clinicas_D.Controllers
                 Nombre = "Bianca",
                 Apellido = "Perez",
                 DNI = "9154238",
-                Email = "bianca._perez@outlook.com",
-                UserName = "bianca._perez@outlook.com"
+                Email = "bperez@sannicolas.com.ar",
+                UserName = "bperez@sannicolas.com.ar"
             });
 
             medicos.Add(new Medico()
@@ -174,28 +168,40 @@ namespace Historias_Clinicas_D.Controllers
                 Nombre = "Marina",
                 Apellido = "Cerdan",
                 DNI = "6731568",
-                Email = "marinacerdan@yahoo.com",
-                UserName = "marinacerdan@yahoo.com"
+                Email = "mcerdan@sannicolas.com.ar",
+                UserName = "mcerdan@sannicolas.com.ar"
             });
 
             medicos.Add(new Medico()
             {
                 TipoMatricula = TipoMatricula.NACIONAL,
                 Matricula = "200385",
-                Especialidad = Especialidad.NEUROLOGIA,
+                Especialidad = Especialidad.TRAUMATOLOGIA,
                 Nombre = "Judit",
                 Apellido = "Romero",
                 DNI = "5975505",
-                Email = "judit-romero@gmail.com",
-                UserName = "judit-romero@gmail.com"
+                Email = "jromero@sannicolas.com.ar",
+                UserName = "jromero@sannicolas.com.ar"
+            });
+
+            medicos.Add(new Medico()
+            {
+                TipoMatricula = TipoMatricula.NACIONAL,
+                Matricula = "663877",
+                Especialidad = Especialidad.MEDICINA_GENERAL,
+                Nombre = "Martin",
+                Apellido = "Gomez",
+                DNI = "35620120",
+                Email = "mgomez@sannicolas.com.ar",
+                UserName = "mgomez@sannicolas.com.ar"
             });
 
             foreach (Medico medico in medicos)
             {
-                var resultCreateUser = await _userManager.CreateAsync(medico, Defaults.MedicoPassword);
+                var resultCreateUser = await _userManager.CreateAsync(medico, Constantes.DefaultPassword);
                 if (resultCreateUser.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(medico, Defaults.RolMedico);
+                    await _userManager.AddToRoleAsync(medico, Constantes.RolMedico);
                 }
             }
 
@@ -210,8 +216,8 @@ namespace Historias_Clinicas_D.Controllers
                 Nombre = "Alejandro",
                 Apellido = "Ponce",
                 DNI = "39647489",
-                Email = "aleponce@outlook.com",
-                UserName = "aleponce@outlook.com"
+                Email = "aponce@sannicolas.com.ar",
+                UserName = "empleado@empleado.com"
             });
 
             empleados.Add(new Empleado()
@@ -219,8 +225,8 @@ namespace Historias_Clinicas_D.Controllers
                 Nombre = "Miriam",
                 Apellido = "Escobar",
                 DNI = "18600338",
-                Email = "m.escobar@gmail.com",
-                UserName = "m.escobar@gmail.com"
+                Email = "mescobar@sannicolas.com.ar",
+                UserName = "mescobar@sannicolas.com.ar"
             });
 
             empleados.Add(new Empleado()
@@ -228,8 +234,8 @@ namespace Historias_Clinicas_D.Controllers
                 Nombre = "Carmen",
                 Apellido = "Barrios",
                 DNI = "17261727",
-                Email = "carmen-barrios@yahoo.com",
-                UserName = "carmen-barrios@yahoo.com"
+                Email = "cbarrios@sannicolas.com.ar",
+                UserName = "cbarrios@sannicolas.com.ar"
             });
 
             empleados.Add(new Empleado()
@@ -237,8 +243,8 @@ namespace Historias_Clinicas_D.Controllers
                 Nombre = "Federico",
                 Apellido = "Martínez",
                 DNI = "23917753",
-                Email = "fernando__martinez@live.com",
-                UserName = "fernando__martinez@live.com"
+                Email = "fmartinez@sannicolas.com.ar",
+                UserName = "fmartinez@sannicolas.com.ar"
             });
 
             empleados.Add(new Empleado()
@@ -246,16 +252,17 @@ namespace Historias_Clinicas_D.Controllers
                 Nombre = "Gerardo",
                 Apellido = "Guzmán",
                 DNI = "5960550",
-                Email = "gerardoguzman@outlook.com",
-                UserName = "gerardoguzman@outlook.com"
+                Email = "gguzman@sannicolas.com.ar",
+                UserName = "gguzman@sannicolas.com.ar"
             });
 
             foreach (Empleado empleado in empleados)
             {
-                var resultCreateUser = await _userManager.CreateAsync(empleado, Defaults.EmpleadoPassword);
+                var resultCreateUser = await _userManager.CreateAsync(empleado, Constantes.DefaultPassword);
+                
                 if (resultCreateUser.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(empleado, Defaults.RolEmpleado);
+                    await _userManager.AddToRoleAsync(empleado, Constantes.RolEmpleado);
                 }
             }
 
@@ -268,16 +275,16 @@ namespace Historias_Clinicas_D.Controllers
                 Nombre = "Ezequiel",
                 Apellido = "Hoyos",
                 DNI = "39267310",
-                Email = Defaults.AdminUserName,
-                UserName = Defaults.AdminUserName
+                Email = "ehoyos@sannicolas.com.ar",
+                UserName = Constantes.AdminUserName
             };
             if (_context.Personas.FirstOrDefault(persona => persona.UserName == admin.UserName) == null)
             {
-                var resultCreateUser = await _userManager.CreateAsync(admin, Defaults.AdminPassword);
+                var resultCreateUser = await _userManager.CreateAsync(admin, Constantes.DefaultPassword);
 
                 if (resultCreateUser.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(admin, Defaults.RolAdmin);
+                    await _userManager.AddToRoleAsync(admin, Constantes.RolAdmin);
                 }
             }
 
@@ -289,42 +296,47 @@ namespace Historias_Clinicas_D.Controllers
 
             episodios.Add(new Episodio
             {
+                Id = 1,
                 Motivo = "Traumatismo en Pierna izquierda.",
                 Descripcion = "El paciente se encontraba andando en Skate y sufrió un accidente.",
                 PacienteId = 1,
-                EmpleadoRegistraId = 1
+                EmpleadoRegistraId = 11
             });
 
             episodios.Add(new Episodio
             {
+                Id = 2,
                 Motivo = "Dolor agudo en la parte inferior derecha de la Espalda.",
                 Descripcion = "El paciente se encontraba en su casa cuando comenzo a experimentar un fuerte dolor su Espalda.",
                 PacienteId = 2,
-                EmpleadoRegistraId = 2
+                EmpleadoRegistraId = 12
             });
 
             episodios.Add(new Episodio
             {
+                Id = 3,
                 Motivo = "Herida de bala en el Hombro derecho.",
                 Descripcion = "El Oficial realizaba un operativo cuando fue atacado y recibio un disparo en el Hombro. No sufrio una gran perdida de sangre.",
                 PacienteId = 3,
-                EmpleadoRegistraId = 3
+                EmpleadoRegistraId = 13
             });
 
             episodios.Add(new Episodio
             {
+                Id = 4,
                 Motivo = "Mareos y fuertes migrañias.",
                 Descripcion = "El paciente informa que experimenta migrañias constantes hace cuatro días, ademas de leves mareos.",
                 PacienteId = 4,
-                EmpleadoRegistraId = 4
+                EmpleadoRegistraId = 14
             });
 
             episodios.Add(new Episodio
             {
-                Motivo = "Cuadro febril y dolores muscular en el Cuello",
+                Id = 5,
+                Motivo = "Cuadro febril y dolores muscular en el Cuello.",
                 Descripcion = "El paciente declara que desde la madrugada del dia de la fecha posee fiebre y un dolor muscular sobre Cuello.",
                 PacienteId = 5,
-                EmpleadoRegistraId = 5
+                EmpleadoRegistraId = 15
             });
 
             _context.Episodios.AddRange(episodios);
@@ -337,35 +349,40 @@ namespace Historias_Clinicas_D.Controllers
 
             evoluciones.Add(new Evolucion
             {
-                MedicoId = 1,
+                Id = 1,
+                MedicoId = 10,
                 EpisodioId = 1,
-                DescripcionAtencion = "Blablablablablabla"
+                DescripcionAtencion = "Se examino realizo un control en la Pierna izquierda del paciente y se encuentra en estado optimo."
             });
 
             evoluciones.Add(new Evolucion
             {
-                MedicoId = 2,
+                Id = 2,
+                MedicoId = 7,
                 EpisodioId = 2,
                 DescripcionAtencion = "Blablablablablabla"
             });
 
             evoluciones.Add(new Evolucion
             {
-                MedicoId = 3,
+                Id = 3,
+                MedicoId = 8,
                 EpisodioId = 3,
                 DescripcionAtencion = "Blablablablablabla"
             });
 
             evoluciones.Add(new Evolucion
             {
-                MedicoId = 4,
+                Id = 4,
+                MedicoId = 9,
                 EpisodioId = 4,
                 DescripcionAtencion = "Blablablablablabla"
             });
 
             evoluciones.Add(new Evolucion
             {
-                MedicoId = 5,
+                Id = 5,
+                MedicoId = 10,
                 EpisodioId = 5,
                 DescripcionAtencion = "Blablablablablabla"
             });
@@ -380,36 +397,41 @@ namespace Historias_Clinicas_D.Controllers
 
             notas.Add(new Nota
             {
+                Id = 1,
                 EvolucionId = 1,
-                EmpleadoId = 1,
+                EmpleadoId = 11,
                 Mensaje = "Blablablablablabla"
             });
 
             notas.Add(new Nota
             {
+                Id = 2,
                 EvolucionId = 2,
-                EmpleadoId = 2,
+                EmpleadoId = 12,
                 Mensaje = "Blablablablablabla"
             });
 
             notas.Add(new Nota
             {
+                Id = 3,
                 EvolucionId = 3,
-                EmpleadoId = 3,
+                EmpleadoId = 13,
                 Mensaje = "Blablablablablabla"
             });
 
             notas.Add(new Nota
             {
+                Id = 4,
                 EvolucionId = 4,
-                EmpleadoId = 4,
+                EmpleadoId = 14,
                 Mensaje = "Blablablablablabla"
             });
 
             notas.Add(new Nota
             {
+                Id = 5,
                 EvolucionId = 5,
-                EmpleadoId = 5,
+                EmpleadoId = 15,
                 Mensaje = "Blablablablablabla"
             });
 
@@ -423,41 +445,46 @@ namespace Historias_Clinicas_D.Controllers
 
             epicrisis.Add(new Epicrisis
             {
-                Diagnostico = "Blablablablablabla",
-                Recomendacion = "Blablablablablabla",
-                MedicoId = 1,
+                Id = 1,
+                Diagnostico = "El paciente posee un esguince leve en su Pierna izquierda producto de la caida que sufrio mientras patinaba en Skate.",
+                Recomendacion = "Se aplicaron los vendajes correspondientes, se recomienda al paciente reposo por 72 horas. Debe solicitar un turno con Traumatologia para el control de la lesion.",
+                MedicoId = 6,
                 EpisodioId = 1
             });
 
             epicrisis.Add(new Epicrisis
             {
-                Diagnostico = "Blablablablablabla",
-                Recomendacion = "Blablablablablabla",
-                MedicoId = 2,
+                Id = 2,
+                Diagnostico = "Se examino la Espalda del paciente mediante radiografia, el resulto mostro que su Riñon derecho se encuentra en un tamaño anormal.",
+                Recomendacion = "Se solicita con caracter urgente una ecografia para examinar los Riñones del paciente.",
+                MedicoId = 11,
                 EpisodioId = 2
             });
 
             epicrisis.Add(new Epicrisis
             {
-                Diagnostico = "Blablablablablabla",
-                Recomendacion = "Blablablablablabla",
-                MedicoId = 3,
+                Id = 3,
+                Diagnostico = "Se deriva de forma urgente al paciente a la sala de cirugias.",
+                Recomendacion = "Se extrajo de forma exitosa el proyectil en el Hombro derecho, el paciente debe quedar internado por dos dias para control.",
+                MedicoId = 8,
                 EpisodioId = 3
             });
 
             epicrisis.Add(new Epicrisis
             {
-                Diagnostico = "Blablablablablabla",
-                Recomendacion = "Blablablablablabla",
-                MedicoId = 4,
+                Id = 4,
+                Diagnostico = "Se examino al paciente pero no se encontro ningun traumatismo, se concluye que se encuentra bajo gran estres.",
+                Recomendacion = "Se indica al paciente que solicite turno con Kinesiología.",
+                MedicoId = 9,
                 EpisodioId = 4
             });
 
             epicrisis.Add(new Epicrisis
             {
-                Diagnostico = "Blablablablablabla",
-                Recomendacion = "Blablablablablabla",
-                MedicoId = 5,
+                Id = 5,
+                Diagnostico = "El paciente experimenta los sintomas tipicos de la gripe.",
+                Recomendacion = "Se inidica al paciente que tome un comprimido de 'QURA PLUS 500 mg' durante la mañana y la noche con te caliente.",
+                MedicoId = 10,
                 EpisodioId = 5
             });
 
@@ -621,12 +648,22 @@ namespace Historias_Clinicas_D.Controllers
 
             direcciones.Add(new Direccion()
             {
+                Calle = "José A. Cortejarena",
+                Numero = 1874,
+                CodigoPostal = "C1281AAB",
+                Localidad = "Capital Federal",
+                Provincia = Provincia.CAPITAL_FEDERAL,
+                PersonaId = 16
+            });
+
+            direcciones.Add(new Direccion()
+            {
                 Calle = "Santiago del Estero",
                 Numero = 782,
                 CodigoPostal = "B1823CLJ",
                 Localidad = "Lanus",
                 Provincia = Provincia.BUENOS_AIRES,
-                PersonaId = 16
+                PersonaId = 17
             });
 
             _context.Direcciones.AddRange(direcciones);
@@ -760,9 +797,17 @@ namespace Historias_Clinicas_D.Controllers
             telefonos.Add(new Telefono()
             {
                 Caracteristica = 11,
+                Numero = 46691020,
+                Tipo = TipoTelefono.PARTICULAR,
+                PersonaId = 16
+            });
+
+            telefonos.Add(new Telefono()
+            {
+                Caracteristica = 11,
                 Numero = 50256001,
                 Tipo = TipoTelefono.CELULAR,
-                PersonaId = 16
+                PersonaId = 17
             });
 
             _context.Telefonos.AddRange(telefonos);

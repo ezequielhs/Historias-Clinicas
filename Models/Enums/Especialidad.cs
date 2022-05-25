@@ -13,6 +13,8 @@ namespace Historias_Clinicas_D.Models
         GERIATRIA,
         [Display(Name = "Infectología")]
         INFECTOLOGIA,
+        [Display(Name = "Medicina General")]
+        MEDICINA_GENERAL,
         [Display(Name = "Neumología")]
         NEUMOLOGIA,
         [Display(Name = "Neurología")]
@@ -22,6 +24,8 @@ namespace Historias_Clinicas_D.Models
         [Display(Name = "Pediatría")]
         PEDIATRIA,
         [Display(Name = "Reumatología")]
-        REUMATOLOGIA 
+        REUMATOLOGIA,
+        [Display(Name = "Traumatología")]
+        TRAUMATOLOGIA
     }
 }

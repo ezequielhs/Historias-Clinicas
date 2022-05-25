@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
 using Historias_Clinicas_D.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Historias_Clinicas_D.Controllers
 {
+    [Authorize]
     public class MedicosController : Controller
     {
         private readonly HistoriasClinicasContext _context;

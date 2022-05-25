@@ -26,7 +26,7 @@
               <ul class="navbar-nav d-flex justify-content-end">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    @if (this.User.IsInRole(Defaults.RolAdmin))
+                    @if (this.User.IsInRole(Constantes.RolAdmin))
                     {
                         <li class="nav-item">
                           <a class="nav-link" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
@@ -44,10 +44,31 @@
                           <a class="nav-link" asp-controller="Evoluciones" asp-action="Index">Evoluciones</a>
                         </li>
                         <li class="nav-item">
+                          <a class="nav-link" asp-controller="Notas" asp-action="Index">Notas</a>
+                        </li>
+                        <li class="nav-item">
                           <a class="nav-link" asp-controller="Epicrisis" asp-action="Index">Epicrisis</a>
                         </li>
+                        <li class="nav-item">
+                          <a class="nav-link" asp-controller="Direcciones" asp-action="Index">Direcciones</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" asp-controller="Telefonos" asp-action="Index">Telefonos</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="btn btn-info" role="button" asp-controller="Empleados" asp-action="Details" asp-route-id="@int.Parse(_userManager.GetUserId(this.User))">Mis Datos</a>&ensp;
+                        </li>
                     }
-                    else if (this.User.IsInRole(Defaults.RolEmpleado))
+                    else if (this.User.IsInRole(Constantes.RolMedico))
+                    {
+                        <li class="nav-item">
+                          <a class="nav-link" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="btn btn-info" role="button" asp-controller="Medico" asp-action="Details" asp-route-id="@int.Parse(_userManager.GetUserId(this.User))">Mis Datos</a>&ensp;
+                        </li>        
+                    }
+                    else if (this.User.IsInRole(Constantes.RolEmpleado))
                     {
                         <li class="nav-item">
                           <a class="nav-link" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
@@ -61,11 +82,14 @@
                         <li class="nav-item">
                           <a class="nav-link" asp-controller="Episodios" asp-action="Index">Episodios</a>
                         </li>
+                        <li class="nav-item">
+                          <a class="btn btn-info" role="button" asp-controller="Empleados" asp-action="Details" asp-route-id="@int.Parse(_userManager.GetUserId(this.User))">Mis Datos</a>&ensp;
+                        </li>
                     }
-                    else if (this.User.IsInRole(Defaults.RolPaciente))
+                    else if (this.User.IsInRole(Constantes.RolPaciente))
                     {
                         <li class="nav-item">
-                          <a class="nav-link" asp-controller="Home" asp-action="Index">Mi Cuenta</a>
+                          <a class="btn btn-info" role="button" asp-controller="Pacientes" asp-action="Details" asp-route-id="@int.Parse(_userManager.GetUserId(this.User))">Mis Datos</a>&ensp;
                         </li>
                     }
                     <li>

@@ -25,7 +25,7 @@ namespace Historias_Clinicas_D.Models
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]
 		[Display(Name = Alias.FechaYHoraInicio)]
-		public DateTime FechaYHoraInicio { get; set; } = Defaults.FechaActual;
+		public DateTime FechaYHoraInicio { get; set; } = Constantes.FechaActual;
 
 		[Display(Name = Alias.FechaYHoraAlta)]
 		public DateTime? FechaYHoraAlta { get; set; }
@@ -35,7 +35,7 @@ namespace Historias_Clinicas_D.Models
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]
 		[Display(Name = Alias.EstadoAbierto)]
-		public bool EstadoAbierto { get; set; } = Defaults.EstadoAbierto;
+		public bool EstadoAbierto { get; set; } = Constantes.EstadoAbierto;
 
 		public List<Evolucion> Evoluciones { get; set; }
 
@@ -47,7 +47,5 @@ namespace Historias_Clinicas_D.Models
 
 		[Display(Name = Alias.EmpleadoResgistra)]
 		public Empleado EmpleadoRegistra { get; set; }
-
-
 	}
 }

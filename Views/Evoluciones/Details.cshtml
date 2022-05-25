@@ -51,8 +51,50 @@
             @Html.DisplayFor(model => model.EstadoAbierto)
         </dd>
     </dl>
+    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
 </div>
+<br />
 <div>
-    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
-    <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
+    <h4>@Html.DisplayNameFor(model => model.Notas)</h4>
+    <hr />
+    @if (Model.Notas.Count > 0)
+    {
+        <p>
+            <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Create" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id">Agregar Nota</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr class="table-dark">
+                    <th>
+                        Nota
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Notas) {
+                <tr class=table-secondary>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mensaje)
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Edit" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id" asp-route-id="@item.Id">Editar</a> |
+                        <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Details" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id" asp-route-id="@item.Id">Detalles</a> |
+                        <a class="btn btn-danger" role="button" asp-controller="Notas" asp-action="Delete" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id" asp-route-id="@item.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No tiene asignada ninguna Nota.</p>
+        <p>
+            <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Create" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id">Agregar Nota</a>
+        </p>
+    }
+</div>
+<div>  
+    <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
 </div>
