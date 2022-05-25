@@ -43,8 +43,8 @@ namespace Historias_Clinicas_D.Controllers
             { 
                 Constantes.RolAdmin,
                 Constantes.RolPaciente,
-                Constantes.RolMedico,
-                Constantes.RolEmpleado
+                Constantes.RolProfesional,
+                Constantes.RolAdministrativo
             };
 
             foreach (string rol in roles)
@@ -65,7 +65,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Lopez",
                 DNI = "37043674",
                 Email = "fernando_lopez@gmail.com",
-                UserName = "paciente@paciente.com"
+                UserName = Constantes.PacienteUserName
             });
 
             pacientes.Add(new Paciente()
@@ -133,7 +133,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Rivera",
                 DNI = "41777762",
                 Email = "nrivera@sannicolas.com.ar",
-                UserName = "medico@medico.com"
+                UserName = Constantes.ProfesionalUserName
             });
 
             medicos.Add(new Medico()
@@ -201,7 +201,7 @@ namespace Historias_Clinicas_D.Controllers
                 var resultCreateUser = await _userManager.CreateAsync(medico, Constantes.DefaultPassword);
                 if (resultCreateUser.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(medico, Constantes.RolMedico);
+                    await _userManager.AddToRoleAsync(medico, Constantes.RolProfesional);
                 }
             }
 
@@ -217,7 +217,7 @@ namespace Historias_Clinicas_D.Controllers
                 Apellido = "Ponce",
                 DNI = "39647489",
                 Email = "aponce@sannicolas.com.ar",
-                UserName = "empleado@empleado.com"
+                UserName = Constantes.AdministrativoUserName
             });
 
             empleados.Add(new Empleado()
@@ -262,7 +262,7 @@ namespace Historias_Clinicas_D.Controllers
                 
                 if (resultCreateUser.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(empleado, Constantes.RolEmpleado);
+                    await _userManager.AddToRoleAsync(empleado, Constantes.RolAdministrativo);
                 }
             }
 

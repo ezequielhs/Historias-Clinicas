@@ -56,19 +56,19 @@
                           <a class="nav-link" asp-controller="Telefonos" asp-action="Index">Telefonos</a>
                         </li>
                         <li class="nav-item">
-                          <a class="btn btn-info" role="button" asp-controller="Empleados" asp-action="Details" asp-route-id="@int.Parse(_userManager.GetUserId(this.User))">Mis Datos</a>&ensp;
+                          <a class="btn btn-info" role="button" asp-controller="Empleados" asp-action="Details" asp-route-id="@_userManager.GetUserId(this.User)">Mis Datos</a>&ensp;
                         </li>
                     }
-                    else if (this.User.IsInRole(Constantes.RolMedico))
+                    else if (this.User.IsInRole(Constantes.RolProfesional))
                     {
                         <li class="nav-item">
                           <a class="nav-link" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
                         </li>
                         <li class="nav-item">
-                          <a class="btn btn-info" role="button" asp-controller="Medico" asp-action="Details" asp-route-id="@int.Parse(_userManager.GetUserId(this.User))">Mis Datos</a>&ensp;
+                          <a class="btn btn-info" role="button" asp-controller="Medicos" asp-action="Details" asp-route-id="@_userManager.GetUserId(this.User)">Mis Datos</a>&ensp;
                         </li>        
                     }
-                    else if (this.User.IsInRole(Constantes.RolEmpleado))
+                    else if (this.User.IsInRole(Constantes.RolAdministrativo))
                     {
                         <li class="nav-item">
                           <a class="nav-link" asp-controller="Pacientes" asp-action="Index">Pacientes</a>
@@ -83,13 +83,13 @@
                           <a class="nav-link" asp-controller="Episodios" asp-action="Index">Episodios</a>
                         </li>
                         <li class="nav-item">
-                          <a class="btn btn-info" role="button" asp-controller="Empleados" asp-action="Details" asp-route-id="@int.Parse(_userManager.GetUserId(this.User))">Mis Datos</a>&ensp;
+                          <a class="btn btn-info" role="button" asp-controller="Empleados" asp-action="Details" asp-route-id="@_userManager.GetUserId(this.User)">Mis Datos</a>&ensp;
                         </li>
                     }
                     else if (this.User.IsInRole(Constantes.RolPaciente))
                     {
                         <li class="nav-item">
-                          <a class="btn btn-info" role="button" asp-controller="Pacientes" asp-action="Details" asp-route-id="@int.Parse(_userManager.GetUserId(this.User))">Mis Datos</a>&ensp;
+                          <a class="btn btn-info" role="button" asp-controller="Pacientes" asp-action="Details" asp-route-id="@_userManager.GetUserId(this.User)">Mis Datos</a>&ensp;
                         </li>
                     }
                     <li>
