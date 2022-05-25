@@ -10,10 +10,6 @@
         public const string PacienteUserName = "paciente@paciente.com";
         public const string ProfesionalUserName = "medico@medico.com";
         public const string AdministrativoUserName = "empleado@empleado.com";
-        public const string AdminPassword = "Admin.1234";
-        public const string EmpleadoPassword = "Empleado.1234";
-        public const string PacientePassword = "Paciente.1234";
-        public const string MedicoPassword = "Medico.1234";
         public const string DefaultPassword = "Password1!";
         public const bool EstadoAbierto = true;
         public const string SinTelefono = "No hay un Teléfono asociado";
