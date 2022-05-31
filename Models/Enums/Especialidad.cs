@@ -13,8 +13,12 @@ namespace Historias_Clinicas_D.Models
         GERIATRIA,
         [Display(Name = "Infectología")]
         INFECTOLOGIA,
+        [Display(Name = "Kinesiología")]
+        KINESIOLOGIA,
         [Display(Name = "Medicina General")]
         MEDICINA_GENERAL,
+        [Display(Name = "Nefrología")]
+        NEFROLOGIA,
         [Display(Name = "Neumología")]
         NEUMOLOGIA,
         [Display(Name = "Neurología")]

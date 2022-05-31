@@ -26,7 +26,7 @@ namespace Historias_Clinicas_D.Controllers
         {
             return View(await _context.Notas.Include(n => n.Empleado).Include(n => n.Evolucion).ToListAsync());
         }
-
+        
         // GET: Notas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
