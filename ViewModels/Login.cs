@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Historias_Clinicas_D.ViewModels
 {
-    public class Login
+    public class LogIn
     {
         [Required(ErrorMessage = MensajesError.ErrRequired)]
         [EmailAddress(ErrorMessage = MensajesError.ErrNoValido)]

@@ -27,27 +27,27 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [HttpGet]
-        public IActionResult Registrarse()
+        public IActionResult RegistrarPaciente()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registrarse(Registro registroViewModel)
+        public async Task<IActionResult> RegistrarPaciente(RegistroPaciente viewModel)
         {
             if (ModelState.IsValid)
             {
                 Paciente paciente = new Paciente()
                 {
-                    Nombre = registroViewModel.Nombre,
-                    Apellido = registroViewModel.Apellido,
-                    DNI = registroViewModel.DNI,
-                    ObraSocial = registroViewModel.ObraSocial,
-                    Email = registroViewModel.Email,
-                    UserName = registroViewModel.Email
+                    Nombre = viewModel.Nombre,
+                    Apellido = viewModel.Apellido,
+                    DNI = viewModel.DNI,
+                    ObraSocial = viewModel.ObraSocial,
+                    Email = viewModel.Email,
+                    UserName = viewModel.Email
                 };
 
-                var resultado = await _userManager.CreateAsync(paciente, registroViewModel.Password);
+                var resultado = await _userManager.CreateAsync(paciente, viewModel.Password);
 
                 if (resultado.Succeeded)
                 {
@@ -62,7 +62,7 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [HttpGet]
-        public IActionResult IniciarSesion(string returnUrl)
+        public IActionResult LogIn(string returnUrl)
         {
             TempData["returnUrl"] = returnUrl;
 
@@ -70,14 +70,14 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> IniciarSesion(Login loginViewModel)
+        public async Task<IActionResult> LogIn(LogIn viewModel)
         {
             if (ModelState.IsValid)
             {
                 var resultado = await _signInManager.PasswordSignInAsync(
-                    loginViewModel.Email,
-                    loginViewModel.Password,
-                    isPersistent: loginViewModel.RememberMe,
+                    viewModel.Email,
+                    viewModel.Password,
+                    isPersistent: viewModel.RememberMe,
                     lockoutOnFailure: false
                 );
 

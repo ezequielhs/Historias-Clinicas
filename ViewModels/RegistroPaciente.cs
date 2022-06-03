@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Historias_Clinicas_D.ViewModels
 {
-    public class Registro
+    public class RegistroPaciente
     {
         [Required(ErrorMessage = MensajesError.ErrRequired)]
         [StringLength(Restricciones.StrMaxNombre, MinimumLength = Restricciones.StrMinNombre, ErrorMessage = MensajesError.ErrMinMax)]

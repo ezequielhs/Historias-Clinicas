@@ -15,12 +15,12 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes = true
 build_property.MSBuildProjectDirectory = E:\Repos\Historias-Clinicas
 build_property._RazorSourceGeneratorDebug = 
 
-[E:/Repos/Historias-Clinicas/Views/Account/IniciarSesion.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxJbmljaWFyU2VzaW9uLmNzaHRtbA==
+[E:/Repos/Historias-Clinicas/Views/Account/LogIn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dJbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Repos/Historias-Clinicas/Views/Account/Registrarse.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RyYXJzZS5jc2h0bWw=
+[E:/Repos/Historias-Clinicas/Views/Account/RegistrarPaciente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RyYXJQYWNpZW50ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/Repos/Historias-Clinicas/Views/Cartilla/Index.cshtml]
