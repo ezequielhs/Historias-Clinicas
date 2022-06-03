@@ -16,7 +16,7 @@ namespace Historias_Clinicas_D.Models
 		public Paciente Paciente { get; set; }
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]
-		[StringLength(Restricciones.StrMax3, MinimumLength = Restricciones.StrMin2, ErrorMessage = MensajesError.ErrMinMax)]
+		[StringLength(Restricciones.StrMax4, MinimumLength = Restricciones.StrMin2, ErrorMessage = MensajesError.ErrMinMax)]
 		public string Motivo { get; set; }
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]

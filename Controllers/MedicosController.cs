@@ -102,6 +102,16 @@ namespace Historias_Clinicas_D.Controllers
             {
                 try
                 {
+                    Medico med = _context.Medicos.Find(medico.Id);
+                    med.TipoMatricula = medico.TipoMatricula;
+                    med.Especialidad = medico.Especialidad;
+                    med.Legajo = medico.Legajo;
+                    med.Nombre = medico.Nombre;
+                    med.Apellido = medico.Apellido;
+                    med.DNI = medico.DNI;
+                    med.Email = medico.Email;
+                    med.FechaAlta = medico.FechaAlta;
+
                     _context.Update(medico);
                     await _context.SaveChangesAsync();
                 }

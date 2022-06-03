@@ -13,8 +13,7 @@ namespace Historias_Clinicas_D
             // Creamos una nueva instancia de nuestro servidor web
             var builder = WebApplication.CreateBuilder(args);
             ConfigureServices(builder); // Lo configuramos, con sus respectivos servicios
-            
-            
+
             var app = builder.Build(); // Sobre este app, configuraremos los middleware
             Configure(app); // Configuramos los middleware.
             
@@ -28,8 +27,12 @@ namespace Historias_Clinicas_D
             builder.Services.AddControllersWithViews();
 
             // Modificar el generico por la clase de su Contexto
-            builder.Services.AddDbContext<HistoriasClinicasContext>(options =>
+            /*builder.Services.AddDbContext<HistoriasClinicasContext>(options =>
                                 options.UseInMemoryDatabase("HistoriasClinicasDB")
+                            );*/
+
+            builder.Services.AddDbContext<HistoriasClinicasContext>(options =>
+                                options.UseSqlServer(builder.Configuration.GetConnectionString("HistoriasClinicasDB"))
                             );
 
             #region Identity
@@ -63,6 +66,8 @@ namespace Historias_Clinicas_D
                 opciones.AccessDeniedPath = "/Account/AccesoDenegado";
                 opciones.Cookie.Name = "HistoriasClinicasCookie";
             });
+
+            builder.Services.AddScoped<DbInitializer>();
         }
 
         private static void Configure(WebApplication app)
@@ -77,6 +82,13 @@ namespace Historias_Clinicas_D
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            using (var servicescope = app.Services.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = servicescope.ServiceProvider.GetService<HistoriasClinicasContext>();
+                dbContext.Database.EnsureCreated();
+                servicescope.ServiceProvider.GetService<DbInitializer>().Seed();
+            }
 
             app.UseRouting();
 
