@@ -51,17 +51,22 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [Authorize(Roles = Constantes.RolEmpleado)]
-        public IActionResult Create(int? id, string returnUrl)
+        public IActionResult Create(int? pacienteId, int? empleadoRegistraId, string returnUrl)
         {
-            if (id != null)
+            Paciente paciente = _context.Pacientes.Where(e => e.Id == pacienteId).FirstOrDefault();
+            Empleado empleadoRegistra = _context.Empleados.Where(e => e.Id == empleadoRegistraId).FirstOrDefault();
+
+            if (paciente != null)
             {
-                ViewBag.Paciente = _context.Pacientes.Find(id.Value);
-            }
-            else
-            {
-                ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "NombreCompleto");
+                ViewBag.Paciente = paciente.Id;
             }
 
+            if (empleadoRegistra != null)
+            {
+                ViewBag.Empleado = empleadoRegistra.Id;
+            }
+
+            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "NombreCompleto");
             ViewData["EmpleadoRegistraId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto");
             TempData["returnUrl"] = returnUrl;
 

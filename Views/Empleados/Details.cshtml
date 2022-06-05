@@ -48,7 +48,7 @@
 </div>
 <div>
     <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id" asp-route-returnUrl="/Empleados/Details/@Model?.Id">Editar</a> |
-    <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
+    <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
 </div>
 <br />
 <div>

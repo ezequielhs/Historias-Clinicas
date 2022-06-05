@@ -45,18 +45,12 @@
                     <td>                      
                         @if (this.User.IsInRole(Constantes.RolMedico))
                         {
-                            <div>
-                                <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                            </div>
-                            <div>
-                                <a class="btn btn-danger" role="button" asp-controller="Episodios" asp-action="CerrarEpisodio" asp-route-id="@item.Id">Cerrar Episodio</a>
-                            </div>
+                            <a class="btn btn-primary" role="button" asp-controller="Episodios" asp-action="Details" asp-route-id="@item.Id">Detalles</a><text> | </text>
+                            <a class="btn btn-danger" role="button" asp-controller="Episodios" asp-action="CerrarEpisodio" asp-route-id="@item.Id">Cerrar Episodio</a>
                         }
                         else
                         {
-                            <div>
-                                <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
-                            </div>    
+                            <a class="btn btn-primary" role="button" asp-controller="Episodios" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
                         }
                     </td>
                 </tr>

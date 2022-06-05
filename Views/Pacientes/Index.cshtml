@@ -62,7 +62,7 @@
                 <a class="btn btn-primary" role="button" asp-action="HistoriaClinica" asp-route-id="@item.Id">Historia Clínica</a>
                 @if (this.User.IsInRole(Constantes.RolEmpleado))
                 {
-                   @: | <a class="btn btn-warning" role="button" asp-action="Create" asp-controller="Episodios" asp-route-returnUrl="/Pacientes/Details/@item.Id" asp-route-id="@item.Id">Crear Episodio</a>
+                   <text> | </text><a class="btn btn-warning" role="button" asp-action="Create" asp-controller="Episodios" asp-route-returnUrl="/Pacientes/HistoriaClinica/@item.Id" asp-route-pacienteId="@item.Id" asp-route-empleadoRegistraId="@_userManager.GetUserId(this.User)">Crear Episodio</a>
                 }
             </td>
         </tr>

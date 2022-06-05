@@ -11,16 +11,33 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                @if(ViewBag.Paciente != null)
+                @if (ViewBag.Paciente != null)
                 {
-                    <input asp-for="PacienteId" value=@ViewBag.Paciente.Id hidden readonly/>
+                    <input asp-for="PacienteId" class="form-control" type="hidden" value="@ViewBag.Paciente">
+                    
                 }
                 else
                 {
-                    <label asp-for="PacienteId" class="control-label"></label>
-                    <select asp-for="PacienteId" class="form-control" asp-items="ViewBag.PacienteId"></select>
+                    <div class="form-group">
+                        <label asp-for="PacienteId" class="control-label"></label>
+                        <select asp-for="PacienteId" class="form-control" asp-items="ViewBag.PacienteId"></select>
+                    </div>
                     <br />
                     <a class="btn btn-secondary" role="button" asp-action="Create" asp-controller="Pacientes" asp-route-returnUrl="/Episodios/Create">Crear Paciente</a>
+                }
+            </div>
+            <div class="form-group">
+                @if (ViewBag.Empleado != null)
+                {
+                    <input asp-for="EmpleadoRegistraId" class="form-control" type="hidden" value="@ViewBag.Empleado">
+                    
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label asp-for="EmpleadoRegistraId" class="control-label"></label>
+                        <select asp-for="EmpleadoRegistraId" class="form-control" asp-items="ViewBag.EmpleadoRegistraId"></select>
+                    </div>
                 }
             </div>
             <div class="form-group">
