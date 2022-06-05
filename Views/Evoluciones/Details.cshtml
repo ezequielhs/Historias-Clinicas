@@ -51,38 +51,53 @@
     <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
     <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
 </div>
-
 <br />
-<h4>Notas</h4>
-<hr />
-@if (this.User.IsInRole(Constantes.RolEmpleado))
-{
-    <p>
-        <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Create" asp-route-id="@Model?.Id" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id">Agregar Nota</a>
-    </p>
-}
-<table class = "table">
-    <thead>
-        <tr class="table-dark">
-            <th>
-                Nota
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-@foreach (var item in Model.Notas){
-    <tbody>
-        <tr class=table-secondary>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mensaje)
-            </td>
-            <td>
-                <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
-            </td>
-        </tr>
-    </tbody>
-}
-</table>
+<div>
+    <h4>Notas</h4>
+    <hr />
+    @if (Model.Notas.Count > 0)
+    {
+        @if (this.User.IsInRole(Constantes.RolEmpleado))
+        {
+            <p>
+                <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Create" asp-route-evolucionId="@Model.Id" asp-route-empleadoId="@_userManager.GetUserId(this.User)" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id">Agregar Nota</a>
+            </p>
+        }
+        <table class = "table">
+            <thead>
+                <tr class="table-dark">
+                    <th>
+                        Nota
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+        @foreach (var item in Model.Notas){
+            <tbody>
+                <tr class=table-secondary>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mensaje)
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
+                    </td>
+                </tr>
+            </tbody>
+        }
+        </table>
+    }
+    else
+    {
+        <p>No tiene asignada ninguna Nota.</p>
+        @if (this.User.IsInRole(Constantes.RolEmpleado))
+        {
+            <p>
+                <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Create" asp-route-idEvolucion="@Model.Id" asp-route-idEmpleado="@_userManager.GetUserId(this.User)" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id">Agregar Nota</a>
+            </p>
+        }
+    }
+</div>
+
 
 
 

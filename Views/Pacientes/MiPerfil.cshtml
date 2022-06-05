@@ -65,7 +65,7 @@
     else
     {
         <p>No tiene asignado una Dirección.</p>
-        <a class="btn btn-primary" role="button" asp-controller="Direcciones" asp-action="Create" asp-route-returnUrl="/Pacientes/MiPerfil">Agregar Dirección</a>
+        <a class="btn btn-primary" role="button" asp-controller="Direcciones" asp-action="Create" asp-route-personaId="@Model.Id" asp-route-returnUrl="/Pacientes/MiPerfil">Agregar Dirección</a>
     }
 </div>
 <br />
@@ -76,13 +76,13 @@
     {
         <p>No tiene asignado ningun Teléfono.</p>
         <p>
-            <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Create" asp-route-returnUrl="/Pacientes/MiPerfil">Agregar Teléfono</a>
+            <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Create" asp-route-personaId="@Model.Id" asp-route-returnUrl="/Pacientes/MiPerfil">Agregar Teléfono</a>
         </p>
     }
     else
     {
         <p>
-            <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Create" asp-route-returnUrl="/Pacientes/MiPerfil">Agregar Teléfono</a>
+            <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Create" asp-route-personaId="@Model.Id" asp-route-returnUrl="/Pacientes/MiPerfil">Agregar Teléfono</a>
         </p>
         @foreach (var item in Model.Telefonos) {
             <ul>

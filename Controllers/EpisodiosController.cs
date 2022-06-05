@@ -51,21 +51,18 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [Authorize(Roles = Constantes.RolEmpleado)]
-        public IActionResult Create(int? id,string returnUrl)
+        public IActionResult Create(int? id, string returnUrl)
         {
             if (id != null)
             {
-                //solo necesito este paciente
                 ViewBag.Paciente = _context.Pacientes.Find(id.Value);
             }
             else
             {
-                //todos, necesito el selectlist
                 ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "NombreCompleto");
             }
 
             ViewData["EmpleadoRegistraId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto");
-
             TempData["returnUrl"] = returnUrl;
 
             return View();

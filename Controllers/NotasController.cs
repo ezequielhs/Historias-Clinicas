@@ -49,10 +49,25 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
-        public IActionResult Create(string returnUrl)
+        public IActionResult Create(int? evolucionId, int? empleadoId, string returnUrl)
         {
+            Evolucion evolucion = _context.Evoluciones.Where(e => e.Id == evolucionId).FirstOrDefault();
+            Empleado empleado = _context.Empleados.Where(e => e.Id == empleadoId).FirstOrDefault();
+
+            if (evolucion != null)
+            {
+                ViewBag.Evolucion = evolucion.Id;
+            }
+
+            if (empleado != null)
+            {
+                ViewBag.Empleado = empleado.Id;
+            }
+
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto");
             ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion");
+            TempData["returnUrl"] = returnUrl;
+
             return View();
         }
 
