@@ -9,16 +9,20 @@ using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
 using Historias_Clinicas_D.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Historias_Clinicas_D.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Historias_Clinicas_D.Controllers
 {
     public class EmpleadosController : Controller
     {
         private readonly HistoriasClinicasContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public EmpleadosController(HistoriasClinicasContext context)
+        public EmpleadosController(HistoriasClinicasContext context, UserManager<Persona> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [Authorize(Roles = Constantes.RolEmpleado)]
@@ -36,6 +40,8 @@ namespace Historias_Clinicas_D.Controllers
             }
 
             var empleado = await _context.Empleados
+                .Include(e => e.Direccion)
+                .Include(e => e.Telefonos)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (empleado == null)
             {
@@ -46,23 +52,48 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [Authorize(Roles = Constantes.RolEmpleado)]
-        public IActionResult Create()
+        public IActionResult Create(string returnUrl)
         {
+            TempData["returnUrl"] = returnUrl;
             return View();
         }
 
         [Authorize(Roles = Constantes.RolEmpleado)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email,Password")] Empleado empleado)
+        public async Task<IActionResult> Create(RegistroEmpleado viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(empleado);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                Empleado empleadoARegistrar = new Empleado()
+                {
+                    Legajo = viewModel.Legajo,
+                    Nombre = viewModel.Nombre,
+                    Apellido = viewModel.Apellido,
+                    DNI = viewModel.DNI,
+                    Email = viewModel.Email,
+                    UserName = viewModel.Email
+                };
+
+                var resultado = await _userManager.CreateAsync(empleadoARegistrar, viewModel.Password);
+
+                if (resultado.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(empleadoARegistrar, Constantes.RolEmpleado);
+
+                    string returnUrl = TempData["returnUrl"] as string;
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Empleados");
+                }
+
+                ModelState.AddModelError(string.Empty, "Contraseña invalida");
             }
-            return View(empleado);
+            return View();
         }
 
         [Authorize(Roles = Constantes.RolEmpleado)]
