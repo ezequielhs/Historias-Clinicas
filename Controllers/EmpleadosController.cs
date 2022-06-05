@@ -114,6 +114,30 @@ namespace Historias_Clinicas_D.Controllers
             return View(empleado);
         }
 
+        public async Task<IActionResult> MiPerfil()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                int idEmpleado = Generadores.GetId(User);
+                if (!_context.Empleados.Any(p => p.Id == idEmpleado))
+                {
+                    return NotFound();
+                }
+
+                Empleado empleadoEnDb = _context.Empleados.Find(idEmpleado);
+
+                empleadoEnDb = await _context.Empleados
+                    .Include(p => p.Telefonos)
+                    .Include(p => p.Direccion)
+                    .FirstOrDefaultAsync(m => m.Id == idEmpleado);
+
+                return View(empleadoEnDb);
+
+            }
+
+            return RedirectToAction("LogIn", "Account");
+        }
+
         private bool EmpleadoExists(int id)
         {
             return _context.Empleados.Any(e => e.Id == id);

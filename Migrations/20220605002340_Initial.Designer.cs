@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Historias_Clinicas_D.Migrations
 {
     [DbContext(typeof(HistoriasClinicasContext))]
-    [Migration("20220603002712_Initial")]
+    [Migration("20220605002340_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,8 +129,8 @@ namespace Historias_Clinicas_D.Migrations
 
                     b.Property<string>("Motivo")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<int>("PacienteId")
                         .HasColumnType("int");

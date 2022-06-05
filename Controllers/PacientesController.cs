@@ -148,11 +148,6 @@ namespace Historias_Clinicas_D.Controllers
             return View(paciente);
         }
 
-        private bool PacienteExists(int id)
-        {
-            return _context.Pacientes.Any(e => e.Id == id);
-        }
-
         public async Task<IActionResult> MiPerfil()
         {
             if (User.Identity.IsAuthenticated)
@@ -194,6 +189,11 @@ namespace Historias_Clinicas_D.Controllers
             }
 
             return View(paciente);
+        }
+
+        private bool PacienteExists(int id)
+        {
+            return _context.Pacientes.Any(e => e.Id == id);
         }
     }
 }

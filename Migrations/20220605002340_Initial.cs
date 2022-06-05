@@ -152,7 +152,7 @@ namespace Historias_Clinicas_D.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PacienteId = table.Column<int>(type: "int", nullable: false),
-                    Motivo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Motivo = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Descripcion = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     FechaYHoraInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FechaYHoraAlta = table.Column<DateTime>(type: "datetime2", nullable: true),

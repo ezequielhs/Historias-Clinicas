@@ -1,0 +1,84 @@
+﻿@model Historias_Clinicas_D.Models.Empleado
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Mi Perfil</h1>
+
+<div>
+    <h4>Médico</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Legajo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Legajo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NombreCompleto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NombreCompleto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DNI)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DNI)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+    <div class="form-group">
+        <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id" asp-route-returnUrl="/Empleados/MiPerfil">Editar</a> |
+        <a class="btn btn-primary" role="button" asp-controller="Account" asp-action="CambiarPassword">Cambiar Contraseña</a>
+    </div>
+</div>
+<br />
+<div>
+    <h4>@Html.DisplayNameFor(model => model.Direccion)</h4>
+    <hr />
+    @if (Model.Direccion != null)
+    {
+        <div>
+            @Html.DisplayFor(model => model.Direccion.Calle), @Html.DisplayFor(model => model.Direccion.Numero). @Html.DisplayFor(model => model.Direccion.CodigoPostal), @Html.DisplayFor(model => model.Direccion.Localidad), @Html.DisplayFor(model => model.Direccion.Provincia) &ensp; <a class="btn btn-primary" role="button" asp-controller="Direcciones" asp-action="Edit" asp-route-id="@Model.Direccion.Id" asp-route-returnUrl="/Empleados/MiPerfil">Editar</a>
+        </div>
+    }
+    else
+    {
+        <p>No tiene asignado una Dirección.</p>
+        <a class="btn btn-primary" role="button" asp-controller="Direcciones" asp-action="Create" asp-route-personaId="@Model.Id" asp-route-returnUrl="/Empleados/MiPerfil">Agregar Dirección</a>
+    }
+</div>
+<br />
+<div>
+    <h4>@Html.DisplayNameFor(model => model.Telefonos)</h4>
+    <hr />
+    @if (Model.Telefonos.Count > 0)
+    {
+        <p>
+            <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Create" asp-route-personaId="@Model.Id" asp-route-returnUrl="/Empleados/MiPerfil">Agregar Teléfono</a>
+        </p>
+        @foreach (var item in Model.Telefonos) {
+            <ul>
+                <li>
+                    @Html.DisplayFor(modelItem => item.Tipo) - @Html.DisplayFor(modelItem => item.TelefonoCompleto) &ensp; <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Edit" asp-route-returnUrl="/Empleados/MiPerfil" asp-route-id="@item.Id">Editar</a>
+                </li>
+            </ul>
+        }
+    }
+    else
+    {
+        <p>No tiene asignado ningun Teléfono.</p>
+        <p>
+            <a class="btn btn-primary" role="button" asp-controller="Telefonos" asp-action="Create" asp-route-personaId="@Model.Id" asp-route-returnUrl="/Empleados/MiPerfil">Agregar Teléfono</a>
+        </p>
+    }
+</div>
+

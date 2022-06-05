@@ -42,7 +42,7 @@
                             <a class="nav-link" asp-controller="Epicrisis" asp-action="Index">Epicrisis</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-info" role="button" asp-controller="Empleados" asp-action="Details" asp-route-id="@_userManager.GetUserId(this.User)">Mi Perfil</a>&ensp;
+                            <a class="btn btn-info" role="button" asp-controller="Empleados" asp-action="MiPerfil">Mi Perfil</a>&ensp;
                         </li>
                     }
                     else if (this.User.IsInRole(Constantes.RolMedico))
