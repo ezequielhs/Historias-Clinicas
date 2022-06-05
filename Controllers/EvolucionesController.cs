@@ -21,7 +21,7 @@ namespace Historias_Clinicas_D.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = Constantes.RolMedico)]
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
         public async Task<IActionResult> Index()
         {
             var historiasClinicasContext = _context.Evoluciones

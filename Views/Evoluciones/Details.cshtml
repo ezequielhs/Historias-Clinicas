@@ -55,40 +55,35 @@
 <br />
 <h4>Notas</h4>
 <hr />
-@foreach (Nota nota in Model.Notas){
-    <table class = "table">
-         <thead>
-            <tr class="table-dark">
-                <th>
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>
-                <th>
-                    Cargado por
-                </th>
-                <th>
-                    Nota
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class=table-secondary>
-            <td>
-                @Html.DisplayFor(modelNota => nota.Empleado.NombreCompleto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelNota => nota.FechaYHora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelNota => nota.Mensaje)
-            </td>
-            <td>
-               <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Details" asp-route-id="@nota.Id">Ir a Nota</a> 
-            </td>
-            </tr>
-       </tbody>
-    </table>
+@if (this.User.IsInRole(Constantes.RolEmpleado))
+{
+    <p>
+        <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Create" asp-route-id="@Model?.Id" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id">Agregar Nota</a>
+    </p>
 }
+<table class = "table">
+    <thead>
+        <tr class="table-dark">
+            <th>
+                Nota
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+@foreach (var item in Model.Notas){
+    <tbody>
+        <tr class=table-secondary>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mensaje)
+            </td>
+            <td>
+                <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
+            </td>
+        </tr>
+    </tbody>
+}
+</table>
+
 
 
 

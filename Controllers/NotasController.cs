@@ -49,7 +49,7 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
-        public IActionResult Create()
+        public IActionResult Create(string returnUrl)
         {
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto");
             ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion");
@@ -65,6 +65,14 @@ namespace Historias_Clinicas_D.Controllers
             {
                 _context.Add(nota);
                 await _context.SaveChangesAsync();
+                
+                string returnUrl = TempData["returnUrl"] as string;
+
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto", nota.EmpleadoId);
