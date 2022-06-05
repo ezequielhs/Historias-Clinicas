@@ -10,16 +10,20 @@ using Historias_Clinicas_D.Models;
 using Historias_Clinicas_D.Models.Enums;
 using Historias_Clinicas_D.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Historias_Clinicas_D.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Historias_Clinicas_D.Controllers
 {
     public class PacientesController : Controller
     {
         private readonly HistoriasClinicasContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public PacientesController(HistoriasClinicasContext context)
+        public PacientesController(HistoriasClinicasContext context, UserManager<Persona> userManager)
         {
             _context = context;
+            this._userManager = userManager;
         }
 
         [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
@@ -69,23 +73,39 @@ namespace Historias_Clinicas_D.Controllers
         [Authorize(Roles = Constantes.RolEmpleado)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email,Password")] Paciente paciente)
+        public async Task<IActionResult> Create(RegistroPaciente viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(paciente);
-                await _context.SaveChangesAsync();
-
-                string returnUrl = TempData["returnUrl"] as string; 
-
-                if(!string.IsNullOrEmpty(returnUrl))
+                Paciente pacienteARegistrar = new Paciente()
                 {
-                    return Redirect(returnUrl);
+                    Nombre = viewModel.Nombre,
+                    Apellido = viewModel.Apellido,
+                    DNI = viewModel.DNI,
+                    ObraSocial = viewModel.ObraSocial,
+                    Email = viewModel.Email,
+                    UserName = viewModel.Email
+                };
+
+                var resultado = await _userManager.CreateAsync(pacienteARegistrar, viewModel.Password);
+
+                if (resultado.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(pacienteARegistrar, Constantes.RolPaciente);
+
+                    string returnUrl = TempData["returnUrl"] as string;
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Pacientes");
                 }
 
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, "Contraseña invalida");
             }
-            return View(paciente);
+            return View();
         }
 
         [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolPaciente)]
