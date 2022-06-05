@@ -7,13 +7,9 @@ namespace Historias_Clinicas_D.Models
 {
 	public class Episodio
 	{
+		#region Propiedades Principales
+
 		public int Id { get; set; }
-
-		[Required(ErrorMessage = MensajesError.ErrRequired)]
-		[Display(Name = Alias.PacienteId)]
-		public int PacienteId { get; set; }
-
-		public Paciente Paciente { get; set; }
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]
 		[StringLength(Restricciones.StrMax4, MinimumLength = Restricciones.StrMin2, ErrorMessage = MensajesError.ErrMinMax)]
@@ -41,13 +37,26 @@ namespace Historias_Clinicas_D.Models
 
 		public Epicrisis Epicrisis { get; set; }
 
+		#endregion
+
+		#region Propiedades Relacionales
+
+		[Required(ErrorMessage = MensajesError.ErrRequired)]
+		[Display(Name = Alias.PacienteId)]
+		public int PacienteId { get; set; }
+
 		[Required(ErrorMessage = MensajesError.ErrRequired)]
 		[Display(Name = Alias.EmpleadoResgistra)]
 		public int EmpleadoRegistraId { get; set; }
 
-		[Display(Name = Alias.EmpleadoResgistra)]
+		#endregion
+
+		#region Propiedades Navegacionales
+
 		public Empleado EmpleadoRegistra { get; set; }
 
+		public Paciente Paciente { get; set; }
 
-	}
+        #endregion
+    }
 }

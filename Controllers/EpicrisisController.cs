@@ -21,16 +21,6 @@ namespace Historias_Clinicas_D.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
-        public async Task<IActionResult> Index()
-        {
-            var historiasClinicasContext = _context.Epicrisis
-                .Include(e => e.Episodio)
-                .Include(e => e.Medico)
-                .ToList();
-            return View(historiasClinicasContext);
-        }
-
         [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
@@ -51,7 +41,7 @@ namespace Historias_Clinicas_D.Controllers
             return View(epicrisis);
         }
 
-        [Authorize(Roles = Constantes.RolMedico)]
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
         public IActionResult Create()
         {
             ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
@@ -59,7 +49,7 @@ namespace Historias_Clinicas_D.Controllers
             return View();
         }
 
-        [Authorize(Roles = Constantes.RolMedico)]
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,EpisodioId,MedicoId,FechaYHora,Diagnostico,Recomendacion")] Epicrisis epicrisis)
@@ -74,6 +64,7 @@ namespace Historias_Clinicas_D.Controllers
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto", epicrisis.MedicoId);
             return View(epicrisis);
         }
+
         private bool EpicrisisExists(int id)
         {
             return _context.Epicrisis.Any(e => e.Id == id);

@@ -59,9 +59,12 @@
     </dl>
 </div>
 <div>
-    @if (this.User.IsInRole(Constantes.RolMedico) && Model.EstadoAbierto)
+    @if (Model.EstadoAbierto)
     {
-        <a class="btn btn-danger" role="button" asp-controller="Episodios" asp-action="CerrarEpisodio" asp-route-id="@Model.Id">Cerrar Episodio</a><text> | </text>
+        if (this.User.IsInRole(Constantes.RolEmpleado) || this.User.IsInRole(Constantes.RolMedico))
+        {
+            <a class="btn btn-danger" role="button" asp-controller="Episodios" asp-action="CerrarEpisodio" asp-route-id="@Model.Id" asp-route-returnUrl="/Episodios/Details/@Model.Id">Cerrar Episodio</a><text> | </text>
+        }
     }
     <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
 </div>
@@ -72,7 +75,7 @@
     @if (this.User.IsInRole(Constantes.RolMedico) && Model.EstadoAbierto)
     {
         <p>
-            <a class="btn btn-primary" role="button" asp-controller="Evoluciones" asp-action="Create">Agregar Evolución</a>
+            <a class="btn btn-primary" role="button" asp-controller="Evoluciones" asp-action="Create" asp-route-medicoId="@_userManager.GetUserId(this.User)" asp-route-episodioId="@Model.Id" asp-route-returnUrl="/Episodios/Details/@Model.Id">Agregar Evolución</a>
         </p>
     }
     @if (Model.Evoluciones.Count > 0)
@@ -117,9 +120,12 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.EstadoAbierto)
                         </td>
-                        <td>
-                            <a class="btn btn-primary" role="button" asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                            <a class="btn btn-primary" role="button" asp-controller="Evoluciones" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                        <td>    
+                            <a class="btn btn-primary" role="button" asp-controller="Evoluciones" asp-action="Details" asp-route-id="@item.Id" asp-route-episodioId="@Model.Id" asp-route-returnUrl="/Episodios/Details/@Model.Id">Detalles</a>
+                            @if (this.User.IsInRole(Constantes.RolMedico) && item.EstadoAbierto)
+                            {
+                                <text> | </text><a class="btn btn-danger" role="button" asp-controller="Evoluciones" asp-action="CerrarEvolucion" asp-route-id="@item.Id" asp-route-returnUrl="/Episodios/Details/@Model.Id">Cerrar Evolucion</a>
+                            }
                         </td>
                     </tr>
             }
@@ -129,5 +135,48 @@
     else
     {
         <p>No tiene asignada ninguna Evolución.</p>
+    }
+</div>
+<div>
+    <h4>Epicrisis</h4>
+    <hr />
+    @if (Model.Epicrisis != null)
+    {
+        <table class="table">
+            <thead>
+                <tr class="table-dark">
+                    <th>
+                        @Html.DisplayNameFor(model => model.Epicrisis.FechaYHora)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Epicrisis.Diagnostico)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Epicrisis.Recomendacion)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class=table-secondary>
+                    <td>
+                        @Html.DisplayFor(model => model.Epicrisis.FechaYHora)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Epicrisis.Diagnostico)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Epicrisis.Recomendacion)
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" role="button" asp-controller="Epicrisis" asp-action="Details" asp-route-id="@Model.Epicrisis.Id" asp-route-returnUrl="/Episodios/Details/@Model.Id">Detalles</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No tiene asignada ninguna Epicrisis.</p>
     }
 </div>

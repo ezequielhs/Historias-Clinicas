@@ -21,13 +21,6 @@ namespace Historias_Clinicas_D.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = Constantes.RolEmpleado)]
-        public async Task<IActionResult> Index()
-        {
-            var historiasClinicasContext = _context.Direcciones.Include(d => d.Persona);
-            return View(await historiasClinicasContext.ToListAsync());
-        }
-
         [Authorize]
         public async Task<IActionResult> Details(int? id)
         {

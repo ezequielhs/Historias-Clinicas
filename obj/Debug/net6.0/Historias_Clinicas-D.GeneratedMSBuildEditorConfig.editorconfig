@@ -83,8 +83,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXBpY3Jpc2lzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Repos/Historias-Clinicas/Views/Epicrisis/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXBpY3Jpc2lzXEluZGV4LmNzaHRtbA==
+[E:/Repos/Historias-Clinicas/Views/Episodios/CerrarEpisodio.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXBpc29kaW9zXENlcnJhckVwaXNvZGlvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/Repos/Historias-Clinicas/Views/Episodios/Create.cshtml]
@@ -95,12 +95,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXBpc29kaW9zXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[E:/Repos/Historias-Clinicas/Views/Episodios/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXBpc29kaW9zXEVkaXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[E:/Repos/Historias-Clinicas/Views/Episodios/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXBpc29kaW9zXEluZGV4LmNzaHRtbA==
+[E:/Repos/Historias-Clinicas/Views/Evoluciones/CerrarEvolucion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZvbHVjaW9uZXNcQ2VycmFyRXZvbHVjaW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/Repos/Historias-Clinicas/Views/Evoluciones/Create.cshtml]
@@ -109,14 +105,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [E:/Repos/Historias-Clinicas/Views/Evoluciones/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZvbHVjaW9uZXNcRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[E:/Repos/Historias-Clinicas/Views/Evoluciones/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZvbHVjaW9uZXNcRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[E:/Repos/Historias-Clinicas/Views/Evoluciones/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZvbHVjaW9uZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/Repos/Historias-Clinicas/Views/Home/Index.cshtml]
@@ -157,10 +145,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [E:/Repos/Historias-Clinicas/Views/Notas/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90YXNcRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[E:/Repos/Historias-Clinicas/Views/Notas/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90YXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/Repos/Historias-Clinicas/Views/Pacientes/Create.cshtml]

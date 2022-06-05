@@ -6,20 +6,9 @@ namespace Historias_Clinicas_D.Models
 {
 	public class Evolucion
 	{
-		
+		#region Propiedades Principales
+
 		public int Id { get; set; }
-
-		[Required(ErrorMessage = MensajesError.ErrRequired)]
-		[Display(Name = Alias.MedicoId)]
-		public int MedicoId { get; set; }
-
-		[Required(ErrorMessage = MensajesError.ErrRequired)]
-		[Display(Name = Alias.EpisodioId)]
-		public int EpisodioId { get; set; }
-
-		public Medico Medico { get; set; }
-
-		public Episodio Episodio { get; set; }
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]
 		[Display(Name = Alias.FechaYHoraInicio)]
@@ -39,5 +28,28 @@ namespace Historias_Clinicas_D.Models
 		public bool EstadoAbierto { get; set; } = Constantes.EstadoAbierto;
 
 		public List<Nota> Notas { get; set; }
-	}
+
+		#endregion
+
+		#region Propiedades Navegacionales
+
+		[Required(ErrorMessage = MensajesError.ErrRequired)]
+		[Display(Name = Alias.MedicoId)]
+		public int MedicoId { get; set; }
+
+		[Required(ErrorMessage = MensajesError.ErrRequired)]
+		[Display(Name = Alias.EpisodioId)]
+		public int EpisodioId { get; set; }
+
+		#endregion
+
+		#region Propiedades Relacionales
+
+		public Medico Medico { get; set; }
+
+		public Episodio Episodio { get; set; }
+
+        #endregion
+
+    }
 }

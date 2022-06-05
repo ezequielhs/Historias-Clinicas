@@ -57,7 +57,10 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                @if (this.User.IsInRole(Constantes.RolEmpleado))
+                {
+                   <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@item.Id">Editar</a><text> | </text>
+                }
                 <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
                 <a class="btn btn-primary" role="button" asp-action="HistoriaClinica" asp-route-id="@item.Id">Historia Clínica</a>
                 @if (this.User.IsInRole(Constantes.RolEmpleado))

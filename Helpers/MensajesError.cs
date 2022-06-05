@@ -15,5 +15,6 @@
         public const string ErrLogIn = "Inicio de sesión Invalido";
         public const string ErrPasswordMissmatching = "Las Contraseñas no coinciden";
         public const string ErrCurrentPassword = "La Contraseña Actual es incorrecta";
+        public const string ErrEvolucionesPendientes = "El Episodio no se puede cerrar, tiene evoluciones pendientes sin cerrar";
     }
 }

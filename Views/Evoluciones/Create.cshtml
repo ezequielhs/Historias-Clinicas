@@ -11,13 +11,26 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="MedicoId" class="control-label"></label>
-                <select asp-for="MedicoId" class ="form-control" asp-items="ViewBag.MedicoId"></select>
+                @if (ViewBag.Medico != null)
+                {
+                    <input asp-for="MedicoId" class="form-control" type="hidden" value="@ViewBag.Medico">
+                }
+                else
+                {
+                    <label asp-for="MedicoId" class="control-label"></label>
+                    <select asp-for="MedicoId" class ="form-control" asp-items="ViewBag.MedicoId"></select>
+                }
             </div>
-                <label asp-for="FechaYHoraInicio" class="control-label"></label>
-                <input asp-for="FechaYHoraInicio" class="form-control" />
-                <span asp-validation-for="FechaYHoraInicio" class="text-danger"></span>
-            <div>
+            <div class="form-group">
+                @if (ViewBag.Episodio != null)
+                {
+                    <input asp-for="EpisodioId" class="form-control" type="hidden" value="@ViewBag.Episodio">
+                }
+                else
+                {
+                    <label asp-for="EpisodioId" class="control-label"></label>
+                    <select asp-for="EpisodioId" class ="form-control" asp-items="ViewBag.EpisodioId"></select>
+                }
             </div>
             <input type="hidden" asp-for="FechaYHoraAlta" />
             <input type="hidden" asp-for="FechaYHoraCierre" />
@@ -26,7 +39,6 @@
                 <textarea asp-for="DescripcionAtencion" class="form-control" rows="5"></textarea>
                 <span asp-validation-for="DescripcionAtencion" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="EstadoAbierto" />
             <br />
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" /> |

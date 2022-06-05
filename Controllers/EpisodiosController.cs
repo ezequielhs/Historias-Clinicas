@@ -9,6 +9,7 @@ using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
 using Historias_Clinicas_D.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Historias_Clinicas_D.ViewModels;
 
 namespace Historias_Clinicas_D.Controllers
 {
@@ -19,13 +20,6 @@ namespace Historias_Clinicas_D.Controllers
         public EpisodiosController(HistoriasClinicasContext context)
         {
             _context = context;
-        }
-
-        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
-        public async Task<IActionResult> Index()
-        {
-            var historiasClinicasContext = _context.Episodios.Include(e => e.EmpleadoRegistra).Include(e => e.Paciente);
-            return View(await historiasClinicasContext.ToListAsync());
         }
 
         [Authorize]
@@ -97,28 +91,31 @@ namespace Historias_Clinicas_D.Controllers
             return View(episodio);
         }
 
-        [Authorize(Roles = Constantes.RolMedico)]
-        public async Task<IActionResult> Edit(int? id)
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
+        [HttpGet]
+        public async Task<IActionResult> CerrarEpisodio(int? id, string returnUrl)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var episodio = await _context.Episodios.FindAsync(id);
+            var episodio = await _context.Episodios.Include(e => e.Evoluciones).FirstOrDefaultAsync(m => m.Id == id);
+
             if (episodio == null)
             {
                 return NotFound();
             }
-            ViewData["EmpleadoRegistraId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto", episodio.EmpleadoRegistraId);
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "NombreCompleto", episodio.PacienteId);
+
+            TempData["returnUrl"] = returnUrl;
+            
             return View(episodio);
         }
 
-        [Authorize(Roles = Constantes.RolMedico)]
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PacienteId,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,EstadoAbierto,EmpleadoRegistraId")] Episodio episodio)
+        public async Task<IActionResult> CerrarEpisodio(int id, Episodio episodio)
         {
             if (id != episodio.Id)
             {
@@ -127,32 +124,42 @@ namespace Historias_Clinicas_D.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                if (!this.TieneEvolucionesAbiertas(id))
                 {
                     _context.Update(episodio);
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Create", "Epicrisis");
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!EpisodioExists(episodio.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError(string.Empty, MensajesError.ErrEvolucionesPendientes);
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["EmpleadoRegistraId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto", episodio.EmpleadoRegistraId);
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "NombreCompleto", episodio.PacienteId);
-            return View(episodio);
+
+            return View();
         }
 
         private bool EpisodioExists(int id)
         {
             return _context.Episodios.Any(e => e.Id == id);
+        }
+
+        private bool TieneEvolucionesAbiertas(int id)
+        {
+            bool resultado = false;
+
+            List<Evolucion> evoluciones = _context.Evoluciones.Where(e => e.EpisodioId == id).ToList();
+            
+            foreach(Evolucion evolucion in evoluciones)
+            {
+                if (evolucion.EstadoAbierto)
+                {
+                    resultado = true;
+                }
+            }
+
+            return resultado;
         }
     }
 }

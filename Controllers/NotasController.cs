@@ -21,13 +21,6 @@ namespace Historias_Clinicas_D.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = Constantes.RolEmpleado)]
-        public async Task<IActionResult> Index()
-        {
-            var historiasClinicasContext = _context.Notas.Include(n => n.Empleado).Include(n => n.Evolucion);
-            return View(await historiasClinicasContext.ToListAsync());
-        }
-
         [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
@@ -48,7 +41,7 @@ namespace Historias_Clinicas_D.Controllers
             return View(nota);
         }
 
-        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
+        [Authorize(Roles = Constantes.RolEmpleado)]
         public IActionResult Create(int? evolucionId, int? empleadoId, string returnUrl)
         {
             Evolucion evolucion = _context.Evoluciones.Where(e => e.Id == evolucionId).FirstOrDefault();
@@ -71,7 +64,7 @@ namespace Historias_Clinicas_D.Controllers
             return View();
         }
 
-        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
+        [Authorize(Roles = Constantes.RolEmpleado)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,EvolucionId,EmpleadoId,Mensaje,FechaYHora")] Nota nota)

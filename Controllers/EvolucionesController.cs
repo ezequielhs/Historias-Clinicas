@@ -21,18 +21,7 @@ namespace Historias_Clinicas_D.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
-        public async Task<IActionResult> Index()
-        {
-            var historiasClinicasContext = _context.Evoluciones
-                .Include(e => e.Medico)
-                .Include(e => e.Notas)
-                .ToList();
-
-            return View(historiasClinicasContext);
-        }
-
-        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,6 +31,7 @@ namespace Historias_Clinicas_D.Controllers
 
             var evolucion = await _context.Evoluciones
                 .Include(e => e.Medico)
+                .Include(e => e.Episodio)
                 .Include(e => e.Notas)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -54,48 +44,79 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [Authorize(Roles = Constantes.RolMedico)]
-        public IActionResult Create()
+        public IActionResult Create(int? medicoId, int? episodioId, string returnUrl)
         {
+            Medico medico = _context.Medicos.Where(e => e.Id == medicoId).FirstOrDefault();
+            Episodio episodio = _context.Episodios.Where(e => e.Id == episodioId).FirstOrDefault();
+
+            if (medico != null)
+            {
+                ViewBag.Medico = medico.Id;
+            }
+
+            if (episodio != null)
+            {
+                ViewBag.Episodio = episodio.Id;
+            }
+
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto");
+            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo");
+            TempData["returnUrl"] = returnUrl;
+
             return View();
         }
 
         [Authorize(Roles = Constantes.RolMedico)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MedicoId,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion,EstadoAbierto")] Evolucion evolucion)
+        public async Task<IActionResult> Create([Bind("Id,MedicoId,EpisodioId,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion")] Evolucion evolucion)
         {
             if (ModelState.IsValid)
             {
                 _context.Evoluciones.Add(evolucion);
                 await _context.SaveChangesAsync();
+
+                string returnUrl = TempData["returnUrl"] as string;
+
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
                 return RedirectToAction("Index","Evoluciones");
             }
+
             ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto", evolucion.MedicoId);
+            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo");
+
             return View(evolucion);
         }
 
         [Authorize(Roles = Constantes.RolMedico)]
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        public async Task<IActionResult> CerrarEvolucion(int? id, string returnUrl)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var evolucion = await _context.Evoluciones.FindAsync(id);
+            var evolucion = await _context.Evoluciones.FirstOrDefaultAsync(e => e.Id == id);
+
             if (evolucion == null)
             {
                 return NotFound();
             }
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto", evolucion.MedicoId);
+
+            TempData["returnUrl"] = returnUrl;
+
             return View(evolucion);
         }
 
         [Authorize(Roles = Constantes.RolMedico)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MedicoId,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,DescripcionAtencion,EstadoAbierto")] Evolucion evolucion)
+        public async Task<IActionResult> CerrarEvolucion(int id, Evolucion evolucion)
         {
             if (id != evolucion.Id)
             {
@@ -104,26 +125,18 @@ namespace Historias_Clinicas_D.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                _context.Update(evolucion);
+                await _context.SaveChangesAsync();
+
+                string returnUrl = TempData["returnUrl"] as string;
+
+                if (!string.IsNullOrEmpty(returnUrl))
                 {
-                    _context.Update(evolucion);
-                    await _context.SaveChangesAsync();
+                    return Redirect(returnUrl);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EvolucionExists(evolucion.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto", evolucion.MedicoId);
-            return View(evolucion);
+
+            return View();
         }
 
         private bool EvolucionExists(int id)

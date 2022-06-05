@@ -38,7 +38,7 @@ namespace Historias_Clinicas_D.Controllers
             return View(pacientes);
         }
 
-        [Authorize(Roles = Constantes.RolEmpleado)]
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
