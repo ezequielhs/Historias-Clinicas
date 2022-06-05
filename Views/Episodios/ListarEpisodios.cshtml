@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Historias_Clinicas_D.Models.Episodio>
+
+@{
+    ViewData["Title"] = "ListarEpisodios";
+}
+@foreach (var item in Model) {
+    <ul>
+        <li>
+            @Html.DisplayFor(modelItem => item.Motivo) &ensp; <a class="btn btn-primary" role="button" asp-controller="Episodios" asp-action="Edit" asp-route-id="@item.Id">Editar</a> | <a class="btn btn-danger" role="button" asp-controller="Episodios" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+        </li>
+    </ul>
+}

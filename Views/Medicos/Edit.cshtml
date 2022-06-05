@@ -11,37 +11,13 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TipoMatricula" class="control-label"></label>
-                <select asp-for="TipoMatricula" class="form-control" id="TipoMatriculaSelect" asp-items="Html.GetEnumSelectList<TipoMatricula>()"></select>
-                <span asp-validation-for="TipoMatricula" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Matricula" class="control-label"></label>
-                <input asp-for="Matricula" class="form-control" id="MatriculaInput" />
-                <span asp-validation-for="Matricula" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Especialidad" class="control-label"></label>
-                <select asp-for="Especialidad" class="form-control" asp-items="Html.GetEnumSelectList<Especialidad>()"></select>
-                <span asp-validation-for="Especialidad" class="text-danger"></span>
-            </div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" class="form-control" />
-                <span asp-validation-for="Apellido" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DNI" class="control-label"></label>
-                <input asp-for="DNI" class="form-control" />
-                <span asp-validation-for="DNI" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="TipoMatricula" />
+            <input type="hidden" asp-for="Matricula" />
+            <input type="hidden" asp-for="Especialidad" />
+            <input type="hidden" asp-for="Nombre" />
+            <input type="hidden" asp-for="Apellido" />
+            <input type="hidden" asp-for="DNI" />
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
@@ -50,34 +26,12 @@
             <br />
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-primary" /> |
-                <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
+                <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
             </div>
         </form>
     </div>
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            if ($("#TipoMatriculaSelect option:selected" ).text() == "Extranjera"|| $("#TipoMatriculaSelect option:selected" ).text() == "En Tramite") {
-                $("#MatriculaInput").prop('readonly', true);
-            }
-            $("#TipoMatriculaSelect").on("change", function () {
-                if ($("#TipoMatriculaSelect option:selected" ).text() == "Extranjera"|| $("#TipoMatriculaSelect option:selected" ).text() == "En Tramite") {
-                    $("#MatriculaInput").prop('readonly', true);
-                    $('#MatriculaInput').val('No Posee');
-                }
-                else {
-                    $("#MatriculaInput").prop('readonly', false);
-                    $('#MatriculaInput').val('');
-                }
-            });
-        });
-    </script>
-
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-<script src=~/lib/jquery/dist/jquery.js></script>
-<script src=~/lib/jquery-validation/dist/jquery.validate.js></script>
-<script src=~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js></script>

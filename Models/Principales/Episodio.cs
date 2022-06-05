@@ -47,5 +47,7 @@ namespace Historias_Clinicas_D.Models
 
 		[Display(Name = Alias.EmpleadoResgistra)]
 		public Empleado EmpleadoRegistra { get; set; }
+
+
 	}
 }

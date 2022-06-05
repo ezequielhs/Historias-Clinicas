@@ -13,22 +13,24 @@
             <div class="form-group">
                 <label asp-for="MedicoId" class="control-label"></label>
                 <select asp-for="MedicoId" class ="form-control" asp-items="ViewBag.MedicoId"></select>
-                <span asp-validation-for="MedicoId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="EpisodioId" class="control-label"></label>
-                <select asp-for="EpisodioId" class ="form-control" asp-items="ViewBag.EpisodioId"></select>
-                <span asp-validation-for="EpisodioId" class="text-danger"></span>
+                <label asp-for="FechaYHoraInicio" class="control-label"></label>
+                <input asp-for="FechaYHoraInicio" class="form-control" />
+                <span asp-validation-for="FechaYHoraInicio" class="text-danger"></span>
+            <div>
             </div>
+            <input type="hidden" asp-for="FechaYHoraAlta" />
+            <input type="hidden" asp-for="FechaYHoraCierre" />
             <div class="form-group">
                 <label asp-for="DescripcionAtencion" class="control-label"></label>
                 <textarea asp-for="DescripcionAtencion" class="form-control" rows="5"></textarea>
                 <span asp-validation-for="DescripcionAtencion" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="EstadoAbierto" />
             <br />
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" /> |
-                <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
+                <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
             </div>
         </form>
     </div>

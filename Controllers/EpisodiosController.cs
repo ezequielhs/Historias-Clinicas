@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
+using Historias_Clinicas_D.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Historias_Clinicas_D.Controllers
 {
-    [Authorize]
     public class EpisodiosController : Controller
     {
         private readonly HistoriasClinicasContext _context;
@@ -21,13 +21,14 @@ namespace Historias_Clinicas_D.Controllers
             _context = context;
         }
 
-        // GET: Episodios
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Episodios.Include(e => e.Paciente).Include(e => e.EmpleadoRegistra).ToListAsync());
+            var historiasClinicasContext = _context.Episodios.Include(e => e.EmpleadoRegistra).Include(e => e.Paciente);
+            return View(await historiasClinicasContext.ToListAsync());
         }
 
-        // GET: Episodios/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,7 +41,6 @@ namespace Historias_Clinicas_D.Controllers
                 .Include(e => e.Evoluciones)
                 .Include(e => e.EmpleadoRegistra)
                 .Include(e => e.Paciente)
-                .Include(e => e.Epicrisis.Medico)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (episodio == null)
             {
@@ -50,17 +50,28 @@ namespace Historias_Clinicas_D.Controllers
             return View(episodio);
         }
 
-        // GET: Episodios/Create
-        public IActionResult Create()
+        [Authorize(Roles = Constantes.RolEmpleado)]
+        public IActionResult Create(int? id,string returnUrl)
         {
+            if (id != null)
+            {
+                //solo necesito este paciente
+                ViewBag.Paciente = _context.Pacientes.Find(id.Value);
+            }
+            else
+            {
+                //todos, necesito el selectlist
+                ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "NombreCompleto");
+            }
+
             ViewData["EmpleadoRegistraId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto");
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "NombreCompleto");
+
+            TempData["returnUrl"] = returnUrl;
+
             return View();
         }
 
-        // POST: Episodios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = Constantes.RolEmpleado)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PacienteId,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,EstadoAbierto,EmpleadoRegistraId")] Episodio episodio)
@@ -69,14 +80,22 @@ namespace Historias_Clinicas_D.Controllers
             {
                 _context.Add(episodio);
                 await _context.SaveChangesAsync();
+
+                string returnUrl = TempData["returnUrl"] as string;
+
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmpleadoRegistraId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto", episodio.EmpleadoRegistraId);
+            ViewData["EmpleadoRegistraId"] = Generadores.GetId(User);
             ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "NombreCompleto", episodio.PacienteId);
             return View(episodio);
         }
 
-        // GET: Episodios/Edit/5
+        [Authorize(Roles = Constantes.RolMedico)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -94,9 +113,7 @@ namespace Historias_Clinicas_D.Controllers
             return View(episodio);
         }
 
-        // POST: Episodios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = Constantes.RolMedico)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PacienteId,Motivo,Descripcion,FechaYHoraInicio,FechaYHoraAlta,FechaYHoraCierre,EstadoAbierto,EmpleadoRegistraId")] Episodio episodio)
@@ -129,39 +146,6 @@ namespace Historias_Clinicas_D.Controllers
             ViewData["EmpleadoRegistraId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto", episodio.EmpleadoRegistraId);
             ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "NombreCompleto", episodio.PacienteId);
             return View(episodio);
-        }
-
-        // GET: Episodios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var episodio = await _context.Episodios
-                .Include(e => e.Epicrisis)
-                .Include(e => e.Evoluciones)
-                .Include(e => e.EmpleadoRegistra)
-                .Include(e => e.Paciente)
-                .FirstOrDefaultAsync(e => e.Id == id);
-            if (episodio == null)
-            {
-                return NotFound();
-            }
-
-            return View(episodio);
-        }
-
-        // POST: Episodios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var episodio = await _context.Episodios.FindAsync(id);
-            _context.Episodios.Remove(episodio);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool EpisodioExists(int id)

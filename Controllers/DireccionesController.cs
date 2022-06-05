@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
 using Microsoft.AspNetCore.Authorization;
+using Historias_Clinicas_D.Helpers;
 
 namespace Historias_Clinicas_D.Controllers
 {
-    [Authorize]
     public class DireccionesController : Controller
     {
         private readonly HistoriasClinicasContext _context;
@@ -21,14 +21,14 @@ namespace Historias_Clinicas_D.Controllers
             _context = context;
         }
 
-        // GET: Direcciones
+        [Authorize(Roles = Constantes.RolEmpleado)]
         public async Task<IActionResult> Index()
         {
             var historiasClinicasContext = _context.Direcciones.Include(d => d.Persona);
             return View(await historiasClinicasContext.ToListAsync());
         }
 
-        // GET: Direcciones/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,17 +47,23 @@ namespace Historias_Clinicas_D.Controllers
             return View(direccion);
         }
 
-        // GET: Direcciones/Create
-        public IActionResult Create(string returnUrl)
+        [Authorize]
+        public IActionResult Create(int? personaId, string returnUrl)
         {
-            TempData["returnUrl"] = returnUrl;
+            Persona persona = _context.Personas.Where(p => p.Id == personaId).FirstOrDefault();
+
+            if (persona != null)
+            {
+                ViewBag.Persona = persona.Id;
+            }
+
             ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "NombreCompleto");
+            TempData["returnUrl"] = returnUrl;
+            
             return View();
         }
 
-        // POST: Direcciones/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Calle,Numero,CodigoPostal,Localidad,Provincia,PersonaId")] Direccion direccion)
@@ -80,7 +86,7 @@ namespace Historias_Clinicas_D.Controllers
             return View(direccion);
         }
 
-        // GET: Direcciones/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
@@ -99,9 +105,7 @@ namespace Historias_Clinicas_D.Controllers
             return View(direccion);
         }
 
-        // POST: Direcciones/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Calle,Numero,CodigoPostal,Localidad,Provincia,PersonaId")] Direccion direccion)
@@ -139,45 +143,6 @@ namespace Historias_Clinicas_D.Controllers
             }
             ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "NombreCompleto", direccion.PersonaId);
             return View(direccion);
-        }
-
-        // GET: Direcciones/Delete/5
-        public async Task<IActionResult> Delete(int? id, string returnUrl)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var direccion = await _context.Direcciones
-                .Include(d => d.Persona)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (direccion == null)
-            {
-                return NotFound();
-            }
-
-            TempData["returnUrl"] = returnUrl;
-            return View(direccion);
-        }
-
-        // POST: Direcciones/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var direccion = await _context.Direcciones.FindAsync(id);
-            _context.Direcciones.Remove(direccion);
-            await _context.SaveChangesAsync();
-
-            string returnUrl = TempData["returnUrl"] as string;
-
-            if (!string.IsNullOrEmpty(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-
-            return RedirectToAction(nameof(Index));
         }
 
         private bool DireccionExists(int id)

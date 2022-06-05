@@ -9,26 +9,30 @@ using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
 using Historias_Clinicas_D.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
+using Historias_Clinicas_D.Helpers;
+using Historias_Clinicas_D.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Historias_Clinicas_D.Controllers
 {
-    [Authorize]
     public class MedicosController : Controller
     {
         private readonly HistoriasClinicasContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public MedicosController(HistoriasClinicasContext context)
+        public MedicosController(HistoriasClinicasContext context, UserManager<Persona> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Medicos
+        [Authorize(Roles = Constantes.RolEmpleado)]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Medicos.ToListAsync());
         }
 
-        // GET: Medicos/Details/5
+        [Authorize(Roles = Constantes.RolEmpleado)]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,30 +52,54 @@ namespace Historias_Clinicas_D.Controllers
             return View(medico);
         }
 
-        // GET: Medicos/Create
-        public IActionResult Create()
+        [Authorize(Roles = Constantes.RolEmpleado)]
+        public IActionResult Create(string returnUrl)
         {
+            TempData["returnUrl"] = returnUrl;
             return View();
         }
 
-        // POST: Medicos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TipoMatricula,Matricula,Especialidad,Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Medico medico)
+        public async Task<IActionResult> Create(RegistroMedico viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(medico);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                Medico medicoARegistrar = new Medico()
+                {
+                    Legajo = viewModel.Legajo,
+                    Nombre = viewModel.Nombre,
+                    Apellido = viewModel.Apellido,
+                    DNI = viewModel.DNI,
+                    TipoMatricula = viewModel.TipoMatricula,
+                    Matricula = viewModel.Matricula,
+                    Especialidad = viewModel.Especialidad,
+                    Email = viewModel.Email,
+                    UserName = viewModel.Email
+                };
+
+                var resultado = await _userManager.CreateAsync(medicoARegistrar, viewModel.Password);
+
+                if (resultado.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(medicoARegistrar, Constantes.RolMedico);
+
+                    string returnUrl = TempData["returnUrl"] as string;
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Medicos");
+                }
+
+                ModelState.AddModelError(string.Empty, "Contraseña invalida");
             }
-            return View(medico);
+            return View();
         }
 
-        // GET: Medicos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
+        public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
             {
@@ -83,12 +111,12 @@ namespace Historias_Clinicas_D.Controllers
             {
                 return NotFound();
             }
+
+            TempData["returnUrl"] = returnUrl;
             return View(medico);
         }
 
-        // POST: Medicos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("TipoMatricula,Matricula,Especialidad,Legajo,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Medico medico)
@@ -102,18 +130,21 @@ namespace Historias_Clinicas_D.Controllers
             {
                 try
                 {
-                    Medico med = _context.Medicos.Find(medico.Id);
-                    med.TipoMatricula = medico.TipoMatricula;
-                    med.Especialidad = medico.Especialidad;
-                    med.Legajo = medico.Legajo;
-                    med.Nombre = medico.Nombre;
-                    med.Apellido = medico.Apellido;
-                    med.DNI = medico.DNI;
-                    med.Email = medico.Email;
-                    med.FechaAlta = medico.FechaAlta;
+                    Medico medEnDb = _context.Medicos.Find(medico.Id);
 
-                    _context.Update(medico);
+                    medEnDb.Email = medico.Email;
+                    medEnDb.UserName = medico.Email;
+                    medEnDb.NormalizedUserName = medico.Email;
+
+                    _context.Update(medEnDb);
                     await _context.SaveChangesAsync();
+
+                    string returnUrl = TempData["returnUrl"] as string;
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,40 +162,28 @@ namespace Historias_Clinicas_D.Controllers
             return View(medico);
         }
 
-        // GET: Medicos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> MiPerfil()
         {
-            if (id == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return NotFound();
+                int idMedico = Generadores.GetId(User);
+
+                if (!_context.Medicos.Any(p => p.Id == idMedico))
+                {
+                    return NotFound();
+                }
+
+                Medico medicoEnDb = _context.Medicos.Find(idMedico);
+
+                medicoEnDb = await _context.Medicos
+                    .Include(p => p.Telefonos)
+                    .Include(p => p.Direccion)
+                    .FirstOrDefaultAsync(m => m.Id == idMedico);
+
+                return View(medicoEnDb);
             }
-
-            var medico = await _context.Medicos
-                .Include(m => m.Telefonos)
-                .Include(m => m.Direccion)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (medico == null)
-            {
-                return NotFound();
-            }
-
-            return View(medico);
-        }
-
-        // POST: Medicos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var medico = await _context.Medicos.FindAsync(id);
-            _context.Medicos.Remove(medico);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool MedicoExists(int id)
-        {
-            return _context.Medicos.Any(e => e.Id == id);
+         
+            return View("LogIn", "Account");
         }
 
         [HttpPost]
@@ -182,6 +201,11 @@ namespace Historias_Clinicas_D.Controllers
             }
 
             return Json(resultado);
+        }
+
+        private bool MedicoExists(int id)
+        {
+            return _context.Medicos.Any(e => e.Id == id);
         }
     }
 }

@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
 using Historias_Clinicas_D.Models.Enums;
+using Historias_Clinicas_D.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Historias_Clinicas_D.Controllers
 {
-    [Authorize]
     public class PacientesController : Controller
     {
         private readonly HistoriasClinicasContext _context;
@@ -22,13 +22,23 @@ namespace Historias_Clinicas_D.Controllers
             _context = context;
         }
 
-        // GET: Pacientes
-        public async Task<IActionResult> Index()
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
+        public async Task<IActionResult> Index(string nombrebuscado)
         {
-            return View(await _context.Pacientes.ToListAsync());
+            IEnumerable<Paciente> pacientes;
+            if (!string.IsNullOrEmpty(nombrebuscado))
+            {
+                pacientes = _context.Pacientes.Where(p=> p.Nombre.Contains(nombrebuscado) || p.Apellido.Contains(nombrebuscado));
+            }
+            else
+            {
+                pacientes = _context.Pacientes;
+            }
+
+            return View(pacientes);
         }
 
-        // GET: Pacientes/Details/5
+        [Authorize(Roles = Constantes.RolEmpleado)]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,30 +58,37 @@ namespace Historias_Clinicas_D.Controllers
             return View(paciente);
         }
 
-        // GET: Pacientes/Create
-        public IActionResult Create()
+        [Authorize(Roles = Constantes.RolEmpleado)]
+        public IActionResult Create(string returnUrl)
         {
+            TempData["returnUrl"] = returnUrl;
+
             return View();
         }
 
-        // POST: Pacientes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = Constantes.RolEmpleado)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Paciente paciente)
+        public async Task<IActionResult> Create([Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email,Password")] Paciente paciente)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(paciente);
                 await _context.SaveChangesAsync();
 
+                string returnUrl = TempData["returnUrl"] as string; 
+
+                if(!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(paciente);
         }
 
-        // GET: Pacientes/Edit/5
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolPaciente)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,13 +104,12 @@ namespace Historias_Clinicas_D.Controllers
             return View(paciente);
         }
 
-        // POST: Pacientes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolPaciente)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Paciente paciente)
+        public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Paciente paciente)
         {
+            //Seria una mejor practica hacer un view model
             if (id != paciente.Id)
             {
                 return NotFound();
@@ -103,12 +119,18 @@ namespace Historias_Clinicas_D.Controllers
             {
                 try
                 {
-                    Paciente pct = _context.Pacientes.Find(paciente.Id);
-                    pct.Email = paciente.Email;
-                    pct.ObraSocial = paciente.ObraSocial;
+                    Paciente pntEnDb = _context.Pacientes.Find(paciente.Id);
 
-                    _context.Update(pct);
-                    _context.SaveChangesAsync();
+                    pntEnDb.ObraSocial = paciente.ObraSocial;
+                    pntEnDb.Nombre = paciente.Nombre;
+                    pntEnDb.Apellido = paciente.Apellido;
+                    pntEnDb.DNI = paciente.DNI;
+                    pntEnDb.Email = paciente.Email;
+                    pntEnDb.UserName = paciente.Email;
+                    pntEnDb.NormalizedUserName = paciente.Email;
+
+                    _context.Update(pntEnDb);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -126,8 +148,37 @@ namespace Historias_Clinicas_D.Controllers
             return View(paciente);
         }
 
-        // GET: Pacientes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        private bool PacienteExists(int id)
+        {
+            return _context.Pacientes.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> MiPerfil()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                int idPaciente = Generadores.GetId(User);
+                if(!_context.Pacientes.Any(p => p.Id == idPaciente))
+                {
+                    return NotFound();
+                }
+
+                Paciente pacienteEnDb = _context.Pacientes.Find(idPaciente);
+
+                pacienteEnDb = await _context.Pacientes
+                    .Include(p => p.Telefonos)
+                    .Include(p => p.Direccion)
+                    .FirstOrDefaultAsync(m => m.Id == idPaciente);
+
+                return View(pacienteEnDb);
+
+            }
+
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> HistoriaClinica(int? id)
         {
             if (id == null)
             {
@@ -135,31 +186,14 @@ namespace Historias_Clinicas_D.Controllers
             }
 
             var paciente = await _context.Pacientes
-                .Include(p => p.Telefonos)
-                .Include(p => p.Direccion)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .Include(p => p.Episodios)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (paciente == null)
             {
                 return NotFound();
             }
 
             return View(paciente);
-        }
-
-        // POST: Pacientes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var paciente = await _context.Pacientes.FindAsync(id);
-            _context.Pacientes.Remove(paciente);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool PacienteExists(int id)
-        {
-            return _context.Pacientes.Any(e => e.Id == id);
         }
     }
 }

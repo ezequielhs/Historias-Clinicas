@@ -19,7 +19,7 @@ namespace Historias_Clinicas_D.Models
 
         [Required(ErrorMessage = MensajesError.ErrRequired)]
         [StringLength(Restricciones.StrMaxDoc, MinimumLength = Restricciones.StrMinDoc, ErrorMessage = MensajesError.ErrMinMax)]
-        [Display (Name = Alias.DNI)]
+        [Display(Name = Alias.DNI)]
         public string DNI { get; set; }
 
         [Required(ErrorMessage = MensajesError.ErrRequired)]
@@ -31,9 +31,9 @@ namespace Historias_Clinicas_D.Models
         [EmailAddress(ErrorMessage = MensajesError.ErrNoValido)]
         [Display(Name = Alias.Email)]
         [Remote("IsEmailEnUso", "Personas", AdditionalFields = "Id", HttpMethod = "POST", ErrorMessage = MensajesError.ErrCampoEnUso)]
-        public override string Email
-        {
-            get { return base.Email; }
+        public override string Email 
+        { 
+            get { return base.Email; } 
             set { base.Email = value; }
         }
 

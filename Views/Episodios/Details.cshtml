@@ -59,48 +59,5 @@
     </dl>
 </div>
 <div>
-     <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
-</div>
-<br />
-<div>
-    <h4>@Html.DisplayNameFor(model => model.Epicrisis) </h4>
-    <hr />
-    @if (Model.Epicrisis != null)
-    {
-        <div>
-            <dl class="row">
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Epicrisis.Medico)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.Epicrisis.Medico.NombreCompleto)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Epicrisis.Diagnostico)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.Epicrisis.Diagnostico)
-                </dd>
-                <dt class = "col-sm-2">
-                    @Html.DisplayNameFor(model => model.Epicrisis.Recomendacion)
-                </dt>
-                <dd class = "col-sm-10">
-                    @Html.DisplayFor(model => model.Epicrisis.Recomendacion)
-                </dd>
-            </dl>
-        </div>
-        <div>
-            <a class="btn btn-primary" role="button" asp-controller="Epicrisis" asp-action="Edit" asp-route-returnUrl="/Episodios/Details/@Model?.Id" asp-route-id="@Model.Epicrisis.Id">Editar</a>
-        </div>
-    }
-    else
-    {
-        <p>No tiene asignado una Epicrisis.</p>
-        <a class="btn btn-primary" role="button" asp-controller="Epicrisis" asp-action="Create" asp-route-returnUrl="/Episodios/Details/@Model?.Id">Agregar Epicrisis</a>
-    }
-</div>
-<br />
-
-<div>
-    <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
+    <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
 </div>

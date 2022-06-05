@@ -16,9 +16,6 @@
                 @Html.DisplayNameFor(model => model.MedicoId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EpisodioId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.FechaYHoraInicio)
             </th>
             <th>
@@ -37,13 +34,10 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (Evolucion evolucion in Model) {
+@foreach (Evolucion evolucion in Model) {
         <tr class=table-secondary>
             <td>
                 @Html.DisplayFor(modelItem => evolucion.Medico.NombreCompleto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => evolucion.Episodio.Motivo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => evolucion.FechaYHoraInicio)
@@ -62,10 +56,9 @@
             </td>
             <td>
                 <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@evolucion.Id">Editar</a> |
-                <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@evolucion.Id">Detalles</a> |
-                <a class="btn btn-danger" role="button" asp-action="Delete" asp-route-id="@evolucion.Id">Eliminar</a>
+                <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@evolucion.Id">Detalles</a>
             </td>
         </tr>
-    }
+}
     </tbody>
 </table>

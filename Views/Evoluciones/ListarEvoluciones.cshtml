@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Historias_Clinicas_D.Models.Evolucion>
+
+@{
+    ViewData["Title"] = "ListarEvoluciones";
+}
+
+<p>
+    <a class="btn btn-primary" role="button" asp-controller="Evoluciones" asp-action="Create">Crear nueva evolución</a>
+</p>
+@foreach (var item in Model) {
+    <ul>
+        <li>
+            @Html.DisplayFor(modelItem => item.Medico.Especialidad) - @Html.DisplayFor(modelItem => item.EstadoAbierto) &ensp; <a class="btn btn-primary" role="button" asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@item.Id">Editar</a> | <a class="btn btn-danger" role="button" asp-controller="Evoluciones" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+        </li>
+    </ul>
+}

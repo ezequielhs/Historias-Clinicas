@@ -1,5 +1,5 @@
 ﻿@using Historias_Clinicas_D.Models.Enums
-@model Historias_Clinicas_D.Models.Medico
+@model Historias_Clinicas_D.ViewModels.RegistroMedico
 
 @{
     ViewData["Title"] = "Create";
@@ -11,21 +11,6 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TipoMatricula" class="control-label"></label>
-                <select asp-for="TipoMatricula" class="form-control" id="TipoMatriculaSelect" asp-items="Html.GetEnumSelectList<TipoMatricula>()"></select>
-                <span asp-validation-for="TipoMatricula" class="text-danger"></span>
-            </div>
-            <div class="form-group" id="MatriculaDiv">
-                <label asp-for="Matricula" class="control-label"></label>
-                <input asp-for="Matricula" class="form-control" id="MatriculaInput" />
-                <span asp-validation-for="Matricula" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Especialidad" class="control-label"></label>
-                <select asp-for="Especialidad" class="form-control" asp-items="Html.GetEnumSelectList<Especialidad>()"></select>
-                <span asp-validation-for="Especialidad" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
@@ -42,14 +27,39 @@
                 <span asp-validation-for="DNI" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="TipoMatricula" class="control-label"></label>
+                <select asp-for="TipoMatricula" class="form-control" id="TipoMatriculaSelect" asp-items="Html.GetEnumSelectList<TipoMatricula>()"></select>
+                <span asp-validation-for="TipoMatricula" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="MatriculaDiv">
+                <label asp-for="Matricula" class="control-label"></label>
+                <input asp-for="Matricula" class="form-control" id="MatriculaInput" />
+                <span asp-validation-for="Matricula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Especialidad" class="control-label"></label>
+                <select asp-for="Especialidad" class="form-control" asp-items="Html.GetEnumSelectList<Especialidad>()"></select>
+                <span asp-validation-for="Especialidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
             <br />
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" /> |
-                <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
+                <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
             </div>
         </form>
     </div>
@@ -59,7 +69,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#TipoMatriculaSelect").on("change", function () {
-                if ($("#TipoMatriculaSelect option:selected").text() == "Extranjera" || $("#TipoMatriculaSelect option:selected").text() == "En Tramite") {
+                if ($("#TipoMatriculaSelect option:selected" ).text() == "Extranjera"|| $("#TipoMatriculaSelect option:selected" ).text() == "En Tramite") {
                     $("#MatriculaInput").prop('readonly', true);
                     $('#MatriculaInput').val('No Posee');
                 }
@@ -77,4 +87,3 @@
 <script src=~/lib/jquery/dist/jquery.js></script>
 <script src=~/lib/jquery-validation/dist/jquery.validate.js></script>
 <script src=~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js></script>
-

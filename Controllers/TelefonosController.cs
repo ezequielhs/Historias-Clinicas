@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
 using Microsoft.AspNetCore.Authorization;
+using Historias_Clinicas_D.Helpers;
 
 namespace Historias_Clinicas_D.Controllers
 {
@@ -21,14 +22,14 @@ namespace Historias_Clinicas_D.Controllers
             _context = context;
         }
 
-        // GET: Telefonos
+        [Authorize(Roles = Constantes.RolEmpleado)]
         public async Task<IActionResult> Index()
         {
             var historiasClinicasContext = _context.Telefonos.Include(t => t.Persona);
             return View(await historiasClinicasContext.ToListAsync());
         }
 
-        // GET: Telefonos/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,17 +48,22 @@ namespace Historias_Clinicas_D.Controllers
             return View(telefono);
         }
 
-        // GET: Telefonos/Create
-        public IActionResult Create(string returnUrl)
+        [Authorize]
+        public IActionResult Create(int? personaId, string returnUrl)
         {
+            Persona persona = _context.Personas.Where(p => p.Id == personaId).FirstOrDefault();
+
+            if (persona != null)
+            {
+                ViewBag.Persona = persona.Id;
+            }
+
             TempData["returnUrl"] = returnUrl;
             ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "NombreCompleto");
             return View();
         }
 
-        // POST: Telefonos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Caracteristica,Numero,Tipo,PersonaId")] Telefono telefono)
@@ -80,7 +86,7 @@ namespace Historias_Clinicas_D.Controllers
             return View(telefono);
         }
 
-        // GET: Telefonos/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
@@ -99,9 +105,7 @@ namespace Historias_Clinicas_D.Controllers
             return View(telefono);
         }
 
-        // POST: Telefonos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Caracteristica,Numero,Tipo,PersonaId")] Telefono telefono)
@@ -141,44 +145,6 @@ namespace Historias_Clinicas_D.Controllers
 
             ViewData["PersonaId"] = new SelectList(_context.Personas, "Id", "NombreCompleto", telefono.PersonaId);
             return View(telefono);
-        }
-
-        // GET: Telefonos/Delete/5
-        public async Task<IActionResult> Delete(int? id, string returnUrl)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var telefono = await _context.Telefonos
-                .Include(t => t.Persona)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (telefono == null)
-            {
-                return NotFound();
-            }
-
-            return View(telefono);
-        }
-
-        // POST: Telefonos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var telefono = await _context.Telefonos.FindAsync(id);
-            _context.Telefonos.Remove(telefono);
-            await _context.SaveChangesAsync();
-
-            string returnUrl = TempData["returnUrl"] as string;
-
-            if (!string.IsNullOrEmpty(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-
-            return RedirectToAction(nameof(Index));
         }
 
         private bool TelefonoExists(int id)

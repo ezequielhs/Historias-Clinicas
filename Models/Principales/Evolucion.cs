@@ -6,6 +6,7 @@ namespace Historias_Clinicas_D.Models
 {
 	public class Evolucion
 	{
+		
 		public int Id { get; set; }
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]

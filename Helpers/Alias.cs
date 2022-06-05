@@ -4,6 +4,8 @@
     {
         public const string UserName = "Usuario";
         public const string Password = "Contraseña";
+        public const string CurrentPassword = "Contraseña Actual";
+        public const string NewPassword = "Nueva Contraseña";
         public const string PasswordConfirm = "Confirmación de Contraseña";
         public const string PersonaId = "Persona";
         public const string CodigoPostal = "Código Postal";
@@ -33,5 +35,6 @@
         public const string EvolucionId = "Evolución";
         public const string EmpleadoId = "Empleado";
         public const string RememberMe = "Recordarme";
+        public const string Motivo = "Motivo";
     }
 }

@@ -28,13 +28,8 @@ namespace Historias_Clinicas_D.Controllers
         [HttpPost]
         public IActionResult Index(Especialidad especialidad)
         {
-            var medicos = _context.Medicos.Where(m => m.Especialidad == especialidad).Include(m => m.Direccion).ToList();
+            var medicos = _context.Medicos.Where(m => m.Especialidad == especialidad);
             return View(medicos);
-        }
-
-        private bool MedicoExists(int id)
-        {
-            return _context.Medicos.Any(e => e.Id == id);
         }
     }
 }

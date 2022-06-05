@@ -14,11 +14,11 @@ namespace Historias_Clinicas_D.Controllers
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+		{
+			_logger = logger;
+		}
 
-        public IActionResult Index()
+		public IActionResult Index()
         {
             return View();
         }
@@ -33,5 +33,6 @@ namespace Historias_Clinicas_D.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

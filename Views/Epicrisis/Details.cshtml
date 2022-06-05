@@ -12,7 +12,7 @@
             @Html.DisplayNameFor(model => model.Episodio)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Episodio.Motivo)
+            @Html.DisplayFor(model => model.Episodio.Descripcion)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Medico)
@@ -42,5 +42,5 @@
 </div>
 <div>
     <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
-    <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
+    <a class="btn btn-secondary" role="button" asp-action="Index">Volver</a>
 </div>
