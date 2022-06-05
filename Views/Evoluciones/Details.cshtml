@@ -46,7 +46,6 @@
 
     </dl>
 </div>
-
 <div>
     <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
     <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
@@ -55,14 +54,14 @@
 <div>
     <h4>Notas</h4>
     <hr />
+    @if (this.User.IsInRole(Constantes.RolEmpleado))
+    {
+        <p>
+            <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Create" asp-route-evolucionId="@Model.Id" asp-route-empleadoId="@_userManager.GetUserId(this.User)" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id">Agregar Nota</a>
+        </p>
+    }
     @if (Model.Notas.Count > 0)
     {
-        @if (this.User.IsInRole(Constantes.RolEmpleado))
-        {
-            <p>
-                <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Create" asp-route-evolucionId="@Model.Id" asp-route-empleadoId="@_userManager.GetUserId(this.User)" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id">Agregar Nota</a>
-            </p>
-        }
         <table class = "table">
             <thead>
                 <tr class="table-dark">
@@ -89,12 +88,6 @@
     else
     {
         <p>No tiene asignada ninguna Nota.</p>
-        @if (this.User.IsInRole(Constantes.RolEmpleado))
-        {
-            <p>
-                <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Create" asp-route-idEvolucion="@Model.Id" asp-route-idEmpleado="@_userManager.GetUserId(this.User)" asp-route-returnUrl="/Evoluciones/Details/@Model?.Id">Agregar Nota</a>
-            </p>
-        }
     }
 </div>
 

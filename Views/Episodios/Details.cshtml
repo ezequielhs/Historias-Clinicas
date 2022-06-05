@@ -59,5 +59,75 @@
     </dl>
 </div>
 <div>
+    @if (this.User.IsInRole(Constantes.RolMedico) && Model.EstadoAbierto)
+    {
+        <a class="btn btn-danger" role="button" asp-controller="Episodios" asp-action="CerrarEpisodio" asp-route-id="@Model.Id">Cerrar Episodio</a><text> | </text>
+    }
     <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
+</div>
+<br />
+<div>
+    <h4>Evoluciones</h4>
+    <hr />
+    @if (this.User.IsInRole(Constantes.RolMedico) && Model.EstadoAbierto)
+    {
+        <p>
+            <a class="btn btn-primary" role="button" asp-controller="Evoluciones" asp-action="Create">Agregar Evolución</a>
+        </p>
+    }
+    @if (Model.Evoluciones.Count > 0)
+    {
+        
+        <table class="table">
+            <thead>
+                <tr class="table-dark">
+                    <th>
+                        @Alias.FechaYHoraInicio
+                    </th>
+                    <th>
+                        @Alias.FechaYHoraAlta
+                    </th>
+                    <th>
+                        @Alias.FechaYHoraCierre
+                    </th>
+                    <th>
+                        @Alias.DescripcionAtencion
+                    </th>
+                    <th>
+                        @Alias.EstadoAbierto
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Evoluciones) {
+                    <tr class=table-secondary>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaYHoraInicio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaYHoraAlta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaYHoraCierre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DescripcionAtencion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstadoAbierto)
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" role="button" asp-controller="Evoluciones" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                            <a class="btn btn-primary" role="button" asp-controller="Evoluciones" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                        </td>
+                    </tr>
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No tiene asignada ninguna Evolución.</p>
+    }
 </div>
