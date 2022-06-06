@@ -308,15 +308,21 @@ namespace Historias_Clinicas_D.Data
                     Motivo = "Traumatismo en Pierna izquierda.",
                     Descripcion = "El paciente se encontraba andando en Skate y sufrió un accidente.",
                     PacienteId = pacientes[0].Id,
-                    EmpleadoRegistraId = empleados[0].Id
+                    EmpleadoRegistraId = empleados[0].Id,
+                    FechaYHoraAlta = Constantes.FechaActual,
+                    FechaYHoraCierre = Constantes.FechaActual,
+                    EstadoAbierto = Constantes.EstadoCerrado
                 });
 
                 episodios.Add(new Episodio
                 {
-                    Motivo = "Dolor agudo en la parte inferior derecha de la Espalda.",
-                    Descripcion = "El paciente se encontraba en su casa cuando comenzo a experimentar un fuerte dolor su Espalda.",
+                    Motivo = "Mareos y fuertes migrañias.",
+                    Descripcion = "El paciente informa que experimenta migrañias constantes hace cuatro días, ademas de leves mareos.",
                     PacienteId = pacientes[1].Id,
-                    EmpleadoRegistraId = empleados[1].Id
+                    EmpleadoRegistraId = empleados[1].Id,
+                    FechaYHoraAlta = Constantes.FechaActual,
+                    FechaYHoraCierre = Constantes.FechaActual,
+                    EstadoAbierto = Constantes.EstadoCerrado
                 });
 
                 episodios.Add(new Episodio
@@ -329,8 +335,8 @@ namespace Historias_Clinicas_D.Data
 
                 episodios.Add(new Episodio
                 {
-                    Motivo = "Mareos y fuertes migrañias.",
-                    Descripcion = "El paciente informa que experimenta migrañias constantes hace cuatro días, ademas de leves mareos.",
+                    Motivo = "Dolor agudo en la parte inferior derecha de la Espalda.",
+                    Descripcion = "El paciente se encontraba en su casa cuando comenzo a experimentar un fuerte dolor su Espalda.",
                     PacienteId = pacientes[3].Id,
                     EmpleadoRegistraId = empleados[3].Id
                 });
@@ -360,14 +366,17 @@ namespace Historias_Clinicas_D.Data
                 {
                     MedicoId = medicos[4].Id,
                     EpisodioId = episodios[0].Id,
-                    DescripcionAtencion = "Se examino realizo un control en la Pierna izquierda del paciente y se encuentra en estado optimo."
+                    DescripcionAtencion = "Se examino realizo un control en la Pierna izquierda del paciente y se encuentra en estado optimo.",
+                    FechaYHoraAlta = Constantes.FechaActual,
+                    FechaYHoraCierre = Constantes.FechaActual,
+                    EstadoAbierto = Constantes.EstadoCerrado
                 });
 
                 evoluciones.Add(new Evolucion
                 {
-                    MedicoId = medicos[6].Id,
+                    MedicoId = medicos[7].Id,
                     EpisodioId = episodios[1].Id,
-                    DescripcionAtencion = "Debido a la medicacion aplicada al paciente, este indica que el dolor a disminuido. Debe someterse a cirugia."
+                    DescripcionAtencion = "Se realizo una terapia al paciente, la misma consistio en ejercicios y masajes terapeuticos."
                 });
 
                 evoluciones.Add(new Evolucion
@@ -379,16 +388,9 @@ namespace Historias_Clinicas_D.Data
 
                 evoluciones.Add(new Evolucion
                 {
-                    MedicoId = medicos[7].Id,
+                    MedicoId = medicos[6].Id,
                     EpisodioId = episodios[3].Id,
-                    DescripcionAtencion = "Se realizo una terapia al paciente, la misma consistio en ejercicios y masajes terapeuticos."
-                });
-
-                evoluciones.Add(new Evolucion
-                {
-                    MedicoId = medicos[5].Id,
-                    EpisodioId = episodios[4].Id,
-                    DescripcionAtencion = "Se receto la medicina correspondiente al paciente."
+                    DescripcionAtencion = "Debido a la medicacion aplicada al paciente, este indica que el dolor a disminuido. Debe someterse a cirugia."
                 });
 
                 _context.Evoluciones.AddRange(evoluciones);
@@ -432,13 +434,6 @@ namespace Historias_Clinicas_D.Data
                     Mensaje = "El paciente debe presentarse al Centro Medico San Nicolas el dia Viernes 22 de Julio a las 19:00 hs."
                 });
 
-                notas.Add(new Nota
-                {
-                    EvolucionId = evoluciones[4].Id,
-                    EmpleadoId = empleados[4].Id,
-                    Mensaje = "Debe tomar un comprimido de 'QURA PLUS 500 mg' durante la mañana y la noche ademas de 'Te Vick Vitapyrena Forte'."
-                });
-
                 _context.Notas.AddRange(notas);
                 _context.SaveChanges();
             }
@@ -462,34 +457,10 @@ namespace Historias_Clinicas_D.Data
 
                 epicrisis.Add(new Epicrisis
                 {
-                    Diagnostico = "Se examino la Espalda del paciente mediante radiografia, el resulto mostro que su Riñon derecho se encuentra en un tamaño anormal.",
-                    Recomendacion = "Se solicita con caracter urgente una ecografia para examinar los Riñones del paciente.",
-                    MedicoId = medicos[6].Id,
-                    EpisodioId = episodios[1].Id
-                });
-
-                epicrisis.Add(new Epicrisis
-                {
-                    Diagnostico = "Se deriva de forma urgente al paciente a la sala de cirugias.",
-                    Recomendacion = "El paciente debe quedar internado por dos dias para control.",
-                    MedicoId = medicos[4].Id,
-                    EpisodioId = episodios[2].Id
-                });
-
-                epicrisis.Add(new Epicrisis
-                {
                     Diagnostico = "Se examino al paciente pero no se encontro ningun traumatismo, se concluye que se encuentra bajo gran estres.",
                     Recomendacion = "Se indica al paciente que solicite turno con Kinesiología.",
                     MedicoId = medicos[5].Id,
-                    EpisodioId = episodios[3].Id
-                });
-
-                epicrisis.Add(new Epicrisis
-                {
-                    Diagnostico = "El paciente experimenta los sintomas tipicos de la gripe.",
-                    Recomendacion = "Se inidica al paciente la medicina correspondiente que debe solicitar en la farmacia, ver nota.",
-                    MedicoId = medicos[5].Id,
-                    EpisodioId = episodios[4].Id
+                    EpisodioId = episodios[1].Id
                 });
 
                 _context.Epicrisis.AddRange(epicrisis);

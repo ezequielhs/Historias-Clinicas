@@ -7,14 +7,14 @@
 <h1>Historia Clínica</h1>
 
 <div>
+    @if (this.User.IsInRole(Constantes.RolEmpleado))
+    {
+        <p>
+            <a class="btn btn-primary" role="button" asp-controller="Episodios" asp-action="Create" asp-route-pacienteId="@Model.Id" asp-route-empleadoRegistraId="@_userManager.GetUserId(this.User)" asp-route-returnUrl="/Pacientes/HistoriaClinica/@Model?.Id">Agregar Episodio</a>
+        </p>
+    }
     @if (Model.Episodios.Count > 0)
     {
-        @if (this.User.IsInRole(Constantes.RolEmpleado))
-        {
-            <p>
-                <a class="btn btn-primary" role="button" asp-controller="Episodios" asp-action="Create" asp-route-pacienteId="@Model.Id" asp-route-empleadoRegistraId="@_userManager.GetUserId(this.User)" asp-route-returnUrl="/Pacientes/HistoriaClinica/@Model?.Id">Agregar Episodio</a>
-            </p>
-        }
         <table class="table">
         <thead>
             <tr class="table-dark">
@@ -53,12 +53,6 @@
     else
     {
         <p>No tiene asignado ningun Episodio.</p>
-        @if (this.User.IsInRole(Constantes.RolEmpleado))
-        {
-            <p>
-                <a class="btn btn-primary" role="button" asp-controller="Episodios" asp-action="Create" asp-route-returnUrl="/Pacientes/HistoriaClinica/@Model?.Id">Agregar Episodio</a>
-            </p>
-        }
     }
 </div>
 <div>  
