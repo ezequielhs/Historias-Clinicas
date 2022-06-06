@@ -451,7 +451,7 @@ namespace Historias_Clinicas_D.Data
                 {
                     Diagnostico = "El paciente posee un esguince leve en su Pierna izquierda producto de la caida que sufrio mientras patinaba en Skate.",
                     Recomendacion = "Se aplicaron los vendajes correspondientes, se recomienda al paciente reposo por 72 horas. Debe solicitar un turno con Traumatologia para el control de la lesion.",
-                    MedicoId = medicos[4].Id,
+                    EmpleadoId = medicos[4].Id,
                     EpisodioId = episodios[0].Id
                 });
 
@@ -459,7 +459,7 @@ namespace Historias_Clinicas_D.Data
                 {
                     Diagnostico = "Se examino al paciente pero no se encontro ningun traumatismo, se concluye que se encuentra bajo gran estres.",
                     Recomendacion = "Se indica al paciente que solicite turno con Kinesiología.",
-                    MedicoId = medicos[5].Id,
+                    EmpleadoId = medicos[5].Id,
                     EpisodioId = episodios[1].Id
                 });
 

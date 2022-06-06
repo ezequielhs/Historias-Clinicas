@@ -16,7 +16,7 @@
     <thead>
         <tr class="table-dark">
             <th>
-                @Html.DisplayNameFor(model => model.Paciente)
+                @Html.DisplayNameFor(model => model.PacienteId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Motivo)
@@ -28,7 +28,7 @@
                 @Html.DisplayNameFor(model => model.EstadoAbierto)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmpleadoRegistra)
+                @Html.DisplayNameFor(model => model.EmpleadoRegistraId)
             </th>
             <th></th>
         </tr>
@@ -52,7 +52,7 @@
                 @Html.DisplayFor(modelItem => item.EmpleadoRegistra.NombreCompleto)
             </td>
             <td>
-            @if (this.User.IsInRole(Constantes.RolMedico) && item.EstadoAbierto)
+            @if (item.EstadoAbierto)
             {
                 <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id">Detalles</a><text> | </text>
                 <a class="btn btn-danger" role="button" asp-controller="Episodios" asp-action="CerrarEpisodio" asp-route-id="@item.Id">Cerrar Episodio</a>

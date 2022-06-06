@@ -4,6 +4,7 @@ using Historias_Clinicas_D.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Historias_Clinicas_D.Migrations
 {
     [DbContext(typeof(HistoriasClinicasContext))]
-    partial class HistoriasClinicasContextModelSnapshot : ModelSnapshot
+    [Migration("20220606175322_EpisodiosMedicoIdPorEmpleadoId")]
+    partial class EpisodiosMedicoIdPorEmpleadoId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

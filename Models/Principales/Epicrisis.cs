@@ -35,8 +35,8 @@ namespace Historias_Clinicas_D.Models
 		public int EpisodioId { get; set; }
 
 		[Required(ErrorMessage = MensajesError.ErrRequired)]
-		[Display(Name = Alias.MedicoId)]
-		public int MedicoId { get; set; }
+		[Display(Name = Alias.EmpleadoId)]
+		public int EmpleadoId { get; set; }
 
 		#endregion
 
@@ -44,10 +44,8 @@ namespace Historias_Clinicas_D.Models
 
 		public Episodio Episodio { get; set; }
 			
-        public Medico Medico { get; set; }
+        public Empleado Empleado { get; set; }
 
         #endregion
-
-        
     }
 }
