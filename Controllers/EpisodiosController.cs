@@ -71,7 +71,6 @@ namespace Historias_Clinicas_D.Controllers
             }
 
             ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "NombreCompleto");
-            ViewData["EmpleadoRegistraId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto");
             TempData["returnUrl"] = returnUrl;
 
             return View();

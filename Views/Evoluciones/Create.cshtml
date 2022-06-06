@@ -10,28 +10,8 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                @if (ViewBag.Medico != null)
-                {
-                    <input asp-for="MedicoId" class="form-control" type="hidden" value="@ViewBag.Medico">
-                }
-                else
-                {
-                    <label asp-for="MedicoId" class="control-label"></label>
-                    <select asp-for="MedicoId" class ="form-control" asp-items="ViewBag.MedicoId"></select>
-                }
-            </div>
-            <div class="form-group">
-                @if (ViewBag.Episodio != null)
-                {
-                    <input asp-for="EpisodioId" class="form-control" type="hidden" value="@ViewBag.Episodio">
-                }
-                else
-                {
-                    <label asp-for="EpisodioId" class="control-label"></label>
-                    <select asp-for="EpisodioId" class ="form-control" asp-items="ViewBag.EpisodioId"></select>
-                }
-            </div>
+            <input asp-for="MedicoId" type="hidden" value="@ViewBag.MedicoId">
+            <input asp-for="EpisodioId" type="hidden" value="@ViewBag.EpisodioId">
             <input type="hidden" asp-for="FechaYHoraAlta" />
             <input type="hidden" asp-for="FechaYHoraCierre" />
             <div class="form-group">

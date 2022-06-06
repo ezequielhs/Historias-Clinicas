@@ -109,7 +109,7 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolPaciente)]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
             {
@@ -121,6 +121,8 @@ namespace Historias_Clinicas_D.Controllers
             {
                 return NotFound();
             }
+
+            TempData["returnUrl"] = returnUrl;
             return View(paciente);
         }
 
@@ -129,7 +131,6 @@ namespace Historias_Clinicas_D.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Paciente paciente)
         {
-            //Seria una mejor practica hacer un view model
             if (id != paciente.Id)
             {
                 return NotFound();
@@ -151,6 +152,13 @@ namespace Historias_Clinicas_D.Controllers
 
                     _context.Update(pntEnDb);
                     await _context.SaveChangesAsync();
+
+                    string returnUrl = TempData["returnUrl"] as string;
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {

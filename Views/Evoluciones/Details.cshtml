@@ -57,7 +57,7 @@
     {
         <a class="btn btn-danger" role="button" asp-controller="Evoluciones" asp-action="CerrarEvolucion" asp-route-id="@Model.Id">Cerrar Evolucion</a><text> | </text>
     }
-    <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
+    <a class="btn btn-secondary" role="button" asp-controller="Episodios" asp-action="Details" asp-route-id="@Model.EpisodioId">Volver</a>
 </div>
 <br />
 <div>

@@ -16,7 +16,6 @@ namespace Historias_Clinicas_D.Controllers
     public class EpicrisisController : Controller
     {
         private readonly HistoriasClinicasContext _context;
-        
 
         public EpicrisisController(HistoriasClinicasContext context)
         {

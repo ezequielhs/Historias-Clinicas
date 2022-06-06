@@ -47,18 +47,18 @@ namespace Historias_Clinicas_D.Controllers
             Evolucion evolucion = _context.Evoluciones.Where(e => e.Id == evolucionId).FirstOrDefault();
             Empleado empleado = _context.Empleados.Where(e => e.Id == empleadoId).FirstOrDefault();
 
-            if (evolucion != null)
+            if (evolucionId == null && evolucion == null)
             {
-                ViewBag.Evolucion = evolucion.Id;
+                return NotFound(); 
             }
 
-            if (empleado != null)
+            if (empleadoId == null && empleado == null)
             {
-                ViewBag.Empleado = empleado.Id;
+                return NotFound();
             }
 
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto");
-            ViewData["EvolucionId"] = new SelectList(_context.Evoluciones, "Id", "DescripcionAtencion");
+            ViewBag.EvolucionId = evolucion.Id;
+            ViewBag.EmpleadoId = empleado.Id;
             TempData["returnUrl"] = returnUrl;
 
             return View();

@@ -49,18 +49,18 @@ namespace Historias_Clinicas_D.Controllers
             Medico medico = _context.Medicos.Where(e => e.Id == medicoId).FirstOrDefault();
             Episodio episodio = _context.Episodios.Where(e => e.Id == episodioId).FirstOrDefault();
 
-            if (medico != null)
+            if (medicoId == null && medico == null)
             {
-                ViewBag.Medico = medico.Id;
+                return NotFound();
             }
 
-            if (episodio != null)
+            if (episodioId == null && episodio == null)
             {
-                ViewBag.Episodio = episodio.Id;
+                return NotFound();
             }
 
-            ViewData["MedicoId"] = new SelectList(_context.Medicos, "Id", "NombreCompleto");
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Motivo");
+            ViewBag.MedicoId = medico.Id;
+            ViewBag.EpisodioId = episodio.Id;
             TempData["returnUrl"] = returnUrl;
 
             return View();

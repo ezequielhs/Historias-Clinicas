@@ -59,6 +59,9 @@
         <p>No tiene asignado ningun Episodio.</p>
     }
 </div>
-<div>  
-    <a class="btn btn-secondary" role="button" onclick="history.go(-1)">Volver</a>
-</div>
+@if (this.User.IsInRole(Constantes.RolEmpleado) || this.User.IsInRole(Constantes.RolMedico))
+{
+    <div>  
+        <a class="btn btn-secondary" role="button" asp-controller="Pacientes" asp-action="Index">Volver</a>
+    </div>
+}

@@ -10,30 +10,8 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @if (ViewBag.Evolucion != null)
-            {
-                <input asp-for="EvolucionId" class="form-control" type="hidden" value="@ViewBag.Evolucion">
-                
-            }
-            else
-            {
-                <div class="form-group">
-                    <label asp-for="EvolucionId" class="control-label"></label>
-                    <select asp-for="EvolucionId" class="form-control" asp-items="ViewBag.EvolucionId"></select>
-                </div>
-            }
-            @if (ViewBag.Empleado != null)
-            {
-                <input asp-for="EmpleadoId" class="form-control" type="hidden" value="@ViewBag.Empleado">
-                
-            }
-            else
-            {
-                <div class="form-group">
-                    <label asp-for="EmpleadoId" class="control-label"></label>
-                    <select asp-for="EmpleadoId" class ="form-control" asp-items="ViewBag.EmpleadoId"></select>
-                </div>
-            }
+            <input asp-for="EvolucionId" type="hidden" value="@ViewBag.EvolucionId">
+            <input asp-for="EmpleadoId" type="hidden" value="@ViewBag.EmpleadoId">
             <div class="form-group">
                 <label asp-for="Mensaje" class="control-label"></label>
                 <textarea asp-for="Mensaje" class="form-control" rows="5"></textarea>
