@@ -11,6 +11,11 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Legajo" />
+            <input type="hidden" asp-for="Nombre" />
+            <input type="hidden" asp-for="Apellido" />
+            <input type="hidden" asp-for="DNI" />
+            <input type="hidden" asp-for="FechaAlta" />
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />

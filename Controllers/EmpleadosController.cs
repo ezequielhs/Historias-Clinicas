@@ -97,7 +97,7 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [Authorize(Roles = Constantes.RolEmpleado)]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
             {
@@ -109,6 +109,7 @@ namespace Historias_Clinicas_D.Controllers
             {
                 return NotFound();
             }
+            TempData["returnUrl"] = returnUrl;
             return View(empleado);
         }
 
@@ -126,8 +127,21 @@ namespace Historias_Clinicas_D.Controllers
             {
                 try
                 {
-                    _context.Update(empleado);
+                    Empleado empleadoEnDb = _context.Empleados.Find(empleado.Id);
+
+                    empleadoEnDb.Email = empleado.Email;
+                    empleadoEnDb.UserName = empleado.Email;
+                    empleadoEnDb.NormalizedUserName = empleado.Email;
+
+                    _context.Update(empleadoEnDb);
                     await _context.SaveChangesAsync();
+
+                    string returnUrl = TempData["returnUrl"] as string;
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
