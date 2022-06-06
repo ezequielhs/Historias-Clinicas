@@ -42,8 +42,12 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.EstadoAbierto)
                     </td>
-                    <td>                      
+                    <td>
                         <a class="btn btn-primary" role="button" asp-controller="Episodios" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                        @if ((this.User.IsInRole(Constantes.RolEmpleado) || this.User.IsInRole(Constantes.RolMedico)) && item.EstadoAbierto)
+                        {
+                            <text> | </text><a class="btn btn-danger" role="button" asp-controller="Episodios" asp-action="CerrarEpisodio" asp-route-id="@item.Id" asp-route-returnUrl="/Pacientes/HistoriaClinica/@Model.Id">Cerrar Episodio</a>
+                        }
                     </td>
                 </tr>
         }

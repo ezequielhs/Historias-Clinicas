@@ -10,16 +10,19 @@ using Historias_Clinicas_D.Models;
 using Historias_Clinicas_D.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Historias_Clinicas_D.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Historias_Clinicas_D.Controllers
 {
     public class EpisodiosController : Controller
     {
         private readonly HistoriasClinicasContext _context;
+        private readonly UserManager<Persona> _userManager;
 
-        public EpisodiosController(HistoriasClinicasContext context)
+        public EpisodiosController(HistoriasClinicasContext context, UserManager<Persona> userManager)
         {
             _context = context;
+            this._userManager = userManager;
         }
 
         [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
@@ -136,7 +139,12 @@ namespace Historias_Clinicas_D.Controllers
                     _context.Update(episodio);
                     await _context.SaveChangesAsync();
 
-                    return RedirectToAction("Create", "Epicrisis");
+                    string returnUrl = TempData["returnUrl"] as string;
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return RedirectToAction("Create", "Epicrisis", new { empleadoId = _userManager.GetUserId(this.User), episodioId = id, returnUrl });
+                    }
                 }
                 else
                 {

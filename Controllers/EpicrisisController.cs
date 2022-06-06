@@ -9,12 +9,14 @@ using Historias_Clinicas_D.Data;
 using Historias_Clinicas_D.Models;
 using Historias_Clinicas_D.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Historias_Clinicas_D.Controllers
 {
     public class EpicrisisController : Controller
     {
         private readonly HistoriasClinicasContext _context;
+        
 
         public EpicrisisController(HistoriasClinicasContext context)
         {
@@ -42,10 +44,25 @@ namespace Historias_Clinicas_D.Controllers
         }
 
         [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolMedico)]
-        public IActionResult Create()
+        public IActionResult Create(int? empleadoId, int? episodioId, string returnUrl)
         {
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion");
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto");
+            Empleado empleado = _context.Empleados.Where(e => e.Id == empleadoId).FirstOrDefault();
+            Episodio episodio = _context.Episodios.Where(e => e.Id == episodioId).FirstOrDefault();
+
+            if (empleadoId == null && empleado == null)
+            {
+                return NotFound();
+            }
+
+            if (episodioId == null && episodio == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.EmpleadoId = empleado.Id;
+            ViewBag.EpisodioId = episodio.Id;
+            TempData["returnUrl"] = returnUrl;
+
             return View();
         }
 
@@ -58,10 +75,14 @@ namespace Historias_Clinicas_D.Controllers
             {
                 _context.Add(epicrisis);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                string returnUrl = TempData["returnUrl"] as string;
+
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
             }
-            ViewData["EpisodioId"] = new SelectList(_context.Episodios, "Id", "Descripcion", epicrisis.EpisodioId);
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "NombreCompleto", epicrisis.EmpleadoId);
             return View(epicrisis);
         }
 

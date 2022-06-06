@@ -55,7 +55,7 @@
             @if (item.EstadoAbierto)
             {
                 <a class="btn btn-primary" role="button" asp-action="Details" asp-route-id="@item.Id">Detalles</a><text> | </text>
-                <a class="btn btn-danger" role="button" asp-controller="Episodios" asp-action="CerrarEpisodio" asp-route-id="@item.Id">Cerrar Episodio</a>
+                <a class="btn btn-danger" role="button" asp-controller="Episodios" asp-action="CerrarEpisodio" asp-route-id="@item.Id" asp-route-returnUrl="/Episodios/Index">Cerrar Episodio</a>
             }
             else
             {
