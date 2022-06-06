@@ -71,28 +71,18 @@
     }
     @if (Model.Notas.Count > 0)
     {
-        <table class = "table">
-            <thead>
-                <tr class="table-dark">
-                    <th>
-                        Nota
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-        @foreach (var item in Model.Notas){
-            <tbody>
-                <tr class=table-secondary>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Mensaje)
-                    </td>
-                    <td>
-                        <a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
-                    </td>
-                </tr>
-            </tbody>
+        @foreach (Nota nota in Model.Notas){
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="toast-header">
+                <strong class="me-auto">Mensaje</strong>
+                <small><a class="btn btn-primary" role="button" asp-controller="Notas" asp-action="Details" asp-route-id="@nota.Id">Detalles</a></small>
+              </div>
+              <div class="toast-body">
+                @nota.Mensaje
+              </div>
+            </div>
+            <br />
         }
-        </table>
     }
     else
     {
