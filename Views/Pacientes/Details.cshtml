@@ -46,9 +46,12 @@
         </dd>
     </dl>
 </div>
-<div>
-     <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id" asp-route-returnUrl="/Pacientes/Details/@Model?.Id">Editar</a>
-</div>
+@if (User.IsInRole(Constantes.RolEmpleado))
+{
+    <div>
+        <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model?.Id" asp-route-returnUrl="/Pacientes/Details/@Model?.Id">Editar</a>
+    </div>
+}
 <br />
 <div>
     <h4>@Html.DisplayNameFor(model => model.Direccion)</h4>

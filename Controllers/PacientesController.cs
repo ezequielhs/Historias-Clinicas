@@ -108,7 +108,7 @@ namespace Historias_Clinicas_D.Controllers
             return View();
         }
 
-        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolPaciente)]
+        [Authorize(Roles = Constantes.RolEmpleado)]
         public async Task<IActionResult> Edit(int? id, string returnUrl)
         {
             if (id == null)
@@ -126,7 +126,7 @@ namespace Historias_Clinicas_D.Controllers
             return View(paciente);
         }
 
-        [Authorize(Roles = Constantes.RolEmpleado + ", " + Constantes.RolPaciente)]
+        [Authorize(Roles = Constantes.RolEmpleado)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ObraSocial,Id,Nombre,Apellido,DNI,FechaAlta,Email")] Paciente paciente)
