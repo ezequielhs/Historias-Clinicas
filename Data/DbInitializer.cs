@@ -376,7 +376,10 @@ namespace Historias_Clinicas_D.Data
                 {
                     MedicoId = medicos[7].Id,
                     EpisodioId = episodios[1].Id,
-                    DescripcionAtencion = "Se realizo una terapia al paciente, la misma consistio en ejercicios y masajes terapeuticos."
+                    DescripcionAtencion = "Se realizo una terapia al paciente, la misma consistio en ejercicios y masajes terapeuticos.",
+                    FechaYHoraAlta = Constantes.FechaActual,
+                    FechaYHoraCierre = Constantes.FechaActual,
+                    EstadoAbierto = Constantes.EstadoCerrado
                 });
 
                 evoluciones.Add(new Evolucion
